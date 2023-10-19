@@ -10,6 +10,8 @@ import PrivateRoute from './components/PrivateRoute';
 import CreateSupplier from './pages/createSupplier';
 import FindSupplier from './pages/FindSupplier';
 import ViewSuppliers from './pages/ViewSuppliers';
+import CreateCocoa from './pages/CreateCocoa';
+import ViewBatches from './pages/ViewBatches';
 
 
 export default function App() {
@@ -27,6 +29,8 @@ export default function App() {
           <Route path='/add-supplier' element={<CreateSupplier />} />
           <Route path='/find-supplier' element={<FindSupplier />} />
           <Route path='/view-suppliers' element={<ViewSuppliers />} />
+          <Route path='/register-cocoa' element={<CreateCocoa />} />
+          <Route path='/view-batches' element={<ViewBatches />} />
         </Route>
       </Routes>
     </BrowserRouter>

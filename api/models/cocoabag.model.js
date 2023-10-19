@@ -3,27 +3,25 @@ import mongoose from 'mongoose';
 const cocoaBagSchema = new mongoose.Schema({
   quantity: {
     type: Number,
-    required: true
+    required: true,
   },
   pricePerBag: {
     type: Number,
-    default: 830, 
-    required: true
+    default: 830,
+    required: true,
   },
   supplier: {
-    type: mongoose.Schema.Types.ObjectId, // Reference to the Supplier model
-    ref: 'Supplier', // The model to use for the reference
-    required: true
+    type: String,
+    required: true,
   },
   batchNumber: {
     type: String,
     unique: true,
     required: true,
-    default: function() {
-      // Generate a six-digit batch number
+    default: function () {
       const randomNumber = Math.floor(100000 + Math.random() * 900000);
       return randomNumber.toString();
-    }
+    },
   },
   harvestYear: {
     type: Number,
@@ -37,19 +35,40 @@ const cocoaBagSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  averageNetWeight: {
+  averageNetWeightPerBag: {
     type: Number,
     required: true,
   },
-  averageGrossWeight: {
+  averageGrossWeightPerBag: {
     type: Number,
     required: true,
   },
   comments: {
-    type: String
-  }
+    type: String,
+  },
+  totalAverageNetWeightPerBatch: {
+    type: Number,
+    required: true,
+    default: function () {
+      return this.quantity * this.averageNetWeightPerBag;
+    },
+  },
+  totalAverageGrossWeightPerBatch: {
+    type: Number,
+    required: true,
+    default: function () {
+      return this.quantity * this.averageGrossWeightPerBag;
+    },
+  },
+  totalValuePerBatch: {
+    type: Number,
+    required: true,
+    default: function () {
+      return this.quantity * this.pricePerBag;
+    },
+  },
 });
 
 const CocoaBag = mongoose.model('CocoaBag', cocoaBagSchema);
 
-export default CocoaBag; // Export the model as default
+export default CocoaBag;

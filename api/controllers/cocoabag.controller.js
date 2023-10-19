@@ -8,8 +8,8 @@ const createCocoaBag = async (req, res) => {
       harvestYear,
       qcCertifications,
       packingDate,
-      averageNetWeight,
-      averageGrossWeight,
+      averageNetWeightPerBag,
+      averageGrossWeightPerBag,
       comments,
     } = req.body;
 
@@ -20,8 +20,8 @@ const createCocoaBag = async (req, res) => {
       harvestYear,
       qcCertifications,
       packingDate,
-      averageNetWeight,
-      averageGrossWeight,
+      averageNetWeightPerBag,
+      averageGrossWeightPerBag,
       comments,
     });
 
@@ -36,3 +36,16 @@ const createCocoaBag = async (req, res) => {
 };
 
 export default createCocoaBag;
+
+
+const getAllCocoaBags = async (req, res) => {
+  try {
+    const cocoaBags = await CocoaBag.find();
+    res.status(200).json(cocoaBags);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+export { getAllCocoaBags };

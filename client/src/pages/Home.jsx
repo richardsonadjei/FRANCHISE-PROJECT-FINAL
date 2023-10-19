@@ -31,6 +31,11 @@ const HomePage = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/view-batches" className="text-white hover:underline">
+                  View All Batches
+                </Link>
+              </li>
+              <li>
                 <Link to="/manage-inventory" className="text-white hover:underline">
                   Recieve Cocoa Beans Ino Warehouse
                 </Link>
@@ -188,10 +193,10 @@ const HomePage = () => {
       <Link to="/add-supplier" className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-700">
         Add A New Supplier/Farmer
       </Link>
-      <Link to="/add-evacuation-customer" className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-700">
-        Add A New Evacuation Customer
+      <Link to="/view-batches" className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-700">
+        View All Batches In Stock
       </Link>
-      <Link to="/create-batch" className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-700">
+      <Link to="/register-cocoa" className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-700">
         Create A New Batch Of Beans
       </Link>
           </div>
