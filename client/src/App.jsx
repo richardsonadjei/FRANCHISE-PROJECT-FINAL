@@ -8,6 +8,8 @@ import Profile from './pages/Profile';
 import Header from './components/Header';
 import PrivateRoute from './components/PrivateRoute';
 import CreateSupplier from './pages/createSupplier';
+import FindSupplier from './pages/FindSupplier';
+import ViewSuppliers from './pages/ViewSuppliers';
 
 
 export default function App() {
@@ -23,6 +25,8 @@ export default function App() {
           <Route path='/profile' element={<Profile />} />
           <Route path='/' element={<Home />} />
           <Route path='/add-supplier' element={<CreateSupplier />} />
+          <Route path='/find-supplier' element={<FindSupplier />} />
+          <Route path='/view-suppliers' element={<ViewSuppliers />} />
         </Route>
       </Routes>
     </BrowserRouter>

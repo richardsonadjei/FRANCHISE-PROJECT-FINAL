@@ -131,13 +131,18 @@ const HomePage = () => {
             <h3 className="text-lg font-semibold mb-2">Suppliers And Customers</h3>
             <ul className="ml-4 space-y-2">
               <li>
-                <Link to="/registerFarmer" className="text-white hover:underline">
+                <Link to="/add-supplier" className="text-white hover:underline">
                   Register A Supplier
                 </Link>
               </li>
               <li>
-                <Link to="/business-settings" className="text-white hover:underline">
-                  Update Supplier
+                <Link to="/find-supplier" className="text-white hover:underline">
+                  Search And Update Supplier
+                </Link>
+              </li>
+              <li>
+                <Link to="/view-suppliers" className="text-white hover:underline">
+                  View All Suppliers 
                 </Link>
               </li>
               <li>
