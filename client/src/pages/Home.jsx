@@ -187,8 +187,8 @@ const HomePage = () => {
       <Link to="/evacuation-invoice" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">
         Perform Evacuation With Invoice
       </Link>
-      <Link to="/transaction-reports" className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-700">
-        View Transaction Reports
+      <Link to="/update-batch" className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-700">
+        Update Batch Stock
       </Link>
       <Link to="/add-supplier" className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-700">
         Add A New Supplier/Farmer
@@ -197,7 +197,7 @@ const HomePage = () => {
         View All Batches In Stock
       </Link>
       <Link to="/register-cocoa" className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-700">
-        Create A New Batch Of Beans
+        Recieve New Batch
       </Link>
           </div>
         </section>

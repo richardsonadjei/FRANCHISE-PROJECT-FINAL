@@ -12,6 +12,7 @@ import FindSupplier from './pages/FindSupplier';
 import ViewSuppliers from './pages/ViewSuppliers';
 import CreateCocoa from './pages/CreateCocoa';
 import ViewBatches from './pages/ViewBatches';
+import UpdateBatch from './pages/UpdateBatch';
 
 
 export default function App() {
@@ -31,6 +32,7 @@ export default function App() {
           <Route path='/view-suppliers' element={<ViewSuppliers />} />
           <Route path='/register-cocoa' element={<CreateCocoa />} />
           <Route path='/view-batches' element={<ViewBatches />} />
+          <Route path='/update-batch' element={<UpdateBatch />} />
         </Route>
       </Routes>
     </BrowserRouter>

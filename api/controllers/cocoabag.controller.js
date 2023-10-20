@@ -38,7 +38,7 @@ const createCocoaBag = async (req, res) => {
 export default createCocoaBag;
 
 
-const getAllCocoaBags = async (req, res) => {
+export const getAllCocoaBags = async (req, res) => {
   try {
     const cocoaBags = await CocoaBag.find();
     res.status(200).json(cocoaBags);
@@ -48,4 +48,28 @@ const getAllCocoaBags = async (req, res) => {
   }
 };
 
-export { getAllCocoaBags };
+
+const updateCocoaBagQuantityByBatchNumber = async (req, res) => {
+  try {
+    const { batchNumber } = req.params; // Get the batchNumber of the cocoa bag to be updated
+    const { quantity } = req.body; // Get the new quantity value from the request body
+
+    // Update the cocoa bag by batchNumber
+    const updatedCocoaBag = await CocoaBag.findOneAndUpdate(
+      { batchNumber: batchNumber },
+      { quantity: quantity },
+      { new: true }
+    );
+
+    if (!updatedCocoaBag) {
+      return res.status(404).json({ error: 'Cocoa bag not found' });
+    }
+
+    res.status(200).json(updatedCocoaBag);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+export { updateCocoaBagQuantityByBatchNumber };
