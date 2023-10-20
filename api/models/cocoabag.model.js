@@ -67,6 +67,28 @@ const cocoaBagSchema = new mongoose.Schema({
       return this.quantity * this.pricePerBag;
     },
   },
+  // New Fields for Reports
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+  transactionType: {
+    type: String,
+    enum: ['Creation', 'Update', 'Sale'],
+    required: true,
+  },
+  userId: {
+    type: String,
+    required: true,
+  },
+  // Supplier Performance
+  feedback: {
+    type: String,
+  },
 });
 
 const CocoaBag = mongoose.model('CocoaBag', cocoaBagSchema);

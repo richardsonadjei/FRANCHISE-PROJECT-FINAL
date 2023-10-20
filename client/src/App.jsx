@@ -13,6 +13,8 @@ import ViewSuppliers from './pages/ViewSuppliers';
 import CreateCocoa from './pages/CreateCocoa';
 import ViewBatches from './pages/ViewBatches';
 import UpdateBatch from './pages/UpdateBatch';
+import InventoryReports from './pages/InventoryReports';
+import StockReport from './pages/inventoryReports/StockReport';
 
 
 export default function App() {
@@ -33,6 +35,8 @@ export default function App() {
           <Route path='/register-cocoa' element={<CreateCocoa />} />
           <Route path='/view-batches' element={<ViewBatches />} />
           <Route path='/update-batch' element={<UpdateBatch />} />
+          <Route path='/inventory-reports' element={<InventoryReports/>} />
+          <Route path='/stock-report' element={<StockReport/>} />
         </Route>
       </Routes>
     </BrowserRouter>

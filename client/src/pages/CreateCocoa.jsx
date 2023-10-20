@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 const CreateCocoa = () => {
+  const [userId, setUserId] = useState('');
   const [quantity, setQuantity] = useState('');
   const [supplier, setSupplier] = useState('');
   const [harvestYear, setHarvestYear] = useState('');
@@ -13,7 +14,20 @@ const CreateCocoa = () => {
   const [responseMessage, setResponseMessage] = useState('');
 
   useEffect(() => {
-    fetchSuppliers();
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch('/api/auth/profile', {
+          method: 'GET',
+          credentials: 'include',
+        });
+        const userData = await response.json();
+        setUserId(userData._id);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchUserData();
   }, []);
 
   const fetchSuppliers = async () => {
@@ -26,14 +40,27 @@ const CreateCocoa = () => {
     }
   };
 
+  useEffect(() => {
+    fetchSuppliers();
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/cocoabags', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      const token = document.cookie
+  .split(';')
+  .map(cookie => cookie.trim())
+  .find(row => row.startsWith('access_token='))
+  ?.split('=')[1];
+
+    console.log('Retrieved Token:', token);
+
+const response = await fetch('/api/cocoabags', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+  },
         body: JSON.stringify({
           quantity,
           supplier,
@@ -43,12 +70,13 @@ const CreateCocoa = () => {
           averageNetWeightPerBag,
           averageGrossWeightPerBag,
           comments,
+          userId: userId,
+          transactionType: 'Creation',
         }),
       });
       const data = await response.json();
       if (response.ok) {
         setResponseMessage('Cocoa Bag created successfully!');
-        // Reset the form fields
         setQuantity('');
         setSupplier('');
         setHarvestYear('');
@@ -182,12 +210,14 @@ const CreateCocoa = () => {
             onChange={(e) => setComments(e.target.value)}
           ></textarea>
         </div>
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-        >
-          Create
-        </button>
+        <div className="mb-4">
+          <button
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+          >
+            Create
+          </button>
+        </div>
       </form>
       {responseMessage && <p>{responseMessage}</p>}
     </div>

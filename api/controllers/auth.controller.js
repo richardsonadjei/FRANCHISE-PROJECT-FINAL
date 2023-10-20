@@ -81,3 +81,26 @@ export const signOut = async (req, res, next) => {
     next(error);
   }
 };
+
+
+export const getUserProfile = async (req, res, next) => {
+  try {
+    const userId = req.user.id; // Get the userId from the authenticated user
+    const user = await User.findById(userId);// Exclude the password field
+    if (!user) {
+      return next(errorHandler(404, 'User not found'));
+    }
+
+    // Generate a new access token for the user
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+
+    const { password: pass, ...rest } = user._doc;
+    res
+      .cookie('access_token', token, { httpOnly: true })
+      .status(200)
+      .json(rest);
+
+  } catch (error) {
+    next(error);
+  }
+};

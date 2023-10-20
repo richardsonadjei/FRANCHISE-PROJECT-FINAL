@@ -47,6 +47,9 @@ const HomePage = () => {
                 <Link to="/manage-inventory" className="text-white hover:underline">
                   Take Stock
                 </Link>
+                <Link to="/inventory-reports" className="text-white hover:underline">
+                  Inventory Reports
+                </Link>
               </li>
               </li>
             </ul>

@@ -1,6 +1,11 @@
 import express from 'express';
-import createCocoaBag, { getAllCocoaBags, updateCocoaBagQuantityByBatchNumber,  } from '../controllers/cocoabag.controller.js';
-
+import {
+    createCocoaBag,
+    getAllCocoaBags,
+    getCocoaBagsWithinDateRange,
+    updateCocoaBagQuantityByBatchNumber,
+  } from '../controllers/cocoabag.controller.js';
+  
 
 const router = express.Router();
 
@@ -8,4 +13,7 @@ const router = express.Router();
 router.post('/', createCocoaBag);
 router.get('/', getAllCocoaBags);
 router.put('/:batchNumber', updateCocoaBagQuantityByBatchNumber);
+router.get('/stock', getCocoaBagsWithinDateRange);
+
+
 export default router;
