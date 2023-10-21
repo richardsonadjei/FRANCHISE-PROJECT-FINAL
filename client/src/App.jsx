@@ -15,12 +15,15 @@ import ViewBatches from './pages/ViewBatches';
 import UpdateBatch from './pages/UpdateBatch';
 import InventoryReports from './pages/InventoryReports';
 import StockReport from './pages/inventoryReports/StockReport';
+import Aside from './pages/Aside';
+import TransactionHistory from './pages/inventoryReports/TransactionHistory';
 
 
 export default function App() {
   return (
     <BrowserRouter>
       <Header />
+      <Aside />
       <Routes>
         
         <Route path='/sign-in' element={<SignIn />} />
@@ -37,6 +40,7 @@ export default function App() {
           <Route path='/update-batch' element={<UpdateBatch />} />
           <Route path='/inventory-reports' element={<InventoryReports/>} />
           <Route path='/stock-report' element={<StockReport/>} />
+          <Route path='/transaction-history' element={<TransactionHistory/>} />
         </Route>
       </Routes>
     </BrowserRouter>

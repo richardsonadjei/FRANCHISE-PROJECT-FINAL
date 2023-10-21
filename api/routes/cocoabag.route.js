@@ -2,6 +2,7 @@ import express from 'express';
 import {
     createCocoaBag,
     getAllCocoaBags,
+    getCocoaBagsByTransactionTypeAndDateRange,
     getCocoaBagsWithinDateRange,
     updateCocoaBagQuantityByBatchNumber,
   } from '../controllers/cocoabag.controller.js';
@@ -14,6 +15,7 @@ router.post('/', createCocoaBag);
 router.get('/', getAllCocoaBags);
 router.put('/:batchNumber', updateCocoaBagQuantityByBatchNumber);
 router.get('/stock', getCocoaBagsWithinDateRange);
+router.get('/transactions', getCocoaBagsByTransactionTypeAndDateRange);
 
 
 export default router;

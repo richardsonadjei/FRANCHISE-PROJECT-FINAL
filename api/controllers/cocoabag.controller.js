@@ -103,8 +103,37 @@ const getCocoaBagsWithinDateRange = async (req, res) => {
   }
 };
 
+const getCocoaBagsByTransactionTypeAndDateRange = async (req, res) => {
+  try {
+    const { startDate, endDate, transactionType } = req.query;
+
+    // Regular expression to validate date format (YYYY-MM-DD)
+    const dateFormat = /^\d{4}-\d{2}-\d{2}$/;
+
+    // Check if startDate and endDate match the expected format
+    if (!dateFormat.test(startDate) || !dateFormat.test(endDate)) {
+      console.log('Invalid date format. Expected format: YYYY-MM-DD');
+      return res.status(400).json({ error: 'Invalid date format. Please provide valid startDate and endDate (YYYY-MM-DD).' });
+    }
+
+    // Parse startDate and endDate strings into Date objects
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    // Find all cocoa bags within the specified date range and transaction type
+    const cocoaBags = await CocoaBag.find({
+      packingDate: { $gte: start, $lte: end },
+      transactionType: transactionType,
+    });
+
+    res.status(200).json(cocoaBags);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
 
 
 
 
-export { createCocoaBag, getAllCocoaBags, updateCocoaBagQuantityByBatchNumber,getCocoaBagsWithinDateRange };
+export { createCocoaBag, getAllCocoaBags, updateCocoaBagQuantityByBatchNumber,getCocoaBagsWithinDateRange,getCocoaBagsByTransactionTypeAndDateRange };

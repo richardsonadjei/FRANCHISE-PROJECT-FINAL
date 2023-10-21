@@ -1,174 +1,13 @@
+
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const HomePage = () => {
-  // Assuming you have a Redux state to get user information
   const { currentUser } = useSelector((state) => state.user);
+
   return (
     <div className="flex h-screen bg-black pt-16 mt-2">
-      <aside className="aside-menu bg-gradient-to-b from-blue-500 to-blue-700 text-white w-96 h-screen mb-8 pb-4 overflow-y-auto pl-4 ml-4 pt-16">
-        <h2 className="text-2xl font-bold mb-8">Cocoa Business</h2>
-        <ul className="space-y-4">
-          {/* Dashboard Section */}
-          <li>
-            <h3 className="text-lg font-semibold mb-2">Dashboard</h3>
-            <ul className="ml-4 space-y-2">
-              <li>
-                <Link to="/dashboard" className="text-white hover:underline">
-                  Overview
-                </Link>
-              </li>
-            </ul>
-          </li>
-          {/* Inventory Management Section */}
-          <li>
-            <h3 className="text-lg font-semibold mb-1">Inventory Management</h3>
-            <ul className="ml-4 space-y-1">
-              <li>
-                <Link to="/register-cocoa" className="text-white hover:underline">
-                  Create A New Batch Of Beans
-                </Link>
-              </li>
-              <li>
-                <Link to="/view-batches" className="text-white hover:underline">
-                  View All Batches
-                </Link>
-              </li>
-              <li>
-                <Link to="/manage-inventory" className="text-white hover:underline">
-                  Recieve Cocoa Beans Ino Warehouse
-                </Link>
-                <li>
-                <Link to="/manage-inventory" className="text-white hover:underline">
-                  Perform Evacuation With Invoice
-                </Link>
-                <br />
-                <Link to="/manage-inventory" className="text-white hover:underline">
-                  Take Stock
-                </Link>
-                <Link to="/inventory-reports" className="text-white hover:underline">
-                  Inventory Reports
-                </Link>
-              </li>
-              </li>
-            </ul>
-          </li>
-          {/* Sales Management Section */}
-          <li>
-            <h3 className="text-lg font-semibold mb-2">Sales Management</h3>
-            <ul className="ml-4 space-y-2">
-              <li>
-                <Link to="/create-invoice" className="text-white hover:underline">
-                  Perform Evacuation With Invoice
-                </Link>
-              </li>
-              <li>
-                <Link to="/manage-orders" className="text-white hover:underline">
-                  Manage Orders
-                </Link>
-              </li>
-            </ul>
-          </li>
-          {/* Financial Management Section */}
-          <li>
-            <h3 className="text-lg font-semibold mb-2">Financial Management</h3>
-            <ul className="ml-4 space-y-2">
-              <li>
-                <Link to="/record-income" className="text-white hover:underline">
-                  Income
-                </Link>
-              </li>
-              <li>
-                <Link to="/record-expenditures" className="text-white hover:underline">
-                  Expenditures
-                </Link>
-              </li>
-              <li>
-                <Link to="/access-reports" className="text-white hover:underline">
-                  Reports
-                </Link>
-              </li>
-            </ul>
-          </li>
-          {/* Reports & Analytics Section */}
-          <li>
-            <h3 className="text-lg font-semibold mb-2">Reports & Analytics</h3>
-            <ul className="ml-4 space-y-2">
-              <li>
-                <Link to="/sales-reports" className="text-white hover:underline">
-                  Sales Reports
-                </Link>
-              </li>
-              <li>
-                <Link to="/financial-reports" className="text-white hover:underline">
-                  Financial Reports
-                </Link>
-              </li>
-              <li>
-                <Link to="/inventory-reports" className="text-white hover:underline">
-                  Inventory Reports
-                </Link>
-              </li>
-            </ul>
-          </li>
-          {/* Settings Section */}
-          <li>
-            <h3 className="text-lg font-semibold mb-2">Settings</h3>
-            <ul className="ml-4 space-y-2">
-              <li>
-                <Link to="/profile" className="text-white hover:underline">
-                  Profile
-                </Link>
-              </li>
-              <li>
-                <Link to="/business-settings" className="text-white hover:underline">
-                  Business Settings
-                </Link>
-              </li>
-              <li>
-                <Link to="/manage-users" className="text-white hover:underline">
-                  Users
-                </Link>
-              </li>
-            </ul>
-          </li>
-
-
-          <li>
-            <h3 className="text-lg font-semibold mb-2">Suppliers And Customers</h3>
-            <ul className="ml-4 space-y-2">
-              <li>
-                <Link to="/add-supplier" className="text-white hover:underline">
-                  Register A Supplier
-                </Link>
-              </li>
-              <li>
-                <Link to="/find-supplier" className="text-white hover:underline">
-                  Search And Update Supplier
-                </Link>
-              </li>
-              <li>
-                <Link to="/view-suppliers" className="text-white hover:underline">
-                  View All Suppliers 
-                </Link>
-              </li>
-              <li>
-                <Link to="/manage-users" className="text-white hover:underline">
-                  Register A Customer
-                </Link>
-              </li>
-              <li>
-                <Link to="/manage-users" className="text-white hover:underline">
-                  Update A Cutomer
-                </Link>
-              </li>
-            </ul>
-          </li>
-
-
-        </ul>
-      </aside>
       {/* Content */}
       <div className="flex flex-wrap flex-grow p-8">
         {/* Welcome Section */}
@@ -184,24 +23,24 @@ const HomePage = () => {
         <section className="bg-gradient-to-r from-green-400 to-blue-500 text-white p-8 w-full md:w-1/2 mb-8 rounded-lg shadow-lg">
           <h2 className="text-2xl font-bold mb-4">Quick Actions</h2>
           <div className="flex flex-wrap gap-4">
-          <Link to="/receive-beans" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
-        Receive Beans Into Warehouse
-      </Link>
-      <Link to="/evacuation-invoice" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">
-        Perform Evacuation With Invoice
-      </Link>
-      <Link to="/update-batch" className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-700">
-        Update Batch Stock
-      </Link>
-      <Link to="/add-supplier" className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-700">
-        Add A New Supplier/Farmer
-      </Link>
-      <Link to="/view-batches" className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-700">
-        View All Batches In Stock
-      </Link>
-      <Link to="/register-cocoa" className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-700">
-        Recieve New Batch
-      </Link>
+            <Link to="/receive-beans" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+              Receive Beans Into Warehouse
+            </Link>
+            <Link to="/evacuation-invoice" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">
+              Perform Evacuation With Invoice
+            </Link>
+            <Link to="/update-batch" className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-700">
+              Update Existing Batch
+            </Link>
+            <Link to="/add-supplier" className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-700">
+              Add A New Supplier/Farmer
+            </Link>
+            <Link to="/view-batches" className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-700">
+              View All Batches In Stock
+            </Link>
+            <Link to="/register-cocoa" className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-700">
+              Receive New Batch
+            </Link>
           </div>
         </section>
         {/* Statistics Overview */}
@@ -265,4 +104,5 @@ const HomePage = () => {
     </div>
   );
 };
+
 export default HomePage;

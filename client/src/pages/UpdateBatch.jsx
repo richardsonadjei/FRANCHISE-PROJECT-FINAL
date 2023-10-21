@@ -24,14 +24,24 @@ const UpdateBatch = () => {
       setMessage('Please select a batch and enter a quantity.');
       return;
     }
-
+  
+    // Create a new Date object to get the current date and time
+    const updatedAt = new Date();
+  
+    // Prepare the request body with quantity, transactionType, and updatedAt
+    const requestBody = {
+      quantity,
+      transactionType: 'Update',
+      updatedAt, // Include the updatedAt field in the request body
+    };
+  
     // Send a PUT request to update the selected batch with the new quantity
     fetch(`/api/cocoabags/${selectedBatch}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ quantity }),
+      body: JSON.stringify(requestBody),
     })
       .then((response) => response.json())
       .then((updatedBatch) => {
@@ -46,6 +56,7 @@ const UpdateBatch = () => {
         // Handle error scenarios here
       });
   };
+  
 
   return (
     <div className="container mx-auto p-4">
