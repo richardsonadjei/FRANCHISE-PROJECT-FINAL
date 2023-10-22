@@ -96,7 +96,7 @@ const response = await fetch('/api/cocoabags', {
 
   return (
     <div className="container mx-auto">
-      <h1 className="text-3xl font-bold mb-4">Create Cocoa Bag</h1>
+      <h1 className="text-3xl font-bold mb-4">Receive New Stock</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="quantity" className="block text-gray-700 font-medium mb-2">

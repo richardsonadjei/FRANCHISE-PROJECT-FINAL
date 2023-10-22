@@ -29,12 +29,7 @@ const Report = () => {
       purpose: "To assess the quality of cocoa beans received from different suppliers...",
       // ... other details for the Quality Control Report
     },
-    {
-      title: "Batch Update History Report",
-      path: "/batch-update-history",
-      purpose: "To track all changes made to existing batches, including updates...",
-      // ... other details for the Batch Update History Report
-    },
+  
   ];
 
   return (

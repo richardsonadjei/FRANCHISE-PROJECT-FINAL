@@ -16,6 +16,8 @@ import InventoryReports from './pages/InventoryReports';
 import StockReport from './pages/inventoryReports/StockReport';
 import Aside from './pages/Aside';
 import TransactionHistory from './pages/inventoryReports/TransactionHistory';
+import StockTake from './pages/inventoryReports/StockTake';
+import CreateCustomer from './pages/CreateCustomer';
 
 
 export default function App() {
@@ -39,6 +41,8 @@ export default function App() {
           <Route path='/inventory-reports' element={<InventoryReports/>} />
           <Route path='/stock-report' element={<StockReport/>} />
           <Route path='/transaction-history' element={<TransactionHistory/>} />
+          <Route path='/take-stock' element={<StockTake/>} />
+          <Route path='/create-customer' element={<CreateCustomer/>} />
         </Route>
       </Routes>
     </BrowserRouter>

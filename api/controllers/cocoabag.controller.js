@@ -135,5 +135,49 @@ const getCocoaBagsByTransactionTypeAndDateRange = async (req, res) => {
 
 
 
+const calculateStockDifference = async (req, res) => {
+  try {
+    const { physicalStock } = req.body;
 
-export { createCocoaBag, getAllCocoaBags, updateCocoaBagQuantityByBatchNumber,getCocoaBagsWithinDateRange,getCocoaBagsByTransactionTypeAndDateRange };
+    // Retrieve all cocoa bags from the database
+    const cocoaBags = await CocoaBag.find();
+
+    // Calculate the stock difference for each batch
+    const stockDifferences = cocoaBags.map((bag) => {
+      const batchStockDifference = bag.quantity - physicalStock;
+      return {
+        batchNumber: bag.batchNumber,
+        stockDifference: batchStockDifference,
+      };
+    });
+
+    // Respond with the stock differences for each batch
+    res.status(200).json(stockDifferences);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+const getInventorySummary = async (req, res) => {
+  try {
+    const cocoaBags = await CocoaBag.find();
+    const totalQuantity = cocoaBags.reduce((acc, bag) => acc + bag.quantity, 0);
+    const totalValue = cocoaBags.reduce((acc, bag) => acc + bag.totalValuePerBatch, 0);
+    res.status(200).json({ totalQuantity, totalValue });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+export {
+  createCocoaBag,
+  getAllCocoaBags,
+  updateCocoaBagQuantityByBatchNumber,
+  getCocoaBagsWithinDateRange,
+  getCocoaBagsByTransactionTypeAndDateRange,
+  calculateStockDifference,getInventorySummary
+};
+
+

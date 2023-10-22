@@ -5,6 +5,7 @@ import userRouter from './routes/user.route.js';
 import authRouter from './routes/auth.route.js';
 import cocoaBagRouter from './routes/cocoabag.route.js'; // Import the cocoaBagRouter
 import supplierRouter from './routes/supplier.route.js';
+import customerRouter from './routes/customer.route.js';
 
 
 
@@ -33,6 +34,7 @@ app.use('/api/user', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/cocoabags', cocoaBagRouter); // Mount the cocoaBagRouter at the '/api/cocoabags' endpoint
 app.use('/api/supplier', supplierRouter);
+app.use('/api/customer', customerRouter);
 
 
 app.use((err, req, res, next) => {

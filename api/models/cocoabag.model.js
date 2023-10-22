@@ -1,3 +1,4 @@
+// Import mongoose at the beginning of your file
 import mongoose from 'mongoose';
 
 const cocoaBagSchema = new mongoose.Schema({
@@ -67,7 +68,6 @@ const cocoaBagSchema = new mongoose.Schema({
       return this.quantity * this.pricePerBag;
     },
   },
-  // New Fields for Reports
   createdAt: {
     type: Date,
     default: Date.now,
@@ -85,10 +85,15 @@ const cocoaBagSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // Supplier Performance
   feedback: {
     type: String,
   },
+});
+
+// Pre-save middleware to update totalValuePerBatch when quantity changes
+cocoaBagSchema.pre('save', function (next) {
+  this.totalValuePerBatch = this.quantity * this.pricePerBag;
+  next();
 });
 
 const CocoaBag = mongoose.model('CocoaBag', cocoaBagSchema);
