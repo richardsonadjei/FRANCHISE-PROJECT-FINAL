@@ -1,4 +1,5 @@
 import CocoaBag from '../models/cocoabag.model.js';
+import Transaction from '../models/transaction.model.js';
 
 const createCocoaBag = async (req, res) => {
   try {
@@ -47,33 +48,8 @@ const getAllCocoaBags = async (req, res) => {
   }
 };
 
-const updateCocoaBagQuantityByBatchNumber = async (req, res) => {
-  try {
-    const { batchNumber } = req.params; // Get the batchNumber of the cocoa bag to be updated
-    const { quantity } = req.body; // Get the new quantity value from the request body
 
-    // Retrieve the existing cocoa bag document
-    const existingCocoaBag = await CocoaBag.findOne({ batchNumber });
 
-    if (!existingCocoaBag) {
-      return res.status(404).json({ error: 'Cocoa bag not found' });
-    }
-
-    const previousQuantity = existingCocoaBag.quantity; // Get the previous quantity
-
-    // Update the cocoa bag by batchNumber
-    const updatedCocoaBag = await CocoaBag.findOneAndUpdate(
-      { batchNumber },
-      { quantity, updatedAt: Date.now(), transactionType: 'Update' },
-      { new: true }
-    );
-
-    res.status(200).json({ updatedCocoaBag, previousQuantity });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-};
 
 
 
@@ -176,22 +152,45 @@ const getInventorySummary = async (req, res) => {
   }
 };
 
-const receiveStock = async (req, res) => {
+
+
+
+const addReceivedQuantityToCocoaBag = async (req, res) => {
   try {
-    const { batchNumber, receivedQuantity } = req.body;
+    const { batchNumber } = req.params;
+    const { receivedQuantity } = req.body;
 
-    // Retrieve the existing cocoa bag document
-    const existingCocoaBag = await CocoaBag.findOne({ batchNumber });
+    // Find the cocoa bag with the specified batchNumber
+    const cocoaBag = await CocoaBag.findOne({ batchNumber });
 
-    if (!existingCocoaBag) {
+    if (!cocoaBag) {
       return res.status(404).json({ error: 'Cocoa bag not found' });
     }
 
-    // Update the received quantity of the cocoa bag by batchNumber
-    existingCocoaBag.receivedQuantity += receivedQuantity;
-    await existingCocoaBag.save();
+    const quantityBefore = cocoaBag.quantity;
+    const quantityAfter = quantityBefore + receivedQuantity;
 
-    res.status(200).json(existingCocoaBag);
+    // Update the quantity and received quantity of the cocoa bag
+    cocoaBag.quantity = quantityAfter;
+    cocoaBag.receivedQuantity += receivedQuantity;
+
+    // Save the updated cocoa bag
+    const updatedCocoaBag = await cocoaBag.save();
+
+    // Create a new transaction for the received quantity update
+    const transaction = new Transaction({
+      batchNumber,
+      transactionType: 'Update',
+      userId: req.user.id,
+      quantityBefore,
+      quantityAfter,
+      receivedQuantity,
+    });
+
+    // Save the transaction
+    await transaction.save();
+
+    res.status(200).json(updatedCocoaBag);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -200,13 +199,17 @@ const receiveStock = async (req, res) => {
 
 
 
+
+
+
 export {
   createCocoaBag,
   getAllCocoaBags,
-  updateCocoaBagQuantityByBatchNumber,
   getCocoaBagsWithinDateRange,
   getCocoaBagsByTransactionTypeAndDateRange,
-  calculateStockDifference,getInventorySummary,receiveStock
+  calculateStockDifference,
+  getInventorySummary,addReceivedQuantityToCocoaBag
+
 };
 
 

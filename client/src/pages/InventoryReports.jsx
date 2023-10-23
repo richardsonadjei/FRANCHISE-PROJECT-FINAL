@@ -24,9 +24,9 @@ const Report = () => {
       // ... other details for the Supplier Performance Report
     },
     {
-      title: "Quality Control Report",
-      path: "/quality-control",
-      purpose: "To assess the quality of cocoa beans received from different suppliers...",
+      title: "Stock Received Report",
+      path: "/receive-report",
+      purpose: "This gives a report of cocoabeans received within a period from a specified supplier into a specific Batch",
       // ... other details for the Quality Control Report
     },
   

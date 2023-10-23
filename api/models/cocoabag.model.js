@@ -84,10 +84,7 @@ const cocoaBagSchema = new mongoose.Schema({
   feedback: {
     type: String,
   },
-  receivedQuantity: {
-    type: Number,
-    default: 0,
-  },
+
   supplier: {
     type: String,
   },

@@ -20,6 +20,7 @@ import StockTake from './pages/inventoryReports/StockTake';
 import CreateCustomer from './pages/CreateCustomer';
 import UpdateCustomer from './pages/UpdateCustomer';
 import ReceiveStock from './pages/ReceiveStock';
+import ReceiveReport from './pages/inventoryReports/ReceiveReport';
 
 
 export default function App() {
@@ -47,6 +48,7 @@ export default function App() {
           <Route path='/create-customer' element={<CreateCustomer/>} />
           <Route path='/update-customer' element={<UpdateCustomer/>} />
           <Route path='/receive-stock' element={<ReceiveStock/>} />
+          <Route path='/receive-report' element={<ReceiveReport/>} />
         </Route>
       </Routes>
     </BrowserRouter>
