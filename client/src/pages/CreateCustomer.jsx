@@ -217,7 +217,7 @@ const CreateCustomer = () => {
         </div>
         <div className="mb-4">
           <label htmlFor="phoneNumber" className="block font-bold mb-2">
-            Phone Number
+            Mobile Money Number
           </label>
           <input
             type="text"

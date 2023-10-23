@@ -52,18 +52,23 @@ const updateCocoaBagQuantityByBatchNumber = async (req, res) => {
     const { batchNumber } = req.params; // Get the batchNumber of the cocoa bag to be updated
     const { quantity } = req.body; // Get the new quantity value from the request body
 
-    // Update the cocoa bag by batchNumber
-    const updatedCocoaBag = await CocoaBag.findOneAndUpdate(
-      { batchNumber: batchNumber },
-      { quantity: quantity, updatedAt: Date.now(), transactionType: 'Update' },
-      { new: true }
-    );
+    // Retrieve the existing cocoa bag document
+    const existingCocoaBag = await CocoaBag.findOne({ batchNumber });
 
-    if (!updatedCocoaBag) {
+    if (!existingCocoaBag) {
       return res.status(404).json({ error: 'Cocoa bag not found' });
     }
 
-    res.status(200).json(updatedCocoaBag);
+    const previousQuantity = existingCocoaBag.quantity; // Get the previous quantity
+
+    // Update the cocoa bag by batchNumber
+    const updatedCocoaBag = await CocoaBag.findOneAndUpdate(
+      { batchNumber },
+      { quantity, updatedAt: Date.now(), transactionType: 'Update' },
+      { new: true }
+    );
+
+    res.status(200).json({ updatedCocoaBag, previousQuantity });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -171,13 +176,37 @@ const getInventorySummary = async (req, res) => {
   }
 };
 
+const receiveStock = async (req, res) => {
+  try {
+    const { batchNumber, receivedQuantity } = req.body;
+
+    // Retrieve the existing cocoa bag document
+    const existingCocoaBag = await CocoaBag.findOne({ batchNumber });
+
+    if (!existingCocoaBag) {
+      return res.status(404).json({ error: 'Cocoa bag not found' });
+    }
+
+    // Update the received quantity of the cocoa bag by batchNumber
+    existingCocoaBag.receivedQuantity += receivedQuantity;
+    await existingCocoaBag.save();
+
+    res.status(200).json(existingCocoaBag);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
+
 export {
   createCocoaBag,
   getAllCocoaBags,
   updateCocoaBagQuantityByBatchNumber,
   getCocoaBagsWithinDateRange,
   getCocoaBagsByTransactionTypeAndDateRange,
-  calculateStockDifference,getInventorySummary
+  calculateStockDifference,getInventorySummary,receiveStock
 };
 
 

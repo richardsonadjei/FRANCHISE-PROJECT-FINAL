@@ -30,7 +30,7 @@ const [inventorySummary, setInventorySummary] = useState({ totalQuantity: 0, tot
       {/* Welcome Section */}
       <section className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-8 rounded-lg shadow-lg mb-4 text-center">
         <h2 className="text-2xl font-bold mb-4 animate__animated animate__fadeIn">
-          Welcome to Cocoa Warehouse, {currentUser ? currentUser.username : 'Guest'}!
+          Welcome to Pador Farms, {currentUser ? currentUser.username : 'Guest'}!
         </h2>
         <p className="text-lg">
           The mission of Pador Farms is to grow to be a major cocoa buying company at the district, regional, national, and global stages. We aim to provide high-quality cocoa products and contribute to the sustainable growth of the cocoa industry.
@@ -49,6 +49,9 @@ const [inventorySummary, setInventorySummary] = useState({ totalQuantity: 0, tot
         </Link>
         <Link to="/register-cocoa" className="quick-action-btn bg-indigo-500 text-white py-4 rounded-lg hover:bg-indigo-700">
           Receive New Batch
+        </Link>
+        <Link to="/receive-stock" className="quick-action-btn bg-indigo-500 text-white py-4 rounded-lg hover:bg-indigo-700">
+          Receive Beans To An Existing Batch
         </Link>
       </section>
       {/* Inventory Summary */}

@@ -11,10 +11,6 @@ const cocoaBagSchema = new mongoose.Schema({
     default: 830,
     required: true,
   },
-  supplier: {
-    type: String,
-    required: true,
-  },
   batchNumber: {
     type: String,
     unique: true,
@@ -88,6 +84,14 @@ const cocoaBagSchema = new mongoose.Schema({
   feedback: {
     type: String,
   },
+  receivedQuantity: {
+    type: Number,
+    default: 0,
+  },
+  supplier: {
+    type: String,
+  },
+
 });
 
 // Pre-save middleware to update totalValuePerBatch when quantity changes

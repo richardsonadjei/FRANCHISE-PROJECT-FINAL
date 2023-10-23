@@ -52,8 +52,8 @@ const Aside = () => {
           <h3 className="text-lg font-semibold mb-2">Sales Management</h3>
           <ul className="ml-4 space-y-2">
             <li>
-              <Link to="/create-invoice" className="text-white hover:underline">
-                Perform Evacuation With Invoice
+            <Link to="/create-customer" className="text-white hover:underline">
+                Register A Customer
               </Link>
             </li>
             <li>
@@ -109,19 +109,14 @@ const Aside = () => {
         <li>
           <h3 className="text-lg font-semibold mb-2">Settings</h3>
           <ul className="ml-4 space-y-2">
-            <li>
-              <Link to="/profile" className="text-white hover:underline">
-                Profile
+          <li>
+              <Link to="/update-Customer" className="text-white hover:underline">
+                Update A Customer
               </Link>
             </li>
             <li>
               <Link to="/business-settings" className="text-white hover:underline">
                 Business Settings
-              </Link>
-            </li>
-            <li>
-              <Link to="/manage-users" className="text-white hover:underline">
-                Users
               </Link>
             </li>
           </ul>
@@ -149,11 +144,7 @@ const Aside = () => {
                 Register A Customer
               </Link>
             </li>
-            <li>
-              <Link to="/manage-users" className="text-white hover:underline">
-                Update A Customer
-              </Link>
-            </li>
+            
           </ul>
         </li>
       </ul>

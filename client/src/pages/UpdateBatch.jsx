@@ -18,23 +18,34 @@ const UpdateBatch = () => {
       });
   }, []);
 
+  useEffect(() => {
+    // Update the quantity state when a batch is selected
+    if (selectedBatch) {
+      const selectedBatchData = batches.find(batch => batch.batchNumber === selectedBatch);
+      if (selectedBatchData) {
+        setQuantity(selectedBatchData.quantity.toString());
+      }
+    } else {
+      setQuantity('');
+    }
+  }, [selectedBatch, batches]);
+
   const handleUpdateBatch = () => {
     // Validate selectedBatch and quantity before updating
     if (!selectedBatch || !quantity) {
-      setMessage('Please select a batch and enter a quantity.');
+      setMessage('Please select a batch and enter a valid quantity.');
       return;
     }
-  
+
     // Create a new Date object to get the current date and time
     const updatedAt = new Date();
-  
     // Prepare the request body with quantity, transactionType, and updatedAt
     const requestBody = {
-      quantity,
+      quantity: parseInt(quantity, 10), // Convert quantity to integer before sending
       transactionType: 'Update',
       updatedAt, // Include the updatedAt field in the request body
     };
-  
+
     // Send a PUT request to update the selected batch with the new quantity
     fetch(`/api/cocoabags/${selectedBatch}`, {
       method: 'PUT',
@@ -56,7 +67,6 @@ const UpdateBatch = () => {
         // Handle error scenarios here
       });
   };
-  
 
   return (
     <div className="container mx-auto p-4">

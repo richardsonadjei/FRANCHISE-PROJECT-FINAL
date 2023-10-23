@@ -22,3 +22,26 @@ export const createCustomer = async (req, res) => {
       res.status(500).json({ success: false, error: 'Internal Server Error' });
     }
   };
+
+  export const updateCustomerByName = async (req, res) => {
+    try {
+      const { customerName } = req.params; // Extract customer name from URL parameters
+      const updatedFields = req.body; // Updated fields from request body
+  
+      // Find the customer by name and update the fields
+      const customer = await BusinessCustomer.findOneAndUpdate(
+        { companyName: customerName }, // Search criteria
+        { $set: updatedFields }, // Fields to update
+        { new: true } // Return the updated document
+      );
+  
+      if (!customer) {
+        return res.status(404).json({ success: false, error: 'Customer not found' });
+      }
+  
+      res.status(200).json({ success: true, data: customer });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ success: false, error: 'Internal Server Error' });
+    }
+  };
