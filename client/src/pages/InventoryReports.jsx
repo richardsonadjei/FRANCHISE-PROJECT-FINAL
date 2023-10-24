@@ -12,9 +12,9 @@ const Report = () => {
       // ... other details for the Inventory Status Report
     },
     {
-      title: "Transaction History Report",
+      title: "All Transaction History Report",
       path: "/transaction-history",
-      purpose: "To track all transactions related to cocoa beans, including...",
+      purpose: "To track all transactions to all batches in the warehouse",
       // ... other details for the Transaction History Report
     },
     {
@@ -29,6 +29,13 @@ const Report = () => {
       purpose: "This gives a report of cocoabeans received within a period from a specified supplier into a specific Batch",
       // ... other details for the Quality Control Report
     },
+    {
+      title: "Batch Transaction History",
+      path: "/batch-history",
+      purpose: "This tells what has happened to a particular batch after it from creation",
+      // ... other details for the Quality Control Report
+    },
+  
   
   ];
 

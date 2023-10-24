@@ -162,17 +162,20 @@ const addReceivedQuantityToCocoaBag = async (req, res) => {
 
     // Find the cocoa bag with the specified batchNumber
     const cocoaBag = await CocoaBag.findOne({ batchNumber });
-
     if (!cocoaBag) {
       return res.status(404).json({ error: 'Cocoa bag not found' });
     }
 
-    const quantityBefore = cocoaBag.quantity;
-    const quantityAfter = quantityBefore + receivedQuantity;
+    // Parse quantityBefore and receivedQuantity as numbers
+    const quantityBefore = parseInt(cocoaBag.quantity, 10); // Assuming quantity is stored as a string in the database
+    const receivedQuantityParsed = parseInt(receivedQuantity, 10);
+
+    // Perform addition operation to calculate quantityAfter
+    const quantityAfter = quantityBefore + receivedQuantityParsed;
 
     // Update the quantity and received quantity of the cocoa bag
     cocoaBag.quantity = quantityAfter;
-    cocoaBag.receivedQuantity += receivedQuantity;
+    cocoaBag.receivedQuantity += receivedQuantityParsed;
 
     // Save the updated cocoa bag
     const updatedCocoaBag = await cocoaBag.save();
@@ -182,9 +185,10 @@ const addReceivedQuantityToCocoaBag = async (req, res) => {
       batchNumber,
       transactionType: 'Update',
       userId: req.user.id,
+      username: req.user.username, // Retrieve the username from req.user
       quantityBefore,
       quantityAfter,
-      receivedQuantity,
+      receivedQuantity: receivedQuantityParsed,
     });
 
     // Save the transaction
@@ -198,8 +202,135 @@ const addReceivedQuantityToCocoaBag = async (req, res) => {
 };
 
 
+const receiveReport = async (req, res) => {
+  try {
+    const { startDate, endDate } = req.query;
+
+    // Parse startDate and endDate strings into Date objects in UTC
+    const start = new Date(startDate);
+    start.setUTCHours(0, 0, 0, 0); // Set time to midnight in UTC
+
+    const end = new Date(endDate);
+    end.setUTCHours(23, 59, 59, 999); // Set time to end of day in UTC
+
+   
+
+    // Find transactions of type 'Update' within the specified date range
+    const transactions = await Transaction.find({
+      transactionType: 'Update',
+      updatedAt: { $gte: start, $lte: end },
+    });
+
+    
+
+    res.status(200).json(transactions);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 
 
+
+// Assuming you have a Transaction model
+
+const modifyQuantity = async (req, res) => {
+  const { batchNumber } = req.params;
+  const { quantity } = req.body;
+
+  try {
+    // Find the CocoaBag by batchNumber
+    const cocoaBag = await CocoaBag.findOne({ batchNumber });
+
+    if (!cocoaBag) {
+      return res.status(404).json({ error: 'CocoaBag not found' });
+    }
+
+    // Store the existing quantity for logging purposes
+    const quantityBefore = cocoaBag.quantity;
+
+    // Update the CocoaBag quantity based on user input
+    cocoaBag.quantity = quantity;
+    await cocoaBag.save();
+
+    // Calculate modifiedQuantity based on user input and quantityBefore
+    const modifiedQuantity = quantity - quantityBefore;
+
+    // Create a transaction entry with modified quantity
+    const transaction = new Transaction({
+      batchNumber,
+      transactionType: 'Modify',
+      userId: req.userId, // Assuming you extract user ID from the token in your middleware
+      username: req.username, // Assuming you have a way to get the username
+      quantityBefore,
+      quantityAfter: quantity, // Updated quantityAfter with the new quantity entered by the user
+      modifiedQuantity, // Save the modified quantity
+    });
+    await transaction.save();
+
+    // Return the modified CocoaBag
+    res.status(200).json({
+      message: 'CocoaBag quantity modified successfully',
+      cocoaBag,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+export default modifyQuantity;
+
+
+
+export const generateTransactionReport = async (req, res) => {
+  try {
+    const { batchNumber, startDate, endDate } = req.query;
+
+    // Parse startDate and endDate strings into Date objects in UTC format
+    const parsedStartDate = new Date(startDate + 'T00:00:00Z'); // Assuming startDate is in YYYY-MM-DD format
+    const parsedEndDate = new Date(endDate + 'T23:59:59.999Z'); // Assuming endDate is in YYYY-MM-DD format
+
+    const cocoaBagTransactions = await CocoaBag.find({
+      batchNumber,
+      updatedAt: { $gte: parsedStartDate, $lte: parsedEndDate },
+    });
+
+    const otherTransactions = await Transaction.find({
+      batchNumber,
+      updatedAt: { $gte: parsedStartDate, $lte: parsedEndDate },
+    });
+
+    const transactions = [...cocoaBagTransactions, ...otherTransactions];
+
+    res.status(200).json({ success: true, transactions });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+export const generateAllTransactionReport = async (req, res) => {
+  try {
+    const { startDate, endDate } = req.query;
+    // Parse startDate and endDate strings into Date objects in UTC format
+    const parsedStartDate = new Date(startDate + 'T00:00:00Z'); // Assuming startDate is in YYYY-MM-DD format
+    const parsedEndDate = new Date(endDate + 'T23:59:59.999Z'); // Assuming endDate is in YYYY-MM-DD format
+
+    const cocoaBagTransactions = await CocoaBag.find({
+      updatedAt: { $gte: parsedStartDate, $lte: parsedEndDate },
+    });
+
+    const otherTransactions = await Transaction.find({
+      updatedAt: { $gte: parsedStartDate, $lte: parsedEndDate },
+    });
+
+    const transactions = [...cocoaBagTransactions, ...otherTransactions];
+
+    res.status(200).json({ success: true, transactions });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
 
 
 export {
@@ -208,7 +339,7 @@ export {
   getCocoaBagsWithinDateRange,
   getCocoaBagsByTransactionTypeAndDateRange,
   calculateStockDifference,
-  getInventorySummary,addReceivedQuantityToCocoaBag
+  getInventorySummary,addReceivedQuantityToCocoaBag,receiveReport,modifyQuantity,
 
 };
 

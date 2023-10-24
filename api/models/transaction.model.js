@@ -12,9 +12,16 @@ const transactionSchema = new mongoose.Schema({
   },
   userId: {
     type: String,
-    required: true,
+    
+  },
+  username: {
+    type: String,
   },
    receivedQuantity: {
+    type: Number,
+    default: 0,
+  },
+  modifiedQuantity: {
     type: Number,
     default: 0,
   },

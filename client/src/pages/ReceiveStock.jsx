@@ -1,7 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const ReceiveStock = () => {
+  const { currentUser } = useSelector((state) => state.user);
   const [batchNumber, setBatchNumber] = useState('');
   const [availableBatches, setAvailableBatches] = useState([]);
   const [selectedBatch, setSelectedBatch] = useState(null);
@@ -10,7 +13,6 @@ const ReceiveStock = () => {
   const [isTransactionSuccessful, setIsTransactionSuccessful] = useState(false);
 
   useEffect(() => {
-    // Fetch available batches from the server
     const fetchBatches = async () => {
       try {
         const response = await fetch('/api/cocoabags');
@@ -20,26 +22,20 @@ const ReceiveStock = () => {
         console.error(error);
       }
     };
-
     fetchBatches();
   }, []);
 
   const handleBatchNumberChange = (event) => {
     const selectedBatchNumber = event.target.value;
     setBatchNumber(selectedBatchNumber);
-
-    // Find the selected batch from availableBatches
     const selectedBatch = availableBatches.find(
       (batch) => batch.batchNumber === selectedBatchNumber
     );
-
     setSelectedBatch(selectedBatch);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    // Make the transaction request to the server
     try {
       const response = await fetch(`/api/cocoabags/${batchNumber}`, {
         method: 'PUT',
@@ -52,13 +48,10 @@ const ReceiveStock = () => {
       if (response.ok) {
         setIsTransactionSuccessful(true);
         setAlertMessage('Transaction successful');
-        // Additional logic or state updates on success
       } else {
         setIsTransactionSuccessful(false);
         setAlertMessage('Transaction failed');
-        // Additional logic or state updates on failure
       }
-      // Clear input fields
       setBatchNumber('');
       setSelectedBatch(null);
       setReceivedQuantity('');
@@ -117,6 +110,18 @@ const ReceiveStock = () => {
             value={receivedQuantity}
             onChange={(event) => setReceivedQuantity(event.target.value)}
             required
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="username" className="block font-bold mb-1">
+            Username
+          </label>
+          <input
+            id="username"
+            type="text"
+            className="w-full border border-gray-300 rounded py-2 px-3"
+            defaultValue={currentUser.username}
+            readOnly
           />
         </div>
         <button

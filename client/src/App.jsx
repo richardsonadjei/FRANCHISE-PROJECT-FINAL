@@ -15,12 +15,14 @@ import UpdateBatch from './pages/UpdateBatch';
 import InventoryReports from './pages/InventoryReports';
 import StockReport from './pages/inventoryReports/StockReport';
 import Aside from './pages/Aside';
-import TransactionHistory from './pages/inventoryReports/TransactionHistory';
 import StockTake from './pages/inventoryReports/StockTake';
 import CreateCustomer from './pages/CreateCustomer';
 import UpdateCustomer from './pages/UpdateCustomer';
 import ReceiveStock from './pages/ReceiveStock';
 import ReceiveReport from './pages/inventoryReports/ReceiveReport';
+import BatchTransactionHistory from './pages/BatchTransactionHistory';
+import ModifyBatch from './pages/ModifyBatch';
+import AllBatchTransactionReport from './pages/inventoryReports/AllBatchTransactionReport';
 
 
 export default function App() {
@@ -43,12 +45,14 @@ export default function App() {
           <Route path='/update-batch' element={<UpdateBatch />} />
           <Route path='/inventory-reports' element={<InventoryReports/>} />
           <Route path='/stock-report' element={<StockReport/>} />
-          <Route path='/transaction-history' element={<TransactionHistory/>} />
+          <Route path='/transaction-history' element={<AllBatchTransactionReport/>} />
           <Route path='/take-stock' element={<StockTake/>} />
           <Route path='/create-customer' element={<CreateCustomer/>} />
           <Route path='/update-customer' element={<UpdateCustomer/>} />
           <Route path='/receive-stock' element={<ReceiveStock/>} />
           <Route path='/receive-report' element={<ReceiveReport/>} />
+          <Route path='/batch-history' element={<BatchTransactionHistory/>} />
+          <Route path='/modify-batch' element={<ModifyBatch/>} />
         </Route>
       </Routes>
     </BrowserRouter>

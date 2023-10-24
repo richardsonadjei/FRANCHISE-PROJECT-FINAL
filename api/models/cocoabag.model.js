@@ -74,7 +74,7 @@ const cocoaBagSchema = new mongoose.Schema({
   },
   transactionType: {
     type: String,
-    enum: ['Creation', 'Update', 'Sale'],
+    enum: ['Creation',],
     required: true,
   },
   userId: {
