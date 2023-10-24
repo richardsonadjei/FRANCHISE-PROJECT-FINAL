@@ -39,7 +39,7 @@ const HomePage = () => {
       {/* Quick Actions */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 text-center">
         <Link
-          to="/evacuation-invoice"
+          to="/evacuation"
           className="quick-action-btn bg-green-500 text-white py-4 rounded-lg hover:bg-green-700 transition duration-300"
         >
           Perform Evacuation With Invoice

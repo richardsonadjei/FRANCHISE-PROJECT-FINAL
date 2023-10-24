@@ -45,3 +45,13 @@ export const createCustomer = async (req, res) => {
       res.status(500).json({ success: false, error: 'Internal Server Error' });
     }
   };
+
+  export const getAllCustomers = async (req, res) => {
+    try {
+      const customers = await BusinessCustomer.find();
+      res.status(200).json({ success: true, data: customers });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ success: false, error: 'Internal Server Error' });
+    }
+  };

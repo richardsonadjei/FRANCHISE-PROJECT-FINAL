@@ -23,6 +23,9 @@ import ReceiveReport from './pages/inventoryReports/ReceiveReport';
 import BatchTransactionHistory from './pages/BatchTransactionHistory';
 import ModifyBatch from './pages/ModifyBatch';
 import AllBatchTransactionReport from './pages/inventoryReports/AllBatchTransactionReport';
+import Evacuation from './pages/Evacuation';
+import Income from './pages/Income';
+import WayBill from './pages/WayBill';
 
 
 export default function App() {
@@ -53,6 +56,9 @@ export default function App() {
           <Route path='/receive-report' element={<ReceiveReport/>} />
           <Route path='/batch-history' element={<BatchTransactionHistory/>} />
           <Route path='/modify-batch' element={<ModifyBatch/>} />
+          <Route path='/evacuation' element={<Evacuation/>} />
+          <Route path='/income' element={<Income/>} />
+          <Route path='/waybill' element={<WayBill/>} />
         </Route>
       </Routes>
     </BrowserRouter>

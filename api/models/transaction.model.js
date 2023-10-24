@@ -7,7 +7,7 @@ const transactionSchema = new mongoose.Schema({
   },
   transactionType: {
     type: String,
-    enum: ['Update','Modify'],
+    enum: ['Update','Modify','Evacuation'],
     required: true,
   },
   userId: {
@@ -33,7 +33,15 @@ const transactionSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  evacuatedQuantity: {
+    type: Number,
+    required: true,
+  },
   updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+  evacuationDate: {
     type: Date,
     default: Date.now,
   },

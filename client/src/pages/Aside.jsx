@@ -68,7 +68,7 @@ const Aside = () => {
           <h3 className="text-lg font-semibold mb-2">Financial Management</h3>
           <ul className="ml-4 space-y-2">
             <li>
-              <Link to="/record-income" className="text-white hover:underline">
+              <Link to="/income" className="text-white hover:underline">
                 Income
               </Link>
             </li>
