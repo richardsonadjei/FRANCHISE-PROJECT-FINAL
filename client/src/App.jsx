@@ -31,6 +31,12 @@ import AllIncomeReport from './pages/financial Reports/AllIncomeReport';
 import PendingPayment from './pages/PendingPayment';
 import UpdatePayment from './pages/UpdatePayment';
 import AllEvacuationReport from './pages/inventoryReports/AllEvacuationReport';
+import BatchEvacuationReport from './pages/BatchEvacuationReport';
+import ExpenseCategory from './pages/ExpenseCategory';
+import CreateExpense from './pages/CreateExpense';
+import AllExpenseReport from './pages/financial Reports/AllExpenseReport';
+import AllMiscReport from './pages/financial Reports/AllMiscReport';
+import AllProcurementReport from './pages/AllProcurementReport';
 
 
 
@@ -70,6 +76,12 @@ export default function App() {
           <Route path='/pending-payment' element={<PendingPayment/>} />
           <Route path='/update-payment' element={<UpdatePayment/>} />
           <Route path='/all-evacuation' element={<AllEvacuationReport/>} />
+          <Route path='/batch-evacuation' element={<BatchEvacuationReport/>} />
+          <Route path='/expense-category' element={<ExpenseCategory/>} /> 
+          <Route path='/create-expense' element={<CreateExpense/>} /> 
+          <Route path='/all-expense' element={<AllExpenseReport/>} /> 
+          <Route path='/misc-expense' element={<AllMiscReport/>} /> 
+          <Route path='/procurement-report' element={<AllProcurementReport/>} /> 
           
         </Route>
       </Routes>

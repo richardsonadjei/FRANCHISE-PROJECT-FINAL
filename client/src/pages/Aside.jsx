@@ -71,7 +71,7 @@ const Aside = () => {
               </Link>
             </li>
             <li>
-              <Link to="/record-expenditures" className="text-white hover:underline">
+              <Link to="/create-expense" className="text-white hover:underline">
                 Expenditures
               </Link>
             </li>
@@ -113,8 +113,8 @@ const Aside = () => {
               </Link>
             </li>
             <li>
-              <Link to="/business-settings" className="text-white hover:underline">
-                Business Settings
+              <Link to="/expense-category" className="text-white hover:underline">
+                Create An Expense Category
               </Link>
             </li>
           </ul>

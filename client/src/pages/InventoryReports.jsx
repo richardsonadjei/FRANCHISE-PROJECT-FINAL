@@ -43,7 +43,7 @@ const Report = () => {
     },
     {
       title: "Batch Evacuation Report",
-      path: "/batch-procurement",
+      path: "/batch-evacuation",
       purpose: "This gives a report of specific batch of beans evacuated within a period",
       // ... other details for the Quality Control Report
     },

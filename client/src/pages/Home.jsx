@@ -76,6 +76,12 @@ const HomePage = () => {
         >
           Pending Payments
         </Link>
+        <Link
+          to="/create-expense"
+          className="quick-action-btn bg-blue-600 text-white py-4 rounded-lg hover:bg-red-600 transition duration-300 flex justify-center items-center"
+        >
+          Create Expense
+        </Link>
 
       </section>
       <section className="bg-teal-500 text-white p-8 rounded-lg shadow-lg mb-4 animate__animated animate__fadeIn text-center hover:shadow-2xl transition duration-300">

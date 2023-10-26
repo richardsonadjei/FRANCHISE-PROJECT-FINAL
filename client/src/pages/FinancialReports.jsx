@@ -42,15 +42,9 @@ const Report = () => {
         // ... other details for the Quality Control Report
       },
       {
-        title: "Assets Management Report",
-        path: "/asset-management",
-        purpose: "This gives a report of cost of procurement and maintenance of assets of the business within a period (Treated As Expenditure)",
-        // ... other details for the Quality Control Report
-      },
-      {
-        title: "Admin Expenses Report",
-        path: "/admin-expense",
-        purpose: "This gives a report of the day-to-day running of the business within a period (Treated As Expenditure)",
+        title: "Miscellaneous Report",
+        path: "/misc-expense",
+        purpose: "This gives a report of all miscellaneous expenses within a period (Treated As Expenditure)",
         // ... other details for the Quality Control Report
       },
       {

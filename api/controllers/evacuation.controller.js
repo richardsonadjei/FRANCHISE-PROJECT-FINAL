@@ -77,4 +77,33 @@ const getEvacuationsByPeriod = async (req, res) => {
 };
 
 
-export { performEvacuation, getEvacuationsByPeriod };
+const getEvacuationsByBatchAndPeriod = async (req, res) => {
+  try {
+    const { batchNumber, startDate, endDate } = req.query;
+
+
+    const parsedStartDate = new Date(startDate);
+    const parsedEndDate = new Date(endDate);
+
+    if (isNaN(parsedStartDate.getTime()) || isNaN(parsedEndDate.getTime())) {
+      return res.status(400).json({ error: 'Invalid date format' });
+    }
+
+    const evacuations = await Evacuation.find({
+      batchNumber,
+      evacuationDate: {
+        $gte: parsedStartDate,
+        $lte: parsedEndDate,
+      },
+    });
+
+
+
+    return res.status(200).json({ evacuations });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+export { performEvacuation, getEvacuationsByPeriod,getEvacuationsByBatchAndPeriod };

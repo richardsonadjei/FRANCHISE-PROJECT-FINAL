@@ -7,11 +7,14 @@ import cocoaBagRouter from './routes/cocoabag.route.js'; // Import the cocoaBagR
 import supplierRouter from './routes/supplier.route.js';
 import customerRouter from './routes/customer.route.js';
 import evacuationRouter from './routes/evacuation.route.js';
+import expenseCategoryRouter from './routes/expenseCategory.route.js';
+import expenseRouter from './routes/expense.route.js';
 
 
 import cookieParser from 'cookie-parser';
 import incomeRouter from './routes/income.route.js';
 import waybillRouter from './routes/waybill.route.js';
+
 
 
 dotenv.config();
@@ -41,6 +44,9 @@ app.use('/api/customer', customerRouter);
 app.use('/api/evacuation', evacuationRouter);
 app.use('/api/income', incomeRouter);
 app.use('/api/waybill', waybillRouter); 
+app.use('/api', expenseCategoryRouter);
+app.use('/api/expenses', expenseRouter);
+
 
 
 app.use((err, req, res, next) => {
