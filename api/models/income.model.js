@@ -12,7 +12,7 @@ const incomeSchema = new mongoose.Schema({
   },
   evacuatedQuantity: {
     type: Number,
-    required: true,
+    
   },
   amount: {
     type: Number,
@@ -24,7 +24,7 @@ const incomeSchema = new mongoose.Schema({
   },
   paymentMethod: {
     type: String,
-    enum: ['Cash', 'Bank Transaction', 'Mobile Money'],
+    enum: ['Cash', 'Bank Transaction'],
     required: true,
   },
   bankTransactionDetails: {

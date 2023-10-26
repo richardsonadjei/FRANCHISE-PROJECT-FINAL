@@ -35,6 +35,19 @@ const Report = () => {
       purpose: "This tells what has happened to a particular batch after it from creation",
       // ... other details for the Quality Control Report
     },
+    {
+      title: "All Evacuations Report",
+      path: "/all-evacuation",
+      purpose: "This gives a report of all batches of beans evacuated within a period",
+      // ... other details for the Quality Control Report
+    },
+    {
+      title: "Batch Evacuation Report",
+      path: "/batch-procurement",
+      purpose: "This gives a report of specific batch of beans evacuated within a period",
+      // ... other details for the Quality Control Report
+    },
+   
   
   
   ];

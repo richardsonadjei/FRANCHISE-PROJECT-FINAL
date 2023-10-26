@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 
 const Evacuation = () => {
@@ -20,7 +19,7 @@ const Evacuation = () => {
         // Check if data is an array and not empty
         if (Array.isArray(data) && data.length > 0) {
           // Extract batch numbers from the batch objects and set in state
-          const extractedBatchNumbers = data.map(batch => batch.batchNumber);
+          const extractedBatchNumbers = data.map((batch) => batch.batchNumber);
           setBatchNumbers(extractedBatchNumbers);
         } else {
           console.error('Invalid batch numbers data:', data);
@@ -60,9 +59,9 @@ const Evacuation = () => {
       .then((data) => {
         // Assume the evacuation is successful
         alert('Evacuation successful');
-        // Redirect to the income page with batchNumber and evacuatedQuantity in the URL
-        const { batchNumber, evacuatedQuantity } = evacuationData;
-        window.location.href = `/income?batchNumber=${batchNumber}&evacuatedQuantity=${evacuatedQuantity}`;
+        // Redirect to the income page with batchNumber, evacuatedQuantity, and customerName in the URL
+        const { batchNumber, evacuatedQuantity, customerName } = evacuationData;
+        window.location.href = `/income?batchNumber=${batchNumber}&evacuatedQuantity=${evacuatedQuantity}&customerName=${customerName}`;
       })
       .catch((error) => {
         console.error('Error:', error);

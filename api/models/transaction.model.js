@@ -7,17 +7,16 @@ const transactionSchema = new mongoose.Schema({
   },
   transactionType: {
     type: String,
-    enum: ['Update','Modify','Evacuation'],
+    enum: ['Update', 'Modify', 'Evacuation'],
     required: true,
   },
   userId: {
     type: String,
-    
   },
   username: {
     type: String,
   },
-   receivedQuantity: {
+  receivedQuantity: {
     type: Number,
     default: 0,
   },
@@ -35,15 +34,14 @@ const transactionSchema = new mongoose.Schema({
   },
   evacuatedQuantity: {
     type: Number,
-    required: true,
   },
   updatedAt: {
     type: Date,
-    default: Date.now,
+    default: Date.now(),
   },
   evacuationDate: {
     type: Date,
-    default: Date.now,
+    default: Date.now(),
   },
 });
 

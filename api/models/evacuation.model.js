@@ -28,7 +28,7 @@ const evacuationSchema = new mongoose.Schema({
   evacuationStatus: {
     type: String,
     enum: ['Pending', 'Shipped', 'Delivered'],
-    default: 'Pending',
+    default: 'Shipped',
   },
   // Add more fields as needed for additional evacuation details
 });

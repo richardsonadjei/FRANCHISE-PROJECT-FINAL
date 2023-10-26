@@ -1,15 +1,28 @@
 import mongoose from 'mongoose';
 
 const waybillSchema = new mongoose.Schema({
-  invoiceNumber: {
+  wayBillNumber: {
+    type: String,
+    default: () => {
+      // Generate an alphanumeric 8-digit wayBillNumber
+      const alphanumeric = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      let wayBillNumber = '';
+      for (let i = 0; i < 8; i++) {
+        wayBillNumber += alphanumeric.charAt(Math.floor(Math.random() * alphanumeric.length));
+      }
+      return wayBillNumber;
+    },
+    unique: true,
+  },
+  customerName: {
     type: String,
     required: true,
   },
-  recipientName: { // Corrected spelling
+  recipientName: {
     type: String,
     required: true,
   },
-  recipientAddress: { // Corrected spelling
+  recipientAddress: {
     type: String,
     required: true,
   },
@@ -25,13 +38,22 @@ const waybillSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  totalQuantity: {
+  evacuatedQuantity: {
     type: Number,
-    required: true,
   },
   totalWeight: {
     type: Number,
-    required: true,
+    default: function () {
+      // Calculate total weight in tonnes based on evacuated quantity
+      if (this.evacuatedQuantity) {
+        return (0.05 * this.evacuatedQuantity).toFixed(2);
+      }
+      return 0;
+    },
+    get: function () {
+      // Display the total weight with unit (tonnes)
+      return this.totalWeight.toFixed(2) + ' tonnes';
+    },
   },
   issueDate: {
     type: Date,

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 
 const CreateCocoa = () => {
@@ -12,7 +13,6 @@ const CreateCocoa = () => {
   const [comments, setComments] = useState('');
   const [suppliers, setSuppliers] = useState([]);
   const [responseMessage, setResponseMessage] = useState('');
-
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -26,10 +26,11 @@ const CreateCocoa = () => {
         console.error(error);
       }
     };
-
     fetchUserData();
   }, []);
-
+  useEffect(() => {
+    fetchSuppliers();
+  }, []);
   const fetchSuppliers = async () => {
     try {
       const response = await fetch('/api/supplier/all');
@@ -39,28 +40,21 @@ const CreateCocoa = () => {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    fetchSuppliers();
-  }, []);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const token = document.cookie
-  .split(';')
-  .map(cookie => cookie.trim())
-  .find(row => row.startsWith('access_token='))
-  ?.split('=')[1];
-
-    console.log('Retrieved Token:', token);
-
-const response = await fetch('/api/cocoabags', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
-  },
+        .split(';')
+        .map((cookie) => cookie.trim())
+        .find((row) => row.startsWith('access_token='))
+        ?.split('=')[1];
+      console.log('Retrieved Token:', token);
+      const response = await fetch('/api/cocoabags', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+        },
         body: JSON.stringify({
           quantity,
           supplier,
@@ -85,6 +79,11 @@ const response = await fetch('/api/cocoabags', {
         setAverageNetWeightPerBag('');
         setAverageGrossWeightPerBag('');
         setComments('');
+        setTimeout(() => {
+          setResponseMessage('');
+          // Redirect to home page after successful submission
+          window.location.href = '/';
+        }, 2000);
       } else {
         setResponseMessage(`Error: ${data.message}`);
       }
@@ -93,7 +92,6 @@ const response = await fetch('/api/cocoabags', {
       setResponseMessage('Error: Something went wrong');
     }
   };
-
   return (
     <div className="container mx-auto">
       <h1 className="text-3xl font-bold mb-4">Receive New Stock</h1>
@@ -219,7 +217,11 @@ const response = await fetch('/api/cocoabags', {
           </button>
         </div>
       </form>
-      {responseMessage && <p>{responseMessage}</p>}
+      {responseMessage && (
+        <div className="bg-green-500 text-white px-4 py-2 rounded-md mt-4">
+          {responseMessage}
+        </div>
+      )}
     </div>
   );
 };

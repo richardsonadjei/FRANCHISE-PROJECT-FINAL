@@ -33,4 +33,6 @@ router.put('/modify/:batchNumber', verifyToken, modifyQuantity);
 router.get('/reports/transactions', generateTransactionReport);
 router.get('/reports/alltransactions', generateAllTransactionReport);
 
+
+
 export default router;

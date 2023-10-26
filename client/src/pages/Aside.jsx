@@ -28,8 +28,8 @@ const Aside = () => {
               </Link>
             </li>
             <li>
-              <Link to="/update-batch" className="text-white hover:underline">
-                Update Existing Batch
+              <Link to="/modify-batch" className="text-white hover:underline">
+                Modify Existing Batch
               </Link>
             </li>
             
@@ -41,9 +41,7 @@ const Aside = () => {
               <Link to="/take-stock" className="text-white hover:underline">
                 Take Stock
               </Link>
-              <Link to="/inventory-reports" className="text-white hover:underline">
-                Inventory Reports
-              </Link>
+             
             </li>
           </ul>
         </li>
@@ -78,8 +76,8 @@ const Aside = () => {
               </Link>
             </li>
             <li>
-              <Link to="/access-reports" className="text-white hover:underline">
-                Reports
+              <Link to="/pending-payment" className="text-white hover:underline">
+                Pending Payments
               </Link>
             </li>
           </ul>

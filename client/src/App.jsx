@@ -26,6 +26,12 @@ import AllBatchTransactionReport from './pages/inventoryReports/AllBatchTransact
 import Evacuation from './pages/Evacuation';
 import Income from './pages/Income';
 import WayBill from './pages/WayBill';
+import FinancialReports from './pages/FinancialReports';
+import AllIncomeReport from './pages/financial Reports/AllIncomeReport';
+import PendingPayment from './pages/PendingPayment';
+import UpdatePayment from './pages/UpdatePayment';
+import AllEvacuationReport from './pages/inventoryReports/AllEvacuationReport';
+
 
 
 export default function App() {
@@ -59,6 +65,12 @@ export default function App() {
           <Route path='/evacuation' element={<Evacuation/>} />
           <Route path='/income' element={<Income/>} />
           <Route path='/waybill' element={<WayBill/>} />
+          <Route path='/financial-reports' element={<FinancialReports/>} />
+          <Route path='/income-report' element={<AllIncomeReport/>} />
+          <Route path='/pending-payment' element={<PendingPayment/>} />
+          <Route path='/update-payment' element={<UpdatePayment/>} />
+          <Route path='/all-evacuation' element={<AllEvacuationReport/>} />
+          
         </Route>
       </Routes>
     </BrowserRouter>

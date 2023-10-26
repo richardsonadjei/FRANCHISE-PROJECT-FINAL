@@ -5,7 +5,6 @@ const Income = () => {
   const [source, setSource] = useState('');
   const [batchNumber, setBatchNumber] = useState('');
   const [evacuatedQuantity, setEvacuatedQuantity] = useState('');
-  const [amount, setAmount] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
   const [bankTransactionDetails, setBankTransactionDetails] = useState({
     bankName: '',
@@ -16,37 +15,27 @@ const Income = () => {
   const [customerName, setCustomerName] = useState('');
   const [description, setDescription] = useState('');
   const [paymentStatus, setPaymentStatus] = useState('Pending');
-  const [invoiceNumber, setInvoiceNumber] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    // Generate invoice number on component mount
-    generateInvoiceNumber();
-
     // Extract batchNumber and evacuatedQuantity from URL parameters
     const params = new URLSearchParams(window.location.search);
     const batchNumberParam = params.get('batchNumber');
     const evacuatedQuantityParam = params.get('evacuatedQuantity');
+    const customerNameParam = params.get('customerName');
 
-    if (batchNumberParam && evacuatedQuantityParam) {
+    if (batchNumberParam && evacuatedQuantityParam && customerNameParam) {
       setBatchNumber(batchNumberParam);
       setEvacuatedQuantity(evacuatedQuantityParam);
+      setCustomerName(customerNameParam);
     }
   }, []);
 
-  const generateInvoiceNumber = () => {
-    const alphanumericCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let invoiceNumber = '';
-    for (let i = 0; i < 5; i++) {
-      invoiceNumber += alphanumericCharacters.charAt(Math.floor(Math.random() * alphanumericCharacters.length));
-    }
-    setInvoiceNumber(invoiceNumber);
-  };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'bankTransactionDetails') {
-      setBankTransactionDetails({ ...bankTransactionDetails, [value.name]: value.value });
+
+    if (name === 'bankName' || name === 'paidInBy' || name === 'accountNumber' || name === 'transactionId') {
+      setBankTransactionDetails({ ...bankTransactionDetails, [name]: value });
     } else {
       switch (name) {
         case 'source':
@@ -57,9 +46,6 @@ const Income = () => {
           break;
         case 'evacuatedQuantity':
           setEvacuatedQuantity(value);
-          break;
-        case 'amount':
-          setAmount(value);
           break;
         case 'paymentMethod':
           setPaymentMethod(value);
@@ -84,13 +70,11 @@ const Income = () => {
       source,
       batchNumber,
       evacuatedQuantity: parseInt(evacuatedQuantity),
-      amount: parseInt(amount),
       paymentMethod,
       bankTransactionDetails,
       customerName,
       description,
       paymentStatus,
-      invoiceNumber,
     };
 
     // Perform income logic here using incomeData state
@@ -110,7 +94,6 @@ const Income = () => {
         setSource('');
         setBatchNumber('');
         setEvacuatedQuantity('');
-        setAmount('');
         setPaymentMethod('');
         setBankTransactionDetails({
           bankName: '',
@@ -121,7 +104,8 @@ const Income = () => {
         setCustomerName('');
         setDescription('');
         setPaymentStatus('Pending');
-        generateInvoiceNumber();
+        // Redirect to waybill page with batchNumber and evacuatedQuantity as URL parameters
+        window.location.href = `/waybill?batchNumber=${batchNumber}&evacuatedQuantity=${evacuatedQuantity}&customerName=${customerName}`;
       })
       .catch((error) => {
         setIsLoading(false);
@@ -130,6 +114,7 @@ const Income = () => {
         // ...
       });
   };
+
   return (
     <div className="container mx-auto mt-8 p-8 bg-white shadow-lg rounded-lg">
       <h1 className="text-3xl font-semibold mb-6">Income Form</h1>
@@ -179,20 +164,6 @@ const Income = () => {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="amount" className="block text-sm font-medium text-gray-600">
-            Amount
-          </label>
-          <input
-            type="number"
-            id="amount"
-            name="amount"
-            value={amount}
-            onChange={handleInputChange}
-            className="mt-1 p-2 border rounded-md w-full"
-            required
-          />
-        </div>
-        <div className="mb-4">
           <label htmlFor="paymentMethod" className="block text-sm font-medium text-gray-600">
             Payment Method
           </label>
@@ -207,71 +178,66 @@ const Income = () => {
             <option value="" disabled>Select Payment Method</option>
             <option value="Cash">Cash</option>
             <option value="Bank Transaction">Bank Transaction</option>
-            <option value="Mobile Money">Mobile Money</option>
           </select>
         </div>
         {paymentMethod === 'Bank Transaction' && (
-          <div className="mb-4">
-            <label htmlFor="bankName" className="block text-sm font-medium text-gray-600">
-              Bank Name
-            </label>
-            <input
-              type="text"
-              id="bankName"
-              name="bankTransactionDetails"
-              value={bankTransactionDetails.bankName}
-              onChange={handleInputChange}
-              className="mt-1 p-2 border rounded-md w-full"
-              required
-            />
-          </div>
-        )}
-        {paymentMethod === 'Bank Transaction' && (
-          <div className="mb-4">
-            <label htmlFor="paidInBy" className="block text-sm font-medium text-gray-600">
-              Paid In By
-            </label>
-            <input
-              type="text"
-              id="paidInBy"
-              name="bankTransactionDetails"
-              value={bankTransactionDetails.paidInBy}
-              onChange={handleInputChange}
-              className="mt-1 p-2 border rounded-md w-full"
-              required
-            />
-          </div>
-        )}
-        {paymentMethod === 'Bank Transaction' && (
-          <div className="mb-4">
-            <label htmlFor="accountNumber" className="block text-sm font-medium text-gray-600">
-              Account Number
-            </label>
-            <input
-              type="text"
-              id="accountNumber"
-              name="bankTransactionDetails"
-              value={bankTransactionDetails.accountNumber}
-              onChange={handleInputChange}
-              className="mt-1 p-2 border rounded-md w-full"
-              required
-            />
-          </div>
-        )}
-        {paymentMethod === 'Bank Transaction' && (
-          <div className="mb-4">
-            <label htmlFor="transactionId" className="block text-sm font-medium text-gray-600">
-              Transaction ID
-            </label>
-            <input
-              type="text"
-              id="transactionId"
-              name="bankTransactionDetails"
-              value={bankTransactionDetails.transactionId}
-              onChange={handleInputChange}
-              className="mt-1 p-2 border rounded-md w-full"
-              required
-            />
+          <div>
+            <div className="mb-4">
+              <label htmlFor="bankName" className="block text-sm font-medium text-gray-600">
+                Bank Name
+              </label>
+              <input
+                type="text"
+                id="bankName"
+                name="bankName"
+                value={bankTransactionDetails.bankName}
+                onChange={handleInputChange}
+                className="mt-1 p-2 border rounded-md w-full"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="paidInBy" className="block text-sm font-medium text-gray-600">
+                Paid In By
+              </label>
+              <input
+                type="text"
+                id="paidInBy"
+                name="paidInBy"
+                value={bankTransactionDetails.paidInBy}
+                onChange={handleInputChange}
+                className="mt-1 p-2 border rounded-md w-full"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="accountNumber" className="block text-sm font-medium text-gray-600">
+                Account Number
+              </label>
+              <input
+                type="text"
+                id="accountNumber"
+                name="accountNumber"
+                value={bankTransactionDetails.accountNumber}
+                onChange={handleInputChange}
+                className="mt-1 p-2 border rounded-md w-full"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="transactionId" className="block text-sm font-medium text-gray-600">
+                Transaction ID
+              </label>
+              <input
+                type="text"
+                id="transactionId"
+                name="transactionId"
+                value={bankTransactionDetails.transactionId}
+                onChange={handleInputChange}
+                className="mt-1 p-2 border rounded-md w-full"
+                required
+              />
+            </div>
           </div>
         )}
         <div className="mb-4">
@@ -286,6 +252,7 @@ const Income = () => {
             onChange={handleInputChange}
             className="mt-1 p-2 border rounded-md w-full"
             required
+            readOnly
           />
         </div>
         <div className="mb-4">
@@ -298,6 +265,7 @@ const Income = () => {
             value={description}
             onChange={handleInputChange}
             className="mt-1 p-2 border rounded-md w-full"
+            required
           />
         </div>
         <div className="mb-4">
@@ -315,20 +283,6 @@ const Income = () => {
             <option value="Paid">Paid</option>
             <option value="Failed">Failed</option>
           </select>
-        </div>
-        <div className="mb-4">
-          <label htmlFor="invoiceNumber" className="block text-sm font-medium text-gray-600">
-            Invoice Number
-          </label>
-          <input
-            type="text"
-            id="invoiceNumber"
-            name="invoiceNumber"
-            value={invoiceNumber}
-            onChange={handleInputChange}
-            className="mt-1 p-2 border rounded-md w-full"
-            readOnly
-          />
         </div>
         <button
           type="submit"

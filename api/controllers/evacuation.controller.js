@@ -57,4 +57,24 @@ const performEvacuation = async (req, res) => {
   }
 };
 
-export { performEvacuation };
+
+const getEvacuationsByPeriod = async (req, res) => {
+  try {
+    const { startDate, endDate } = req.query;
+    
+    const evacuations = await Evacuation.find({
+      evacuationDate: {
+        $gte: new Date(`${startDate}T00:00:00Z`), // Set the start time to midnight UTC
+        $lte: new Date(`${endDate}T23:59:59Z`),   // Set the end time to 11:59:59 PM UTC
+      },
+    });
+   
+    return res.status(200).json({ evacuations });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
+export { performEvacuation, getEvacuationsByPeriod };

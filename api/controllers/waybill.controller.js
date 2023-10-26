@@ -4,28 +4,26 @@ import Waybill from '../models/waybill.model.js'; // Update the file extension t
 export const createWaybill = async (req, res) => {
   try {
     const {
-      invoiceNumber,
+      customerName,
       recipientName,
       recipientAddress,
       driversName,
       driversAddress,
       batchNumber,
-      totalQuantity,
-      totalWeight,
+      evacuatedQuantity,
     } = req.body;
 
     // Extract userID from the token (assuming you have a middleware for verifying the user)
     const userId = req.user.id;
 
     const waybill = new Waybill({
-      invoiceNumber,
+      customerName,
       recipientName,
       recipientAddress,
       driversName,
       driversAddress,
       batchNumber,
-      totalQuantity,
-      totalWeight,
+      evacuatedQuantity,
       userId,
     });
 
