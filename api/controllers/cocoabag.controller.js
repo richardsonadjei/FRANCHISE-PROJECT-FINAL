@@ -27,6 +27,10 @@ const createCocoaBag = async (req, res) => {
       comments,
       userId,
       transactionType: 'Creation',
+      expenses: [{
+        category: 'procurement',
+        date: new Date(),
+      }],
     });
 
     // Save the new CocoaBag to the database

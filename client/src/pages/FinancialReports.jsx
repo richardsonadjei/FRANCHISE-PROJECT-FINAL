@@ -61,7 +61,7 @@ const Report = () => {
       },
       {
         title: "All Profit Report",
-        path: "/all-profit",
+        path: "/profit-loss",
         purpose: "This gives a report of profit made on all batches of beans within a period",
         // ... other details for the Quality Control Report
       },

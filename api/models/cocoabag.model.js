@@ -1,7 +1,17 @@
-// Import mongoose at the beginning of your file
 import mongoose from 'mongoose';
 
+function generateRandomBatchNumber() {
+  const randomNumber = Math.floor(100000 + Math.random() * 900000);
+  return randomNumber.toString();
+}
+
 const cocoaBagSchema = new mongoose.Schema({
+  batchNumber: {
+    type: String,
+    unique: true,
+    required: true,
+    default: generateRandomBatchNumber,
+  },
   quantity: {
     type: Number,
     required: true,
@@ -10,15 +20,6 @@ const cocoaBagSchema = new mongoose.Schema({
     type: Number,
     default: 830,
     required: true,
-  },
-  batchNumber: {
-    type: String,
-    unique: true,
-    required: true,
-    default: function () {
-      const randomNumber = Math.floor(100000 + Math.random() * 900000);
-      return randomNumber.toString();
-    },
   },
   harvestYear: {
     type: Number,
@@ -59,7 +60,6 @@ const cocoaBagSchema = new mongoose.Schema({
   },
   totalValuePerBatch: {
     type: Number,
-    required: true,
     default: function () {
       return this.quantity * this.pricePerBag;
     },
@@ -74,7 +74,7 @@ const cocoaBagSchema = new mongoose.Schema({
   },
   transactionType: {
     type: String,
-    enum: ['Creation',],
+    enum: ['Creation'],
     required: true,
   },
   userId: {
@@ -84,16 +84,44 @@ const cocoaBagSchema = new mongoose.Schema({
   feedback: {
     type: String,
   },
-
   supplier: {
     type: String,
   },
-
+  expenses: [
+    {
+      amount: {
+        type: Number,
+      },
+      category: {
+        type: String,
+        default: 'procurement',
+      },
+      description: {
+        type: String,
+        default: 'Procurement Of Cocoabeans',
+      },
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+      batchNumber: {
+        type: String,
+        
+      },
+    },
+  ],
 });
 
-// Pre-save middleware to update totalValuePerBatch when quantity changes
+// Pre-save middleware to update totalValuePerBatch and amount in expenses
 cocoaBagSchema.pre('save', function (next) {
   this.totalValuePerBatch = this.quantity * this.pricePerBag;
+
+  // Update amount and set batchNumber in expenses based on pricePerBag and quantity
+  this.expenses.forEach((expense) => {
+    expense.amount = this.pricePerBag * this.quantity;
+    expense.batchNumber = this.batchNumber; // Set batchNumber for each expense
+  });
+
   next();
 });
 

@@ -19,7 +19,7 @@ const incomeSchema = new mongoose.Schema({
     required: true,
     default: function () {
       // Calculate amount as 830 multiplied by evacuatedQuantity
-      return 830 * this.evacuatedQuantity;
+      return 910 * this.evacuatedQuantity;
     },
   },
   paymentMethod: {
@@ -59,7 +59,7 @@ const incomeSchema = new mongoose.Schema({
   paymentStatus: {
     type: String,
     enum: ['Paid', 'Pending', 'Failed'],
-    default: 'Pending',
+    
   },
   createdAt: {
     type: Date,

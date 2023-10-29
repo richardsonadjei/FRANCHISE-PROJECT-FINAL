@@ -23,7 +23,6 @@ const BatchEvacuationReport = () => {
         console.error(error);
       });
   }, []);
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -92,32 +91,21 @@ const BatchEvacuationReport = () => {
       {evacuations.length > 0 && (
         <div className="mt-4">
           <h2 className="text-lg font-bold mb-2">Evacuations:</h2>
-          <table className="border-collapse border border-gray-400">
-            <thead>
-              <tr>
-                <th className="border border-gray-400 px-4 py-2">Batch Number</th>
-                <th className="border border-gray-400 px-4 py-2">Evacuated Quantity</th>
-                <th className="border border-gray-400 px-4 py-2">Customer Name</th>
-                <th className="border border-gray-400 px-4 py-2">Shipping Location</th>
-                <th className="border border-gray-400 px-4 py-2">Shipping Method</th>
-                <th className="border border-gray-400 px-4 py-2">Evacuation Status</th>
-                <th className="border border-gray-400 px-4 py-2">Evacuation Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {evacuations.map((evacuation) => (
-                <tr key={evacuation._id}>
-                  <td className="border border-gray-400 px-4 py-2">{evacuation.batchNumber}</td>
-                  <td className="border border-gray-400 px-4 py-2">{evacuation.evacuatedQuantity}</td>
-                  <td className="border border-gray-400 px-4 py-2">{evacuation.customerName}</td>
-                  <td className="border border-gray-400 px-4 py-2">{evacuation.shippingLocation}</td>
-                  <td className="border border-gray-400 px-4 py-2">{evacuation.shippingMethod}</td>
-                  <td className="border border-gray-400 px-4 py-2">{evacuation.evacuationStatus}</td>
-                  <td className="border border-gray-400 px-4 py-2">{new Date(evacuation.evacuationDate).toLocaleString()}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <ul>
+            {evacuations.map((evacuation) => (
+              <li key={evacuation._id}>
+                <ul>
+                  <li>Batch Number: {evacuation.batchNumber}</li>
+                  <li>Evacuated Quantity: {evacuation.evacuatedQuantity}</li>
+                  <li>Customer Name: {evacuation.customerName}</li>
+                  <li>Shipping Location: {evacuation.shippingLocation}</li>
+                  <li>Shipping Method: {evacuation.shippingMethod}</li>
+                  <li>Evacuation Status: {evacuation.evacuationStatus}</li>
+                  <li>Evacuation Date: {new Date(evacuation.evacuationDate).toLocaleString()}</li>
+                </ul>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>

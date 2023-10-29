@@ -12,7 +12,7 @@ const Aside = () => {
           <h3 className="text-lg font-semibold mb-2">Dashboard</h3>
           <ul className="ml-4 space-y-2">
             <li>
-              <Link to="/dashboard" className="text-white hover:underline">
+              <Link to="/overview" className="text-white hover:underline">
                 Overview
               </Link>
             </li>
@@ -34,7 +34,7 @@ const Aside = () => {
             </li>
             
             <li>
-              <Link to="/manage-inventory" className="text-white hover:underline">
+              <Link to="/evacuation" className="text-white hover:underline">
                 Perform Evacuation With Invoice
               </Link>
               <br />
@@ -74,11 +74,11 @@ const Aside = () => {
               <Link to="/create-expense" className="text-white hover:underline">
                 Expenditures
               </Link>
-            </li>
-            <li>
-              <Link to="/pending-payment" className="text-white hover:underline">
-                Pending Payments
+              <li>
+              <Link to="/profit-loss" className="text-white hover:underline">
+               Profit And Loss
               </Link>
+            </li>
             </li>
           </ul>
         </li>
@@ -87,8 +87,8 @@ const Aside = () => {
           <h3 className="text-lg font-semibold mb-2">Reports & Analytics</h3>
           <ul className="ml-4 space-y-2">
             <li>
-              <Link to="/sales-reports" className="text-white hover:underline">
-                Sales Reports
+              <Link to="/partners" className="text-white hover:underline">
+                Create A Partner
               </Link>
             </li>
             <li>
@@ -121,30 +121,34 @@ const Aside = () => {
         </li>
         <li>
           <h3 className="text-lg font-semibold mb-2">Suppliers And Customers</h3>
-          <ul className="ml-4 space-y-2">
-            <li>
-              <Link to="/add-supplier" className="text-white hover:underline">
-                Register A Supplier
-              </Link>
-            </li>
-            <li>
-              <Link to="/find-supplier" className="text-white hover:underline">
-                Search And Update Supplier
-              </Link>
-            </li>
-            <li>
-              <Link to="/view-suppliers" className="text-white hover:underline">
-                View All Suppliers 
-              </Link>
-            </li>
-            <li>
-              <Link to="/create-customer" className="text-white hover:underline">
-                Register A Customer
-              </Link>
-            </li>
-            
-          </ul>
+      <ul className="ml-4 space-y-2">
+        <li>
+          <Link to="/add-supplier" className="text-white hover:underline">
+            Register A Supplier
+          </Link>
         </li>
+        <li>
+          <Link to="/find-supplier" className="text-white hover:underline">
+            Search And Update Supplier
+          </Link>
+        </li>
+        <li>
+          <Link to="/view-suppliers" className="text-white hover:underline">
+            View All Suppliers 
+          </Link>
+        </li>
+        <li>
+          <Link to="/create-customer" className="text-white hover:underline">
+            Register A Customer
+          </Link>
+        </li>
+        <li>
+          <Link to="/partners" className="text-white hover:underline">
+            Create A Partner
+          </Link>
+        </li>
+      </ul>
+      </li>
       </ul>
     </aside>
   );

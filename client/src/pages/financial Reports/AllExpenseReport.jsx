@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 
 const AllExpenseReport = () => {
@@ -11,10 +10,14 @@ const AllExpenseReport = () => {
     try {
       const response = await fetch(`/api/expenses/all-expenses?startDate=${startDate}&endDate=${endDate}`);
       const data = await response.json();
-      setExpenses(data.expenses);
+      setExpenses(data);
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const calculateTotalExpense = () => {
+    return expenses.reduce((total, expense) => total + expense.amount, 0);
   };
 
   return (
@@ -53,10 +56,10 @@ const AllExpenseReport = () => {
             Generate Report
           </button>
         </form>
-        {expenses.length > 0 && (
+        {expenses && expenses.length > 0 && (
           <div className="mt-4">
             <h2 className="text-lg font-bold mb-2">Expense Report:</h2>
-            <table className="border-collapse border border-gray-400 w-full">
+            <table className="border-collapse border border-gray-400 w-full shadow-lg">
               <thead>
                 <tr>
                   <th className="border border-gray-400 px-4 py-2">Description</th>
@@ -67,15 +70,32 @@ const AllExpenseReport = () => {
               </thead>
               <tbody>
                 {expenses.map((expense) => (
-                  <tr key={expense._id}>
-                    <td className="border border-gray-400 px-4 py-2">{expense.description}</td>
+                  <tr key={expense.expenseId}>
+                    <td className="border border-gray-400 px-4 py-2">
+                      {expense.cocoaBag && expense.cocoaBag.expenses && expense.cocoaBag.expenses.length > 0
+                        ? expense.cocoaBag.expenses[0].description
+                        : expense.description}
+                    </td>
                     <td className="border border-gray-400 px-4 py-2">{expense.amount}</td>
                     <td className="border border-gray-400 px-4 py-2">{expense.category}</td>
-                    <td className="border border-gray-400 px-4 py-2">{new Date(expense.date).toLocaleDateString()}</td>
+                    <td className="border border-gray-400 px-4 py-2">
+                      {new Date(expense.date).toLocaleDateString()}
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+            <div className="mt-4">
+              <h2 className="text-lg font-bold mb-2">Summary Report:</h2>
+              <table className="border-collapse border border-gray-400 w-full shadow-lg">
+                <tbody>
+                  <tr>
+                    <td className="border border-gray-400 px-4 py-2 font-bold">Total Expenses:</td>
+                    <td className="border border-gray-400 px-4 py-2">{calculateTotalExpense()}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </div>

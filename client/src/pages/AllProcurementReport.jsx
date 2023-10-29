@@ -5,14 +5,21 @@ const AllProcurementReport = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [expenses, setExpenses] = useState([]);
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await fetch(`/api/expenses/procurement-expenses?startDate=${startDate}&endDate=${endDate}`);
-      const data = await response.json();
-      setExpenses(data.expenses);
+      if (response.ok) {
+        const data = await response.json();
+        setExpenses(data); // Set expenses directly from the response
+        setError(null);
+      } else {
+        setError('Failed to fetch data');
+      }
     } catch (error) {
+      setError('Internal Server Error');
       console.error(error);
     }
   };

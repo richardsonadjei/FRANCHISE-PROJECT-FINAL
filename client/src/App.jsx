@@ -37,6 +37,11 @@ import CreateExpense from './pages/CreateExpense';
 import AllExpenseReport from './pages/financial Reports/AllExpenseReport';
 import AllMiscReport from './pages/financial Reports/AllMiscReport';
 import AllProcurementReport from './pages/AllProcurementReport';
+import BatchTransactionReport from './pages/BatchTransactionHistory';
+import BatchIncome from './pages/financial Reports/BatchIncome';
+import ProfitLossReport from './pages/financial Reports/ProfitLossReport';
+import Partners from './pages/Partners';
+import Overview from './pages/Overview';
 
 
 
@@ -46,7 +51,7 @@ export default function App() {
       <Header />
       <Aside />
       <Routes>
-        
+        <Route path='/overview' element={<Overview/>} /> 
         <Route path='/sign-in' element={<SignIn />} />
         <Route path='/sign-up' element={<SignUp />} />
         <Route path='/about' element={<About />} />
@@ -73,6 +78,7 @@ export default function App() {
           <Route path='/waybill' element={<WayBill/>} />
           <Route path='/financial-reports' element={<FinancialReports/>} />
           <Route path='/income-report' element={<AllIncomeReport/>} />
+          <Route path='/batch-income' element={<BatchIncome/>} />
           <Route path='/pending-payment' element={<PendingPayment/>} />
           <Route path='/update-payment' element={<UpdatePayment/>} />
           <Route path='/all-evacuation' element={<AllEvacuationReport/>} />
@@ -82,6 +88,9 @@ export default function App() {
           <Route path='/all-expense' element={<AllExpenseReport/>} /> 
           <Route path='/misc-expense' element={<AllMiscReport/>} /> 
           <Route path='/procurement-report' element={<AllProcurementReport/>} /> 
+          <Route path='/profit-loss' element={<ProfitLossReport/>} /> 
+          <Route path='/partners' element={<Partners/>} /> 
+          
           
         </Route>
       </Routes>

@@ -14,6 +14,8 @@ import expenseRouter from './routes/expense.route.js';
 import cookieParser from 'cookie-parser';
 import incomeRouter from './routes/income.route.js';
 import waybillRouter from './routes/waybill.route.js';
+import profitLossRouter from './routes/profitLoss.route.js';
+import partnersRouter from './routes/partners.route.js';
 
 
 
@@ -46,6 +48,8 @@ app.use('/api/income', incomeRouter);
 app.use('/api/waybill', waybillRouter); 
 app.use('/api', expenseCategoryRouter);
 app.use('/api/expenses', expenseRouter);
+app.use('/api', profitLossRouter);
+app.use('/api', partnersRouter);
 
 
 

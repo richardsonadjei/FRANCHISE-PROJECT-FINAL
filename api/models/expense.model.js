@@ -18,7 +18,7 @@ const expenseSchema = new mongoose.Schema({
     },
     batchNumber: {
         type: String,
-        required: true,
+       
       },
     amount: {
         type: Number,

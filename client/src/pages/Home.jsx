@@ -23,6 +23,29 @@ const HomePage = () => {
     return () => clearInterval(interval);
   }, []);
 
+  
+  const [financialData, setFinancialData] = useState({
+    totalIncome: 0,
+    totalExpenditures: 0,
+    profitLoss: 0,
+  });
+
+  useEffect(() => {
+    const fetchFinancialData = async () => {
+      try {
+        const response = await fetch('/api/financial-snapshot');
+        const data = await response.json();
+        setFinancialData(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchFinancialData();
+    const interval = setInterval(fetchFinancialData, 1000); // Fetch every second
+
+    return () => clearInterval(interval);
+  }, []);
   return (
     <div className="flex flex-col h-screen bg-gray-100 p-4">
       <section className="bg-blue-500 text-white p-8 rounded-lg shadow-lg mb-4 text-center hover:shadow-2xl transition duration-300">
@@ -87,8 +110,15 @@ const HomePage = () => {
       <section className="bg-teal-500 text-white p-8 rounded-lg shadow-lg mb-4 animate__animated animate__fadeIn text-center hover:shadow-2xl transition duration-300">
         <h2 className="text-2xl font-bold mb-4 ">Inventory Summary</h2>
         <p>Quantity: {inventorySummary.totalQuantity} bags</p>
-        <p>Total Value Of Available Bags: Ghc{inventorySummary.totalValue}</p>
+        <p>Total Cost Of Beans Bought: Ghc{inventorySummary.totalValue}</p>
       </section>
+      <section className="bg-green-500 text-white p-8 rounded-lg shadow-lg mb-4 animate__animated animate__fadeIn text-center hover:shadow-2xl transition duration-300">
+      <h2 className="text-2xl font-bold mb-4">Financial Snapshot</h2>
+      <p>Income: Ghc{financialData.totalIncome}</p>
+      <p>Expenditures: Ghc{financialData.totalCombinedExpenses}</p>
+
+      <p>Profit/Loss: Ghc{financialData.profitLoss}</p>
+    </section>
       <section className="bg-yellow-500 text-white p-8 rounded-lg shadow-lg mb-4 animate__animated animate__fadeIn text-center hover:shadow-2xl transition duration-300">
         <h2 className="text-2xl font-bold mb-4">Recent Transactions</h2>
         <ul>
@@ -96,12 +126,7 @@ const HomePage = () => {
           <li>Order Fulfilled - Customer Name, Date</li>
         </ul>
       </section>
-      <section className="bg-green-500 text-white p-8 rounded-lg shadow-lg mb-4 animate__animated animate__fadeIn text-center hover:shadow-2xl transition duration-300">
-        <h2 className="text-2xl font-bold mb-4">Financial Snapshot</h2>
-        <p>Income: $7000</p>
-        <p>Expenditures: $2000</p>
-        <p>Profit/Loss: $5000</p>
-      </section>
+      
       <section className="bg-red-500 text-white p-8 rounded-lg shadow-lg animate__animated animate__fadeIn hover:shadow-2xl transition duration-300">
         <h2 className="text-2xl font-bold mb-4">Upcoming Tasks</h2>
         <ul>
@@ -109,10 +134,7 @@ const HomePage = () => {
           <li>Pending Invoices: 2 invoices to be sent</li>
         </ul>
       </section>
-      <section className="bg-indigo-500 text-white p-8 rounded-lg shadow-lg animate__animated animate__fadeIn hover:shadow-2xl transition duration-300">
-        <h2 className="text-2xl font-bold mb-4">Graphs and Charts</h2>
-        {/* Add your chart component here */}
-      </section>
+      
     </div>
   );
 };

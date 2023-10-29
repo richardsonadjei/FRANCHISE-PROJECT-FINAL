@@ -62,9 +62,44 @@ export const addIncome = async (req, res) => {
     }
   };
 
-  export const getAllIncomes = async (req, res) => {
+  export const getIncomesByDateRange = async (req, res) => {
     try {
-      const incomes = await Income.find();
+      const { startDate, endDate } = req.query;
+  
+      // Validate startDate and endDate
+      if (!startDate || !endDate) {
+        return res.status(400).json({ error: 'Start date and end date are required parameters.' });
+      }
+  
+      const start = new Date(`${startDate}T00:00:00Z`); // Set the start time to midnight UTC
+      const end = new Date(`${endDate}T23:59:59Z`);   // Set the end time to 11:59:59 PM UTC
+  
+      // Query incomes within the specified range
+      const incomes = await Income.find({
+        transactionDate: { $gte: start, $lte: end }
+      });
+  
+      return res.status(200).json({ incomes });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+  }
+
+  export const getIncomesByBatchAndDateRange = async (req, res) => {
+    try {
+      const { batchNumber, startDate, endDate } = req.query;
+      // Validate batchNumber, startDate, and endDate
+      if (!batchNumber || !startDate || !endDate) {
+        return res.status(400).json({ error: 'Batch number, start date, and end date are required parameters.' });
+      }
+      const start = new Date(`${startDate}T00:00:00Z`);
+      const end = new Date(`${endDate}T23:59:59Z`);
+      // Query incomes within the specified batch number and date range
+      const incomes = await Income.find({
+        batchNumber: batchNumber,
+        transactionDate: { $gte: start, $lte: end }
+      });
       return res.status(200).json({ incomes });
     } catch (error) {
       console.error(error);
