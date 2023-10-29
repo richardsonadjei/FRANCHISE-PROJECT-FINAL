@@ -22,52 +22,48 @@ const partnerSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  nextofKing: {
-    name: {
+  nextofKing: [
+    {
+      name: {
         type: String,
         required: true,
-    },
-    email: {
+      },
+      email: {
         type: String,
         required: true,
-        
-    },
-    ghanaCardNumber: {
+      },
+      ghanaCardNumber: {
         type: String,
         required: true,
-    },
-    phoneNumber: {
+      },
+      phoneNumber: {
         type: String,
-      
+      },
     },
-    phoneNumber: {
+  ],
+  address: [
+    {
+      houseNumber: {
         type: String,
-        
-    }
-
-},
-  address: {
-    houseNumber: {
-      type: String,
-      required: true,
+        required: true,
+      },
+      city: {
+        type: String,
+        required: true,
+      },
     },
-    city: {
-      type: String,
-      required: true,
-    },
-  },
+  ],
   dateOfBirth: {
     type: Date,
     required: true,
   },
   Comment: {
     type: String,
-   
-},
-date: {
+  },
+  date: {
     type: Date,
     default: Date.now,
-},
+  },
   // Add more fields as needed for partner biodata
 });
 

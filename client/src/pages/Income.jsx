@@ -276,7 +276,7 @@ const Income = () => {
             id="paymentStatus"
             name="paymentStatus"
             value={paymentStatus}
-            onChange={handleInputChange}
+            onChange={(e) => setPaymentStatus(e.target.value)} 
             className="mt-1 p-2 border rounded-md w-full"
           >
             <option value="Pending">Pending</option>

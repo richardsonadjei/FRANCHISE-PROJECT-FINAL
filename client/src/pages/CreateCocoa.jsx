@@ -82,7 +82,7 @@ const CreateCocoa = () => {
         setTimeout(() => {
           setResponseMessage('');
           // Redirect to home page after successful submission
-          window.location.href = '/';
+          window.location.href = '/home';
         }, 2000);
       } else {
         setResponseMessage(`Error: ${data.message}`);

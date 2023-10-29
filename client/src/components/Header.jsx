@@ -28,7 +28,7 @@ export default function Header() {
           </h1>
         </Link>
         <ul className='flex gap-4'>
-          <Link to='/' className='hover:text-slate-700 transition duration-300'>
+          <Link to='/home' className='hover:text-slate-700 transition duration-300'>
             <li className='hidden sm:inline text-slate-700 hover:underline'>
               Home
             </li>

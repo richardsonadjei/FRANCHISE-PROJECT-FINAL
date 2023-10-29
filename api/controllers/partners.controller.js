@@ -1,4 +1,4 @@
-import Partner from '../models/partners.model.js'; // Adjust the import path based on your project structure
+import Partner from '../models/partners.model.js';
 
 export const createPartner = async (req, res) => {
   try {
@@ -20,8 +20,8 @@ export const createPartner = async (req, res) => {
       email,
       phoneNumber,
       ghanaCardNumber,
-      nextofKing,
-      address,
+      nextofKing, // assuming nextofKing is an array of objects
+      address, // assuming address is an array of objects
       dateOfBirth,
       Comment,
     });

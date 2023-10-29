@@ -133,7 +133,7 @@ const ReceiveStock = () => {
       </form>
       {isTransactionSuccessful && (
         <div className={`mt-4 p-4 rounded bg-green-200`}>
-          {alertMessage} Redirecting to <Link to="/">Homepage</Link>...
+          {alertMessage} Redirecting to <Link to="/home">Homepage</Link>...
         </div>
       )}
     </div>

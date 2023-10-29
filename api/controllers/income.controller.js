@@ -41,6 +41,10 @@ export const addIncome = async (req, res) => {
   export const updatePaymentStatus = async (req, res) => {
     try {
       const { batchNumber, paymentStatus } = req.body;
+      // Validate batchNumber
+      if (!batchNumber || typeof batchNumber !== 'string') {
+        return res.status(400).json({ error: 'Invalid batch number' });
+      }
   
       // Find the income record by batch number
       const income = await Income.findOne({ batchNumber });
@@ -61,6 +65,7 @@ export const addIncome = async (req, res) => {
       return res.status(500).json({ error: 'Internal Server Error' });
     }
   };
+  
 
   export const getIncomesByDateRange = async (req, res) => {
     try {

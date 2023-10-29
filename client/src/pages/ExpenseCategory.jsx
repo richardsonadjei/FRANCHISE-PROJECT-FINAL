@@ -27,7 +27,7 @@ const ExpenseCategory = () => {
       alert('Expense category created successfully');
 
       // Navigate back to the homepage
-      window.location.href = '/';
+      window.location.href = '/home';
     } catch (error) {
       console.error(error);
       // Show error message

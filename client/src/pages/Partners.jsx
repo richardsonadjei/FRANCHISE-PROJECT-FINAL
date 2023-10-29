@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 
 const Partners = () => {
@@ -24,7 +23,6 @@ const Partners = () => {
   const [successMessage, setSuccessMessage] = useState('');
 
   const handleChange = (e) => {
-    console.log(e.target.name, e.target.value);
     const { name, value } = e.target;
     if (name.includes('.')) {
       const [parent, child] = name.split('.');
@@ -159,84 +157,84 @@ const Partners = () => {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="nextofKingName" className="block font-semibold mb-1">
+          <label htmlFor="nextofKing.name" className="block font-semibold mb-1">
             Next of Kin Name
           </label>
           <input
             type="text"
-            id="nextofKingName"
-            name="nextofKingName"
-            value={formData.nextofKingName}
+            id="nextofKing.name"
+            name="nextofKing.name"
+            value={formData.nextofKing.name}
             onChange={handleChange}
             className="border border-gray-300 rounded px-4 py-2 w-full"
             required
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="nextofKingEmail" className="block font-semibold mb-1">
+          <label htmlFor="nextofKing.email" className="block font-semibold mb-1">
             Next of Kin Email
           </label>
           <input
             type="email"
-            id="nextofKingEmail"
-            name="nextofKingEmail"
-            value={formData.nextofKingEmail}
+            id="nextofKing.email"
+            name="nextofKing.email"
+            value={formData.nextofKing.email}
             onChange={handleChange}
             className="border border-gray-300 rounded px-4 py-2 w-full"
             required
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="nextofKingGhanaCardNumber" className="block font-semibold mb-1">
+          <label htmlFor="nextofKing.ghanaCardNumber" className="block font-semibold mb-1">
             Next of Kin Ghana Card Number
           </label>
           <input
             type="text"
-            id="nextofKingGhanaCardNumber"
-            name="nextofKingGhanaCardNumber"
-            value={formData.nextofKingGhanaCardNumber}
+            id="nextofKing.ghanaCardNumber"
+            name="nextofKing.ghanaCardNumber"
+            value={formData.nextofKing.ghanaCardNumber}
             onChange={handleChange}
             className="border border-gray-300 rounded px-4 py-2 w-full"
             required
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="nextofKingPhoneNumber" className="block font-semibold mb-1">
+          <label htmlFor="nextofKing.phoneNumber" className="block font-semibold mb-1">
             Next of Kin Phone Number
           </label>
           <input
             type="text"
-            id="nextofKingPhoneNumber"
-            name="nextofKingPhoneNumber"
-            value={formData.nextofKingPhoneNumber}
+            id="nextofKing.phoneNumber"
+            name="nextofKing.phoneNumber"
+            value={formData.nextofKing.phoneNumber}
             onChange={handleChange}
             className="border border-gray-300 rounded px-4 py-2 w-full"
             required
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="houseNumber" className="block font-semibold mb-1">
+          <label htmlFor="address.houseNumber" className="block font-semibold mb-1">
             House Number
           </label>
           <input
             type="text"
-            id="houseNumber"
-            name="houseNumber"
-            value={formData.houseNumber}
+            id="address.houseNumber"
+            name="address.houseNumber"
+            value={formData.address.houseNumber}
             onChange={handleChange}
             className="border border-gray-300 rounded px-4 py-2 w-full"
             required
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="city" className="block font-semibold mb-1">
+          <label htmlFor="address.city" className="block font-semibold mb-1">
             City
           </label>
           <input
             type="text"
-            id="city"
-            name="city"
-            value={formData.city}
+            id="address.city"
+            name="address.city"
+            value={formData.address.city}
             onChange={handleChange}
             className="border border-gray-300 rounded px-4 py-2 w-full"
             required

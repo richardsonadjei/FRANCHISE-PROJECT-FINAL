@@ -12,7 +12,7 @@ const UpdatePayment = () => {
       setBatchNumber(batchNumberParam);
     }
   }, []);
-
+  
   const handlePaymentStatusChange = (e) => {
     setPaymentStatus(e.target.value);
   };
@@ -38,7 +38,7 @@ const UpdatePayment = () => {
         // Reset the form fields
         setPaymentStatus('');
         // Navigate to the home page
-        window.location.href = '/';
+        window.location.href = '/home';
       })
       .catch((error) => {
         alert('Error updating payment status');

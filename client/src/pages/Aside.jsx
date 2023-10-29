@@ -12,7 +12,7 @@ const Aside = () => {
           <h3 className="text-lg font-semibold mb-2">Dashboard</h3>
           <ul className="ml-4 space-y-2">
             <li>
-              <Link to="/overview" className="text-white hover:underline">
+              <Link to="/" className="text-white hover:underline">
                 Overview
               </Link>
             </li>
