@@ -16,6 +16,7 @@ import incomeRouter from './routes/income.route.js';
 import waybillRouter from './routes/waybill.route.js';
 import profitLossRouter from './routes/profitLoss.route.js';
 import partnersRouter from './routes/partners.route.js';
+import partnerIncome from './routes/partnerIncome.route.js';
 
 
 
@@ -50,6 +51,7 @@ app.use('/api', expenseCategoryRouter);
 app.use('/api/expenses', expenseRouter);
 app.use('/api', profitLossRouter);
 app.use('/api', partnersRouter);
+app.use('/api', partnerIncome);
 
 
 

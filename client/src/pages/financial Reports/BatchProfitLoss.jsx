@@ -1,16 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const ProfitLossReport = () => {
+const BatchProfitLoss = () => {
+  const [batchNumber, setBatchNumber] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [totalIncome, setTotalIncome] = useState(null);
   const [totalExpenses, setTotalExpenses] = useState(null);
   const [profitLoss, setProfitLoss] = useState(null);
+  const [batchNumbers, setBatchNumbers] = useState([]);
+
+  useEffect(() => {
+    fetch('/api/cocoabags')
+      .then((response) => response.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          const batchNumbers = data.map((batch) => batch.batchNumber);
+          setBatchNumbers(batchNumbers);
+        } else {
+          console.error('Unexpected response structure:', data);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`/api/profit-loss?startDate=${startDate}&endDate=${endDate}`);
+      const response = await fetch(`/api/batch-profit-loss?batchNumber=${batchNumber}&startDate=${startDate}&endDate=${endDate}`);
       const data = await response.json();
       setTotalIncome(data.totalIncome);
       setTotalExpenses(data.totalExpenses);
@@ -24,8 +42,27 @@ const ProfitLossReport = () => {
 
   return (
     <div className="max-w-xl mx-auto mt-8 p-6 rounded-lg shadow-lg bg-white">
-      <h1 className="text-3xl font-semibold mb-6 text-center">Profit and Loss Report</h1>
+      <h1 className="text-3xl font-semibold mb-6 text-center">Batch Profit and Loss Report</h1>
       <form onSubmit={handleSubmit} className="mb-6">
+        <div className="mb-4">
+          <label htmlFor="batchNumber" className="block text-sm font-medium text-gray-600 mb-1">
+            Batch Number
+          </label>
+          <select
+            id="batchNumber"
+            value={batchNumber}
+            onChange={(e) => setBatchNumber(e.target.value)}
+            className="border rounded px-3 py-2 w-full"
+            required
+          >
+            <option value="">Select Batch Number</option>
+            {batchNumbers.map((number) => (
+              <option key={number} value={number}>
+                {number}
+              </option>
+            ))}
+          </select>
+        </div>
         <div className="mb-4">
           <label htmlFor="startDate" className="block text-sm font-medium text-gray-600 mb-1">
             Start Date
@@ -86,4 +123,4 @@ const ProfitLossReport = () => {
   );
 };
 
-export default ProfitLossReport;
+export default BatchProfitLoss;

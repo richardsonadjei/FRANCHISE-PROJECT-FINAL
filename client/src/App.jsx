@@ -42,6 +42,7 @@ import BatchIncome from './pages/financial Reports/BatchIncome';
 import ProfitLossReport from './pages/financial Reports/ProfitLossReport';
 import Partners from './pages/Partners';
 import Overview from './pages/Overview';
+import BatchProfitLoss from './pages/financial Reports/BatchProfitLoss';
 
 
 
@@ -90,6 +91,8 @@ export default function App() {
           <Route path='/procurement-report' element={<AllProcurementReport/>} /> 
           <Route path='/profit-loss' element={<ProfitLossReport/>} /> 
           <Route path='/partners' element={<Partners/>} /> 
+          <Route path='/partners' element={<Partners/>} /> 
+          <Route path='/batch-profit' element={<BatchProfitLoss/>} /> 
           
           
         </Route>

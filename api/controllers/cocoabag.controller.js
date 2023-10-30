@@ -1,5 +1,6 @@
 import CocoaBag from '../models/cocoabag.model.js';
 import Transaction from '../models/transaction.model.js';
+import Procurement from '../models/procurement.model.js';
 
 const createCocoaBag = async (req, res) => {
   try {
@@ -35,12 +36,28 @@ const createCocoaBag = async (req, res) => {
 
     // Save the new CocoaBag to the database
     const savedCocoaBag = await newCocoaBag.save();
-    res.status(201).json(savedCocoaBag);
+
+    // Create a new Procurement instance with all fields included
+    const newProcurement = new Procurement({
+      amount: savedCocoaBag.totalValuePerBatch,
+      category: 'procurement',
+      description: 'Procurement Of Cocoabeans',
+      date: savedCocoaBag.createdAt, // Use the creation date of the CocoaBag
+      batchNumber: savedCocoaBag.batchNumber,
+    });
+
+    // Save the new Procurement to the database
+    const savedProcurement = await newProcurement.save();
+
+    res.status(201).json({ cocoaBag: savedCocoaBag, procurement: savedProcurement });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+
+
 
 const getAllCocoaBags = async (req, res) => {
   try {
@@ -157,8 +174,6 @@ const getInventorySummary = async (req, res) => {
 };
 
 
-
-
 const addReceivedQuantityToCocoaBag = async (req, res) => {
   try {
     const { batchNumber } = req.params;
@@ -184,6 +199,22 @@ const addReceivedQuantityToCocoaBag = async (req, res) => {
     // Save the updated cocoa bag
     const updatedCocoaBag = await cocoaBag.save();
 
+    // Calculate amount for the Procurement instance
+    const pricePerBag = cocoaBag.pricePerBag;
+    const amount = receivedQuantityParsed * pricePerBag;
+
+    // Create a new Procurement instance with updated amount
+    const newProcurement = new Procurement({
+      amount,
+      category: 'procurement',
+      description: 'Procurement Of Cocoabeans',
+      date: new Date(),
+      batchNumber: cocoaBag.batchNumber,
+    });
+
+    // Save the new Procurement to the database
+    await newProcurement.save();
+
     // Create a new transaction for the received quantity update
     const transaction = new Transaction({
       batchNumber,
@@ -204,6 +235,8 @@ const addReceivedQuantityToCocoaBag = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+
 
 
 const receiveReport = async (req, res) => {

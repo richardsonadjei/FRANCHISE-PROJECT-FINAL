@@ -1,5 +1,7 @@
 import Expense from '../models/expense.model.js';
 import CocoaBag from '../models/cocoabag.model.js';
+import Procurement from '../models/procurement.model.js';
+
 
 export const createExpense = async (req, res) => {
   try {
@@ -109,37 +111,29 @@ const generateExpenseReport = async (req, res) => {
   };
 
 
-const fetchProcurementExpenses = async (req, res) => {
-  try {
-    const { startDate, endDate } = req.query;
+  
 
-    // Fetch expenses from the Expense model
-    const expenseData = await Expense.find({
-      category: 'procurement',
-      date: {
-        $gte: new Date(`${startDate}T00:00:00Z`),
-        $lte: new Date(`${endDate}T23:59:59Z`),
-      },
-    });
+  const fetchProcurementExpenses = async (req, res) => {
+    try {
+      const { startDate, endDate } = req.query;
+  
+      // Fetch procurements from the Procurement model within the specified date range
+      const procurementData = await Procurement.find({
+        date: {
+          $gte: new Date(`${startDate}T00:00:00Z`),
+          $lte: new Date(`${endDate}T23:59:59Z`),
+        },
+      });
+  
+      res.status(200).json(procurementData);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
+  
 
-    // Fetch expenses from the embedded 'expenses' array in the CocoaBag model
-    const cocoaBagData = await CocoaBag.find({ 'expenses.category': 'procurement', 'expenses.date': {
-      $gte: new Date(`${startDate}T00:00:00Z`),
-      $lte: new Date(`${endDate}T23:59:59Z`),
-    }});
-    
-    // Extract and format the required data from the CocoaBag model
-    const formattedCocoaBagExpenses = cocoaBagData.flatMap(cocoaBag => cocoaBag.expenses.filter(expense => expense.category === 'procurement'));
-
-    // Combine and send the formatted data
-    const combinedData = [...expenseData, ...formattedCocoaBagExpenses];
-    
-    res.status(200).json(combinedData);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-};
+  
 
 
   export { generateExpenseReport, fetchProcurementExpenses };
