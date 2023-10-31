@@ -19,6 +19,10 @@ const procurementSchema = new mongoose.Schema({
   batchNumber: {
     type: String,
   },
+  paymentStatus: {
+    type: String,
+    enum: ['Paid', 'Credit'],
+  },
 });
 
 const Procurement = mongoose.model('Procurement', procurementSchema);

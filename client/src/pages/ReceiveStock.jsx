@@ -11,6 +11,7 @@ const ReceiveStock = () => {
   const [receivedQuantity, setReceivedQuantity] = useState('');
   const [alertMessage, setAlertMessage] = useState('');
   const [isTransactionSuccessful, setIsTransactionSuccessful] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState('Paid'); // Default value is 'Paid'
 
   useEffect(() => {
     const fetchBatches = async () => {
@@ -42,7 +43,7 @@ const ReceiveStock = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ receivedQuantity }),
+        body: JSON.stringify({ receivedQuantity, paymentStatus }),
       });
       const data = await response.json();
       if (response.ok) {
@@ -123,6 +124,21 @@ const ReceiveStock = () => {
             defaultValue={currentUser.username}
             readOnly
           />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="paymentStatus" className="block font-bold mb-1">
+            Payment Status
+          </label>
+          <select
+            id="paymentStatus"
+            className="w-full border border-gray-300 rounded py-2 px-3"
+            value={paymentStatus}
+            onChange={(event) => setPaymentStatus(event.target.value)}
+            required
+          >
+            <option value="Paid">Paid</option>
+            <option value="Credit">Credit</option>
+          </select>
         </div>
         <button
           type="submit"

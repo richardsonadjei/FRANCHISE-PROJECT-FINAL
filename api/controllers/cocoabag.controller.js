@@ -3,6 +3,8 @@ import Transaction from '../models/transaction.model.js';
 import Procurement from '../models/procurement.model.js';
 
 const createCocoaBag = async (req, res) => {
+  console.log(req.body);
+ 
   try {
     const {
       quantity,
@@ -14,7 +16,13 @@ const createCocoaBag = async (req, res) => {
       averageGrossWeightPerBag,
       comments,
       userId,
+      paymentStatus, // Include paymentStatus in the destructured variables
     } = req.body;
+
+    // Check if paymentStatus is empty
+    if (!paymentStatus) {
+      return res.status(400).json({ error: 'Payment status is required' });
+    }
 
     // Create a new CocoaBag instance
     const newCocoaBag = new CocoaBag({
@@ -28,10 +36,12 @@ const createCocoaBag = async (req, res) => {
       comments,
       userId,
       transactionType: 'Creation',
-      expenses: [{
-        category: 'procurement',
-        date: new Date(),
-      }],
+      expenses: [
+        {
+          category: 'procurement',
+          date: new Date(),
+        },
+      ],
     });
 
     // Save the new CocoaBag to the database
@@ -44,6 +54,7 @@ const createCocoaBag = async (req, res) => {
       description: 'Procurement Of Cocoabeans',
       date: savedCocoaBag.createdAt, // Use the creation date of the CocoaBag
       batchNumber: savedCocoaBag.batchNumber,
+      paymentStatus: paymentStatus, // Use the paymentStatus from the request body
     });
 
     // Save the new Procurement to the database
@@ -177,7 +188,7 @@ const getInventorySummary = async (req, res) => {
 const addReceivedQuantityToCocoaBag = async (req, res) => {
   try {
     const { batchNumber } = req.params;
-    const { receivedQuantity } = req.body;
+    const { receivedQuantity, paymentStatus } = req.body; // Include paymentStatus in the request body
 
     // Find the cocoa bag with the specified batchNumber
     const cocoaBag = await CocoaBag.findOne({ batchNumber });
@@ -203,13 +214,14 @@ const addReceivedQuantityToCocoaBag = async (req, res) => {
     const pricePerBag = cocoaBag.pricePerBag;
     const amount = receivedQuantityParsed * pricePerBag;
 
-    // Create a new Procurement instance with updated amount
+    // Create a new Procurement instance with updated amount and paymentStatus
     const newProcurement = new Procurement({
       amount,
       category: 'procurement',
       description: 'Procurement Of Cocoabeans',
       date: new Date(),
       batchNumber: cocoaBag.batchNumber,
+      paymentStatus: paymentStatus, // Include paymentStatus in the Procurement instance
     });
 
     // Save the new Procurement to the database
@@ -235,6 +247,8 @@ const addReceivedQuantityToCocoaBag = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+
 
 
 

@@ -13,6 +13,7 @@ const CreateCocoa = () => {
   const [comments, setComments] = useState('');
   const [suppliers, setSuppliers] = useState([]);
   const [responseMessage, setResponseMessage] = useState('');
+  const [paymentStatus, setPaymentStatus] = useState('Paid');
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -66,6 +67,7 @@ const CreateCocoa = () => {
           comments,
           userId: userId,
           transactionType: 'Creation',
+          paymentStatus, // Include paymentStatus in the request body
         }),
       });
       const data = await response.json();
@@ -208,6 +210,21 @@ const CreateCocoa = () => {
             onChange={(e) => setComments(e.target.value)}
           ></textarea>
         </div>
+        <div className="mb-4">
+        <label htmlFor="paymentStatus" className="block text-gray-700 font-medium mb-2">
+          Payment Status
+        </label>
+        <select
+          id="paymentStatus"
+          className="w-full border border-gray-300 rounded-md px-4 py-2"
+          value={paymentStatus}
+          onChange={(e) => setPaymentStatus(e.target.value)}
+          required
+        >
+          <option value="Paid">Paid</option>
+          <option value="Credit">Credit</option>
+        </select>
+      </div>
         <div className="mb-4">
           <button
             type="submit"

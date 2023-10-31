@@ -88,10 +88,10 @@ const HomePage = () => {
           Receive Beans To An Existing Batch
         </Link>
         <Link
-          to="/upcoming-task"
+          to="/batch-expense"
           className="quick-action-btn bg-black text-white py-4 rounded-lg hover:bg-blue-600 transition duration-300 flex justify-center items-center"
         >
-          Add A New Upcoming Tasks
+          Add Expenditure For A Particular Batch
         </Link>
         <Link
           to="/pending-payment"
