@@ -19,7 +19,7 @@ const incomeSchema = new mongoose.Schema({
     required: true,
     default: function () {
       // Calculate amount as 830 multiplied by evacuatedQuantity
-      return 910 * this.evacuatedQuantity;
+      return 1388 * this.evacuatedQuantity;
     },
   },
   paymentMethod: {

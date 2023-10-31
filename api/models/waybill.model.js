@@ -1,39 +1,63 @@
 import mongoose from 'mongoose';
 
-const waybillSchema = new mongoose.Schema({
-  wayBillNumber: {
+// Nested schema for driver details
+const driverSchema = new mongoose.Schema({
+  name: {
     type: String,
-    default: () => {
-      // Generate an alphanumeric 8-digit wayBillNumber
-      const alphanumeric = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-      let wayBillNumber = '';
-      for (let i = 0; i < 8; i++) {
-        wayBillNumber += alphanumeric.charAt(Math.floor(Math.random() * alphanumeric.length));
-      }
-      return wayBillNumber;
-    },
-    unique: true,
+    required: true,
   },
+  address: {
+    type: String,
+    required: true,
+  },
+  licenseNumber: {
+    type: String,
+    required: true,
+  },
+});
+
+// Nested schema for truck details
+const truckSchema = new mongoose.Schema({
+  registrationNumber: {
+    type: String,
+    required: true,
+  },
+  make: {
+    type: String,
+    required: true,
+  },
+});
+
+// Main waybill schema including arrays of drivers and trucks
+const waybillSchema = new mongoose.Schema({
+    wayBillNumber: {
+      type: String,
+      default: () => {
+        // Generate a unique 6-digit wayBillNumber
+        const min = 100000; // 6-digit number starts from 100000
+        const max = 999999; // 6-digit number ends at 999999
+        return String(Math.floor(Math.random() * (max - min + 1)) + min);
+      },
+      unique: true,
+    },
   customerName: {
     type: String,
     required: true,
   },
-  recipientName: {
+  portAgentName: {
     type: String,
     required: true,
   },
-  recipientAddress: {
+  portAgentAddress: {
     type: String,
     required: true,
   },
-  driversName: {
+  portAgentContact: {
     type: String,
     required: true,
   },
-  driversAddress: {
-    type: String,
-    required: true,
-  },
+  drivers: [driverSchema], // Array of driver objects
+  trucks: [truckSchema],   // Array of truck objects
   batchNumber: {
     type: String,
     required: true,

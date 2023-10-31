@@ -1,14 +1,14 @@
-import Waybill from '../models/waybill.model.js'; // Update the file extension to .js
-
+import Waybill from '../models/waybill.model.js';
 
 export const createWaybill = async (req, res) => {
   try {
     const {
       customerName,
-      recipientName,
-      recipientAddress,
-      driversName,
-      driversAddress,
+      portAgentName,
+      portAgentAddress,
+      portAgentContact,
+      drivers,
+      trucks,
       batchNumber,
       evacuatedQuantity,
     } = req.body;
@@ -18,10 +18,11 @@ export const createWaybill = async (req, res) => {
 
     const waybill = new Waybill({
       customerName,
-      recipientName,
-      recipientAddress,
-      driversName,
-      driversAddress,
+      portAgentName,
+      portAgentAddress,
+      portAgentContact,
+      drivers,
+      trucks,
       batchNumber,
       evacuatedQuantity,
       userId,

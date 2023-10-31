@@ -18,7 +18,7 @@ const cocoaBagSchema = new mongoose.Schema({
   },
   pricePerBag: {
     type: Number,
-    default: 830,
+    default: 1308,
     required: true,
   },
   harvestYear: {
