@@ -1,7 +1,7 @@
 import Income from '../models/income.model.js';
 import Expense from '../models/expense.model.js';
 import Procurement from '../models/procurement.model.js';
-
+import BatchExpense from '../models/batchExpense.model.js';
 
 export const generateProfitLossReport = async (req, res) => {
   let totalIncome = 0;
@@ -46,6 +46,24 @@ export const generateProfitLossReport = async (req, res) => {
       },
     ]);
 
+    // Calculate total batch expenses from BatchExpense model within the specified date range
+    const batchExpensesData = await BatchExpense.aggregate([
+      {
+        $match: {
+          date: {
+            $gte: new Date(`${startDate}T00:00:00Z`),
+            $lte: new Date(`${endDate}T23:59:59Z`),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalBatchExpenses: { $sum: '$amount' },
+        },
+      },
+    ]);
+
     // Calculate total miscellaneous expenses from Expense model within the specified date range
     const miscellaneousExpensesData = await Expense.aggregate([
       {
@@ -67,9 +85,10 @@ export const generateProfitLossReport = async (req, res) => {
 
     totalIncome = incomeData.length > 0 ? incomeData[0].totalIncome : 0;
     const totalProcurementExpenses = procurementExpensesData.length > 0 ? procurementExpensesData[0].totalProcurementExpenses : 0;
+    const totalBatchExpenses = batchExpensesData.length > 0 ? batchExpensesData[0].totalBatchExpenses : 0;
     const totalMiscellaneousExpenses = miscellaneousExpensesData.length > 0 ? miscellaneousExpensesData[0].totalMiscellaneousExpenses : 0;
 
-    totalExpenses = totalProcurementExpenses + totalMiscellaneousExpenses;
+    totalExpenses = totalProcurementExpenses + totalBatchExpenses + totalMiscellaneousExpenses;
     const profitLoss = totalIncome - totalExpenses;
 
     res.status(200).json({ totalIncome, totalExpenses, profitLoss });
@@ -136,20 +155,24 @@ export const getFinancialSnapshot = async (req, res) => {
 
 
 
-
-
-
-
 export const generateProfitLossByBatch = async (req, res) => {
   try {
     const { batchNumber, startDate, endDate } = req.query;
-
     // Convert start and end dates to proper Date objects
     const formattedStartDate = new Date(`${startDate}T00:00:00Z`);
     const formattedEndDate = new Date(`${endDate}T23:59:59Z`);
-
+    
     // Find all procurements for the specified batch within the date range
-    const procurements = await Procurement.find({
+    const procurementExpenses = await Procurement.find({
+      batchNumber,
+      date: {
+        $gte: formattedStartDate,
+        $lte: formattedEndDate,
+      },
+    });
+    
+    // Find all batch expenses for the specified batch within the date range
+    const batchExpenses = await BatchExpense.find({
       batchNumber,
       date: {
         $gte: formattedStartDate,
@@ -158,7 +181,15 @@ export const generateProfitLossByBatch = async (req, res) => {
     });
 
     // Calculate total expenses from procurement data
-    const totalExpenses = procurements.reduce((total, procurement) => total + procurement.amount, 0);
+    const totalProcurementExpenses = procurementExpenses.reduce((total, procurement) => total + procurement.amount, 0);
+    console.log("Total procurement expenses:", totalProcurementExpenses);
+
+    // Calculate total batch expenses
+    const totalBatchExpenses = batchExpenses.reduce((total, batchExpense) => total + batchExpense.amount, 0);
+    console.log("Total batch expenses:", totalBatchExpenses);
+
+    const totalExpenses = totalProcurementExpenses + totalBatchExpenses;
+    console.log("Total expenses:", totalExpenses);
 
     // Find income data for the specified batch within the date range
     const income = await Income.findOne({
@@ -168,7 +199,7 @@ export const generateProfitLossByBatch = async (req, res) => {
         $lte: formattedEndDate,
       },
     });
-
+    
     if (!income) {
       return res.status(404).json({ error: 'Income data not found for the specified batch and date range' });
     }
@@ -176,10 +207,11 @@ export const generateProfitLossByBatch = async (req, res) => {
     // Calculate profit or loss
     const totalIncome = income.amount;
     const profitLoss = totalIncome - totalExpenses;
-
+    
     res.status(200).json({ totalIncome, totalExpenses, profitLoss });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+

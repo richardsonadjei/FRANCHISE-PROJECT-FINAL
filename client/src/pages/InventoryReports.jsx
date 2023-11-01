@@ -18,9 +18,9 @@ const Report = () => {
       // ... other details for the Transaction History Report
     },
     {
-      title: "Supplier Performance Report",
-      path: "/supplier-performance",
-      purpose: "To evaluate the performance of different suppliers based on...",
+      title: "All Procurement Report",
+      path: "/procurement-report",
+      purpose: "All procurements done on all batches within a period",
       // ... other details for the Supplier Performance Report
     },
     {
@@ -33,6 +33,12 @@ const Report = () => {
       title: "Batch Transaction History",
       path: "/batch-history",
       purpose: "This tells what has happened to a particular batch after it from creation",
+      // ... other details for the Quality Control Report
+    },
+    {
+      title: "Batch Procurement History",
+      path: "/batch-procurement",
+      purpose: "This tells the various procurements for a particular batch within a particular period",
       // ... other details for the Quality Control Report
     },
     {

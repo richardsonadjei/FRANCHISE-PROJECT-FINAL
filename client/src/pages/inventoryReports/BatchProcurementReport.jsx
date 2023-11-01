@@ -2,15 +2,38 @@ import React, { useState, useEffect } from 'react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
-const AllProcurement = () => {
+const BatchProcurementReport = () => {
+  const [batchNumber, setBatchNumber] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [procurements, setProcurements] = useState([]);
   const [showReport, setShowReport] = useState(false);
+  const [batchNumbers, setBatchNumbers] = useState([]);
 
-  const fetchAllProcurementsByPeriod = async () => {
+  useEffect(() => {
+    const fetchBatches = async () => {
+      try {
+        const response = await fetch('/api/cocoabags');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        if (Array.isArray(data)) {
+          const batchNumbers = data.map((batch) => batch.batchNumber);
+          setBatchNumbers(batchNumbers);
+        } else {
+          console.error('Unexpected response structure:', data);
+        }
+      } catch (error) {
+        console.error('Error fetching batch numbers:', error);
+      }
+    };
+    fetchBatches();
+  }, []);
+
+  const fetchProcurementsByBatchAndPeriod = async () => {
     try {
-      const response = await fetch(`/api/procurements?startDate=${startDate}&endDate=${endDate}`);
+      const response = await fetch(`/api/batch-procurements?batchNumber=${batchNumber}&startDate=${startDate}&endDate=${endDate}`);
       const data = await response.json();
       setProcurements(data.procurements);
       setShowReport(true);
@@ -19,30 +42,45 @@ const AllProcurement = () => {
     }
   };
 
-  const generatePDF = () => {
+  const generatePDF = async () => {
     const doc = new jsPDF();
     doc.autoTable({
-      head: [
-        ['Date', 'Batch Number', 'Amount', 'Category', 'Quantity', 'Payment Status', 'Description']
-      ],
+      head: [['Date', 'Batch Number', 'Amount', 'Category', 'Quantity', 'Total Weight (tonnes)', 'Payment Status', 'Description']],
       body: procurements.map((procurement) => [
         procurement.date,
         procurement.batchNumber,
         procurement.amount,
         procurement.category,
         procurement.quantity,
+        procurement.totalWeightPerBatch, // Include totalWeightPerBatch here
         procurement.paymentStatus,
         procurement.description,
       ]),
     });
-    doc.save('AllProcurementsReport.pdf');
+    doc.save('BatchProcurementReport.pdf');
   };
 
   return (
     <div className="container mx-auto my-8">
       <div className="flex flex-col items-center mb-4">
-        <h1 className="text-3xl font-bold mb-6">All Procurements Report</h1>
-        <label htmlFor="startDate" className="text-lg font-semibold mb-2">
+        <h1 className="text-3xl font-bold mb-6">Batch Procurement Report</h1>
+        <label htmlFor="batchNumber" className="text-lg font-semibold mb-2">
+          Batch Number
+        </label>
+        <select
+          id="batchNumber"
+          className="border p-2 rounded focus:outline-none focus:border-blue-500 transition duration-300"
+          value={batchNumber}
+          onChange={(e) => setBatchNumber(e.target.value)}
+        >
+          <option value="">Select Batch Number</option>
+          {batchNumbers.map((number) => (
+            <option key={number} value={number}>
+              {number}
+            </option>
+          ))}
+        </select>
+        <label htmlFor="startDate" className="text-lg font-semibold mt-4 mb-2">
           Start Date
         </label>
         <input
@@ -64,13 +102,13 @@ const AllProcurement = () => {
         />
         <button
           className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300"
-          onClick={fetchAllProcurementsByPeriod}
+          onClick={fetchProcurementsByBatchAndPeriod}
         >
           Generate Report
         </button>
         {showReport && (
           <div className="mt-8">
-            <h2 className="text-2xl font-semibold mb-4">All Procurements Report</h2>
+            <h2 className="text-2xl font-semibold mb-4">Batch Procurement Report</h2>
             <table className="min-w-full bg-white border border-gray-300">
               <thead className="bg-gray-800 text-white">
                 <tr>
@@ -79,6 +117,7 @@ const AllProcurement = () => {
                   <th className="py-2 px-4">Amount</th>
                   <th className="py-2 px-4">Category</th>
                   <th className="py-2 px-4">Quantity</th>
+                  <th className="py-2 px-4">Total Weight (tonnes)</th>
                   <th className="py-2 px-4">Payment Status</th>
                   <th className="py-2 px-4">Description</th>
                 </tr>
@@ -91,6 +130,7 @@ const AllProcurement = () => {
                     <td className="py-2 px-4">{procurement.amount}</td>
                     <td className="py-2 px-4">{procurement.category}</td>
                     <td className="py-2 px-4">{procurement.quantity}</td>
+                    <td className="py-2 px-4">{procurement.totalWeightPerBatch}</td>
                     <td className="py-2 px-4">{procurement.paymentStatus}</td>
                     <td className="py-2 px-4">{procurement.description}</td>
                   </tr>
@@ -112,4 +152,4 @@ const AllProcurement = () => {
   );
 };
 
-export default AllProcurement;
+export default BatchProcurementReport;

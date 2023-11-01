@@ -23,7 +23,15 @@ const procurementSchema = new mongoose.Schema({
     type: String,
     enum: ['Paid', 'Credit'],
   },
+  totalWeightPerBatch: {
+    type: Number,
+    required: true,
+  },
+  quantity: {
+    type: Number,
+  },
 });
+
 
 const Procurement = mongoose.model('Procurement', procurementSchema);
 

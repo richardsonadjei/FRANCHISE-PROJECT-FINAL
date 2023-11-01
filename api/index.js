@@ -18,6 +18,7 @@ import profitLossRouter from './routes/profitLoss.route.js';
 import partnersRouter from './routes/partners.route.js';
 import partnerIncome from './routes/partnerIncome.route.js';
 import batchExpenseRouter from './routes/batchExpense.route.js';
+import procurementRouter from './routes/procurement.route.js';
 
 
 
@@ -54,6 +55,7 @@ app.use('/api', profitLossRouter);
 app.use('/api', partnersRouter);
 app.use('/api', partnerIncome);
 app.use('/api', batchExpenseRouter);
+app.use('/api', procurementRouter);
 
 
 

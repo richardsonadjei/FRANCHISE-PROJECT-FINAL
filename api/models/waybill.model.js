@@ -68,15 +68,15 @@ const waybillSchema = new mongoose.Schema({
   totalWeight: {
     type: Number,
     default: function () {
-      // Calculate total weight in tonnes based on evacuated quantity
+     
       if (this.evacuatedQuantity) {
-        return (0.05 * this.evacuatedQuantity).toFixed(2);
+        return (64 * this.evacuatedQuantity).toFixed(2);
       }
       return 0;
     },
     get: function () {
       // Display the total weight with unit (tonnes)
-      return this.totalWeight.toFixed(2) + ' tonnes';
+      return this.totalWeight.toFixed(2) + ' kg';
     },
   },
   issueDate: {

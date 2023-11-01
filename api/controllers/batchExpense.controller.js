@@ -2,12 +2,13 @@ import BatchExpense from '../models/batchExpense.model.js'; // Import the BatchE
 
 export const createBatchExpense = async (req, res) => {
   try {
-    const { batchNumber, expenses } = req.body;
+    const { batchNumber, description, amount } = req.body;
 
     // Create a new BatchExpense instance
     const batchExpense = new BatchExpense({
       batchNumber,
-      expenses,
+      description,
+      amount,
     });
 
     // Save the batchExpense to the database

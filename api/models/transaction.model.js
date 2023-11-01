@@ -35,6 +35,14 @@ const transactionSchema = new mongoose.Schema({
   evacuatedQuantity: {
     type: Number,
   },
+  totalWeightBefore: {
+    type: Number,
+    required: true,
+  },
+  totalWeightAfter: {
+    type: Number,
+    required: true,
+  },
   updatedAt: {
     type: Date,
     default: Date.now(),

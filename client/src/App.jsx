@@ -44,6 +44,7 @@ import Partners from './pages/Partners';
 import Overview from './pages/Overview';
 import BatchProfitLoss from './pages/financial Reports/BatchProfitLoss';
 import CreateBatchExpense from './pages/CreateBatchExpense';
+import BatchProcurementReport from './pages/inventoryReports/BatchProcurementReport';
 
 
 
@@ -95,6 +96,7 @@ export default function App() {
           <Route path='/partners' element={<Partners/>} /> 
           <Route path='/batch-profit' element={<BatchProfitLoss/>} /> 
           <Route path='/batch-expense' element={<CreateBatchExpense/>} /> 
+          <Route path='/batch-procurement' element={<BatchProcurementReport/>} /> 
           
           
         </Route>

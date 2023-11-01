@@ -118,7 +118,7 @@ const Waybill = () => {
       tableData.push(['Truck Make', truck.make]);
     });
     tableData.push(['Issue Date', waybillData.issueDate]); // Add Issue Date
-    tableData.push(['Total Weight(In Tonnes)', waybillData.totalWeight]); // Add Total Weight
+    tableData.push(['Total Weight(In Kilos)', waybillData.totalWeight ,]); // Add Total Weight
     tableData.push(['Delivery Status', waybillData.deliveryStatus]); // Add Delivery Status
   
     doc.autoTable({

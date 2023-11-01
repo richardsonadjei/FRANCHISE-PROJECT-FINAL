@@ -1,19 +1,17 @@
-
 import React, { useState, useEffect } from 'react';
 
 const CreateCocoa = () => {
   const [userId, setUserId] = useState('');
   const [quantity, setQuantity] = useState('');
   const [supplier, setSupplier] = useState('');
-  const [harvestYear, setHarvestYear] = useState('');
   const [qcCertifications, setQcCertifications] = useState('');
   const [packingDate, setPackingDate] = useState('');
-  const [averageNetWeightPerBag, setAverageNetWeightPerBag] = useState('');
-  const [averageGrossWeightPerBag, setAverageGrossWeightPerBag] = useState('');
+  const [totalWeightPerBatch, setTotalWeightPerBatch] = useState('');
   const [comments, setComments] = useState('');
+  const [paymentStatus, setPaymentStatus] = useState('Paid');
   const [suppliers, setSuppliers] = useState([]);
   const [responseMessage, setResponseMessage] = useState('');
-  const [paymentStatus, setPaymentStatus] = useState('Paid');
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -29,9 +27,11 @@ const CreateCocoa = () => {
     };
     fetchUserData();
   }, []);
+
   useEffect(() => {
     fetchSuppliers();
   }, []);
+
   const fetchSuppliers = async () => {
     try {
       const response = await fetch('/api/supplier/all');
@@ -41,6 +41,7 @@ const CreateCocoa = () => {
       console.error(error);
     }
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -49,42 +50,39 @@ const CreateCocoa = () => {
         .map((cookie) => cookie.trim())
         .find((row) => row.startsWith('access_token='))
         ?.split('=')[1];
-      console.log('Retrieved Token:', token);
+      
       const response = await fetch('/api/cocoabags', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           quantity,
           supplier,
-          harvestYear,
           qcCertifications,
           packingDate,
-          averageNetWeightPerBag,
-          averageGrossWeightPerBag,
+          totalWeightPerBatch,
           comments,
-          userId: userId,
+          userId,
           transactionType: 'Creation',
-          paymentStatus, // Include paymentStatus in the request body
+          paymentStatus,
         }),
       });
+
       const data = await response.json();
       if (response.ok) {
         setResponseMessage('Cocoa Bag created successfully!');
+        // Reset all input fields
         setQuantity('');
         setSupplier('');
-        setHarvestYear('');
         setQcCertifications('');
         setPackingDate('');
-        setAverageNetWeightPerBag('');
-        setAverageGrossWeightPerBag('');
         setComments('');
+        setTotalWeightPerBatch('');
         setTimeout(() => {
           setResponseMessage('');
-          // Redirect to home page after successful submission
-          window.location.href = '/home';
+          window.location.href = '/home'; // Redirect to home page after successful submission
         }, 2000);
       } else {
         setResponseMessage(`Error: ${data.message}`);
@@ -94,6 +92,7 @@ const CreateCocoa = () => {
       setResponseMessage('Error: Something went wrong');
     }
   };
+
   return (
     <div className="container mx-auto">
       <h1 className="text-3xl font-bold mb-4">Receive New Stock</h1>
@@ -131,19 +130,6 @@ const CreateCocoa = () => {
           </select>
         </div>
         <div className="mb-4">
-          <label htmlFor="harvestYear" className="block text-gray-700 font-medium mb-2">
-            Harvest Year
-          </label>
-          <input
-            type="number"
-            id="harvestYear"
-            className="w-full border border-gray-300 rounded-md px-4 py-2"
-            value={harvestYear}
-            onChange={(e) => setHarvestYear(e.target.value)}
-            required
-          />
-        </div>
-        <div className="mb-4">
           <label htmlFor="qcCertifications" className="block text-gray-700 font-medium mb-2">
             QC Certifications
           </label>
@@ -173,31 +159,34 @@ const CreateCocoa = () => {
             required
           />
         </div>
+        
         <div className="mb-4">
-          <label htmlFor="averageNetWeightPerBag" className="block text-gray-700 font-medium mb-2">
-            Average Net Weight Per Bag
+          <label htmlFor="totalWeightPerBatch" className="block text-gray-700 font-medium mb-2">
+            Total Weight Per Batch
           </label>
           <input
             type="number"
-            id="averageNetWeightPerBag"
+            id="totalWeightPerBatch"
             className="w-full border border-gray-300 rounded-md px-4 py-2"
-            value={averageNetWeightPerBag}
-            onChange={(e) => setAverageNetWeightPerBag(e.target.value)}
+            value={totalWeightPerBatch}
+            onChange={(e) => setTotalWeightPerBatch(e.target.value)}
             required
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="averageGrossWeightPerBag" className="block text-gray-700 font-medium mb-2">
-            Average Gross Weight Per Bag
+          <label htmlFor="paymentStatus" className="block text-gray-700 font-medium mb-2">
+            Payment Status
           </label>
-          <input
-            type="number"
-            id="averageGrossWeightPerBag"
+          <select
+            id="paymentStatus"
             className="w-full border border-gray-300 rounded-md px-4 py-2"
-            value={averageGrossWeightPerBag}
-            onChange={(e) => setAverageGrossWeightPerBag(e.target.value)}
+            value={paymentStatus}
+            onChange={(e) => setPaymentStatus(e.target.value)}
             required
-          />
+          >
+            <option value="Paid">Paid</option>
+            <option value="Credit">Credit</option>
+          </select>
         </div>
         <div className="mb-4">
           <label htmlFor="comments" className="block text-gray-700 font-medium mb-2">
@@ -210,21 +199,6 @@ const CreateCocoa = () => {
             onChange={(e) => setComments(e.target.value)}
           ></textarea>
         </div>
-        <div className="mb-4">
-        <label htmlFor="paymentStatus" className="block text-gray-700 font-medium mb-2">
-          Payment Status
-        </label>
-        <select
-          id="paymentStatus"
-          className="w-full border border-gray-300 rounded-md px-4 py-2"
-          value={paymentStatus}
-          onChange={(e) => setPaymentStatus(e.target.value)}
-          required
-        >
-          <option value="Paid">Paid</option>
-          <option value="Credit">Credit</option>
-        </select>
-      </div>
         <div className="mb-4">
           <button
             type="submit"

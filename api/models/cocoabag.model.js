@@ -21,10 +21,6 @@ const cocoaBagSchema = new mongoose.Schema({
     default: 1308,
     required: true,
   },
-  harvestYear: {
-    type: Number,
-    required: true,
-  },
   qcCertifications: {
     type: String,
     enum: ['Certified', 'Yet To Certify', 'Not Certified'],
@@ -33,30 +29,12 @@ const cocoaBagSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  averageNetWeightPerBag: {
-    type: Number,
-    required: true,
-  },
-  averageGrossWeightPerBag: {
-    type: Number,
-    required: true,
-  },
   comments: {
     type: String,
   },
-  totalAverageNetWeightPerBatch: {
+  totalWeightPerBatch: {
     type: Number,
     required: true,
-    default: function () {
-      return this.quantity * this.averageNetWeightPerBag;
-    },
-  },
-  totalAverageGrossWeightPerBatch: {
-    type: Number,
-    required: true,
-    default: function () {
-      return this.quantity * this.averageGrossWeightPerBag;
-    },
   },
   totalValuePerBatch: {
     type: Number,
@@ -81,49 +59,11 @@ const cocoaBagSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  feedback: {
-    type: String,
-  },
   supplier: {
     type: String,
   },
-  expenses: [
-    {
-      amount: {
-        type: Number,
-      },
-      category: {
-        type: String,
-        default: 'procurement',
-      },
-      description: {
-        type: String,
-        default: 'Procurement Of Cocoabeans',
-      },
-      date: {
-        type: Date,
-        default: Date.now,
-      },
-      batchNumber: {
-        type: String,
-        
-      },
-    },
-  ],
 });
 
-// Pre-save middleware to update totalValuePerBatch and amount in expenses
-cocoaBagSchema.pre('save', function (next) {
-  this.totalValuePerBatch = this.quantity * this.pricePerBag;
-
-  // Update amount and set batchNumber in expenses based on pricePerBag and quantity
-  this.expenses.forEach((expense) => {
-    expense.amount = this.pricePerBag * this.quantity;
-    expense.batchNumber = this.batchNumber; // Set batchNumber for each expense
-  });
-
-  next();
-});
 
 const CocoaBag = mongoose.model('CocoaBag', cocoaBagSchema);
 

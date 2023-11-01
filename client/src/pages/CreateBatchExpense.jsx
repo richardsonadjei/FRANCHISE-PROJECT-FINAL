@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 
 const CreateBatchExpense = () => {
@@ -37,12 +36,8 @@ const CreateBatchExpense = () => {
 
     const expenseData = {
       batchNumber,
-      expenses: [
-        {
-          description,
-          amount,
-        },
-      ],
+      description,
+      amount,
     };
 
     fetch('/api/batch-expense', {

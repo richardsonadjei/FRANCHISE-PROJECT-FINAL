@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { PDFDocument, rgb } from 'pdf-lib';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 const StockReport = () => {
   const [startDate, setStartDate] = useState('');
@@ -24,25 +25,28 @@ const StockReport = () => {
     }
   }, [startDate, endDate]);
 
-  const generatePDF = async () => {
-    const pdfDoc = await PDFDocument.create();
-    const page = pdfDoc.addPage([600, 400]);
-
-    // ... (same as before)
-
-    const pdfBytes = await pdfDoc.save();
-    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-    const url = URL.createObjectURL(blob);
-    window.open(url, '_blank');
+  const generatePDF = () => {
+    const doc = new jsPDF();
+    doc.autoTable({
+      head: [['Batch Number', 'Quantity', 'Price Per Bag', 'Stock Value', 'Supplier', 'Total Weight (tonnes)']],
+      body: cocoaBags.map((bag) => [
+        bag.batchNumber,
+        bag.quantity,
+        bag.pricePerBag,
+        bag.quantity * bag.pricePerBag,
+        bag.supplier,
+        bag.totalWeightPerBatch, // Include totalWeightPerBatch here
+      ]),
+    });
+    doc.save('StockReport.pdf');
   };
 
-  const headers = ['Batch Number', 'Quantity', 'Price Per Bag', 'Stock Value', 'Supplier'];
+  const headers = ['Batch Number', 'Quantity', 'Price Per Bag', 'Stock Value', 'Supplier', 'Total Weight (tonnes)'];
 
   return (
     <div className="container mx-auto my-8">
-      
       <div className="flex flex-col items-center mb-4">
-      <h1 className="text-3xl font-bold mb-6">Stock Report</h1>
+        <h1 className="text-3xl font-bold mb-6">Stock Report</h1>
         <label htmlFor="startDate" className="text-lg font-semibold mb-2">
           Start Date
         </label>
@@ -90,18 +94,21 @@ const StockReport = () => {
                     <td className="py-2 px-4">{bag.pricePerBag}</td>
                     <td className="py-2 px-4">{bag.quantity * bag.pricePerBag}</td>
                     <td className="py-2 px-4">{bag.supplier}</td>
+                    <td className="py-2 px-4">{bag.totalWeightPerBatch}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
         )}
-        <button
-          className="mt-8 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-300"
-          onClick={generatePDF}
-        >
-          Download PDF
-        </button>
+        {showReport && (
+          <button
+            className="mt-8 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+            onClick={generatePDF}
+          >
+            Download PDF
+          </button>
+        )}
       </div>
     </div>
   );

@@ -2,8 +2,10 @@ import CocoaBag from '../models/cocoabag.model.js';
 import Transaction from '../models/transaction.model.js';
 import Procurement from '../models/procurement.model.js';
 
+
+
 const createCocoaBag = async (req, res) => {
-  console.log(req.body);
+  
  
   try {
     const {
@@ -12,8 +14,7 @@ const createCocoaBag = async (req, res) => {
       harvestYear,
       qcCertifications,
       packingDate,
-      averageNetWeightPerBag,
-      averageGrossWeightPerBag,
+      totalWeightPerBatch,
       comments,
       userId,
       paymentStatus, // Include paymentStatus in the destructured variables
@@ -26,13 +27,12 @@ const createCocoaBag = async (req, res) => {
 
     // Create a new CocoaBag instance
     const newCocoaBag = new CocoaBag({
-      quantity,
+      quantity, // Use the quantity from the request body
       supplier,
       harvestYear,
       qcCertifications,
       packingDate,
-      averageNetWeightPerBag,
-      averageGrossWeightPerBag,
+      totalWeightPerBatch,
       comments,
       userId,
       transactionType: 'Creation',
@@ -47,7 +47,7 @@ const createCocoaBag = async (req, res) => {
     // Save the new CocoaBag to the database
     const savedCocoaBag = await newCocoaBag.save();
 
-    // Create a new Procurement instance with all fields included
+    // Create a new Procurement instance with all fields included, including quantity
     const newProcurement = new Procurement({
       amount: savedCocoaBag.totalValuePerBatch,
       category: 'procurement',
@@ -55,6 +55,8 @@ const createCocoaBag = async (req, res) => {
       date: savedCocoaBag.createdAt, // Use the creation date of the CocoaBag
       batchNumber: savedCocoaBag.batchNumber,
       paymentStatus: paymentStatus, // Use the paymentStatus from the request body
+      quantity: quantity, // Use the quantity from the request body
+      totalWeightPerBatch: totalWeightPerBatch,
     });
 
     // Save the new Procurement to the database
@@ -66,6 +68,9 @@ const createCocoaBag = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+
+
 
 
 
@@ -188,7 +193,7 @@ const getInventorySummary = async (req, res) => {
 const addReceivedQuantityToCocoaBag = async (req, res) => {
   try {
     const { batchNumber } = req.params;
-    const { receivedQuantity, paymentStatus } = req.body; // Include paymentStatus in the request body
+    const { receivedQuantity, paymentStatus, receivedWeight } = req.body;
 
     // Find the cocoa bag with the specified batchNumber
     const cocoaBag = await CocoaBag.findOne({ batchNumber });
@@ -197,15 +202,19 @@ const addReceivedQuantityToCocoaBag = async (req, res) => {
     }
 
     // Parse quantityBefore and receivedQuantity as numbers
-    const quantityBefore = parseInt(cocoaBag.quantity, 10); // Assuming quantity is stored as a string in the database
+    const quantityBefore = parseInt(cocoaBag.quantity, 10);
     const receivedQuantityParsed = parseInt(receivedQuantity, 10);
+    const totalWeightBefore = cocoaBag.totalWeightPerBatch;
+    const totalWeightAfter = parseInt(totalWeightBefore, 10) + parseInt(receivedWeight, 10);
+// Add receivedWeight to totalWeightBefore
 
     // Perform addition operation to calculate quantityAfter
     const quantityAfter = quantityBefore + receivedQuantityParsed;
 
-    // Update the quantity and received quantity of the cocoa bag
+    // Update the quantity, received quantity, and totalWeightPerBatch of the cocoa bag
     cocoaBag.quantity = quantityAfter;
     cocoaBag.receivedQuantity += receivedQuantityParsed;
+    cocoaBag.totalWeightPerBatch = totalWeightAfter;
 
     // Save the updated cocoa bag
     const updatedCocoaBag = await cocoaBag.save();
@@ -214,14 +223,16 @@ const addReceivedQuantityToCocoaBag = async (req, res) => {
     const pricePerBag = cocoaBag.pricePerBag;
     const amount = receivedQuantityParsed * pricePerBag;
 
-    // Create a new Procurement instance with updated amount and paymentStatus
+    // Create a new Procurement instance with updated amount, paymentStatus, and totalWeightPerBatch
     const newProcurement = new Procurement({
       amount,
       category: 'procurement',
       description: 'Procurement Of Cocoabeans',
       date: new Date(),
       batchNumber: cocoaBag.batchNumber,
-      paymentStatus: paymentStatus, // Include paymentStatus in the Procurement instance
+      paymentStatus: paymentStatus,
+      totalWeightPerBatch: receivedWeight, // Set totalWeightPerBatch to receivedWeight
+      quantity: receivedQuantityParsed, // Include received quantity in the Procurement instance
     });
 
     // Save the new Procurement to the database
@@ -232,10 +243,12 @@ const addReceivedQuantityToCocoaBag = async (req, res) => {
       batchNumber,
       transactionType: 'Update',
       userId: req.user.id,
-      username: req.user.username, // Retrieve the username from req.user
+      username: req.user.username,
       quantityBefore,
       quantityAfter,
       receivedQuantity: receivedQuantityParsed,
+      totalWeightBefore,
+      totalWeightAfter,
     });
 
     // Save the transaction

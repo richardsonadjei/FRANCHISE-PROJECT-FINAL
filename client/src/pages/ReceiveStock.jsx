@@ -9,9 +9,11 @@ const ReceiveStock = () => {
   const [availableBatches, setAvailableBatches] = useState([]);
   const [selectedBatch, setSelectedBatch] = useState(null);
   const [receivedQuantity, setReceivedQuantity] = useState('');
+  const [receivedWeight, setReceivedWeight] = useState(''); // New receivedWeight state
   const [alertMessage, setAlertMessage] = useState('');
   const [isTransactionSuccessful, setIsTransactionSuccessful] = useState(false);
-  const [paymentStatus, setPaymentStatus] = useState('Paid'); // Default value is 'Paid'
+  const [paymentStatus, setPaymentStatus] = useState('Paid');
+
 
   useEffect(() => {
     const fetchBatches = async () => {
@@ -43,12 +45,16 @@ const ReceiveStock = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ receivedQuantity, paymentStatus }),
+        body: JSON.stringify({ receivedQuantity, paymentStatus, receivedWeight }), // Include receivedWeight in the request body
       });
       const data = await response.json();
       if (response.ok) {
         setIsTransactionSuccessful(true);
         setAlertMessage('Transaction successful');
+        setTimeout(() => {
+          // Redirect to homepage after a successful transaction
+          window.location.href = '/home';
+        }, 3000); // Redirect after 3 seconds
       } else {
         setIsTransactionSuccessful(false);
         setAlertMessage('Transaction failed');
@@ -56,6 +62,7 @@ const ReceiveStock = () => {
       setBatchNumber('');
       setSelectedBatch(null);
       setReceivedQuantity('');
+      setReceivedWeight('');
     } catch (error) {
       console.error(error);
       setIsTransactionSuccessful(false);
@@ -110,6 +117,19 @@ const ReceiveStock = () => {
             className="w-full border border-gray-300 rounded py-2 px-3"
             value={receivedQuantity}
             onChange={(event) => setReceivedQuantity(event.target.value)}
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="receivedWeight" className="block font-bold mb-1">
+            Received Weight (in kilograms)
+          </label>
+          <input
+            id="receivedWeight"
+            type="number"
+            className="w-full border border-gray-300 rounded py-2 px-3"
+            value={receivedWeight}
+            onChange={(event) => setReceivedWeight(event.target.value)}
             required
           />
         </div>
