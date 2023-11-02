@@ -6,9 +6,9 @@ import CocoaBag from '../models/cocoabag.model.js'; // Import the CocoaBag model
 const performEvacuation = async (req, res) => {
   try {
     // Extract data from the request body
-    const { batchNumber, evacuatedQuantity, customerName, shippingLocation, shippingMethod } = req.body;
+    const { batchNumber, evacuatedQuantity, evacuatedWeight, customerName, shippingLocation, shippingMethod } = req.body;
 
-    // Find the existing quantity of cocoa bags in the database before the evacuation
+    // Find the existing quantity and totalWeightPerBatch of cocoa bags in the database before the evacuation
     const cocoaBagBeforeEvacuation = await CocoaBag.findOne({ batchNumber });
     if (!cocoaBagBeforeEvacuation) {
       // Handle the case where the batch number is not found in the CocoaBag model
@@ -18,11 +18,14 @@ const performEvacuation = async (req, res) => {
     // Calculate quantityBefore and quantityAfter
     const quantityBefore = cocoaBagBeforeEvacuation.quantity;
     const quantityAfter = quantityBefore - evacuatedQuantity;
+    const totalWeightBefore = cocoaBagBeforeEvacuation.totalWeightPerBatch;
+    const totalWeightAfter = totalWeightBefore - evacuatedWeight;
 
     // Create a new evacuation instance
     const evacuation = new Evacuation({
       batchNumber,
       evacuatedQuantity,
+      evacuatedWeight,
       customerName,
       shippingLocation,
       shippingMethod,
@@ -35,17 +38,22 @@ const performEvacuation = async (req, res) => {
     const transaction = new Transaction({
       batchNumber,
       transactionType: 'Evacuation',
-      evacuatedQuantity,
+      receivedQuantity: 0,
+      modifiedQuantity: 0,
       quantityBefore,
       quantityAfter,
+      evacuatedQuantity,
+      totalWeightBefore,
+      totalWeightAfter,
       evacuationDate: evacuation.evacuationDate, // Use the evacuation date from the Evacuation model
     });
 
     // Save the transaction details to the database
     await transaction.save();
 
-    // Update the existing quantity of cocoa bags in the CocoaBag model
+    // Update the existing quantity and totalWeightPerBatch of cocoa bags in the CocoaBag model
     cocoaBagBeforeEvacuation.quantity = quantityAfter;
+    cocoaBagBeforeEvacuation.totalWeightPerBatch = totalWeightAfter;
     await cocoaBagBeforeEvacuation.save();
 
     // Send a success response

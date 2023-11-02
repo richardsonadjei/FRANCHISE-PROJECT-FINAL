@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 const Waybill = () => {
   const [customerName, setCustomerName] = useState('');
   const [portAgentName, setPortAgentName] = useState('');
@@ -8,31 +11,27 @@ const Waybill = () => {
   const [portAgentContact, setPortAgentContact] = useState('');
   const [batchNumber, setBatchNumber] = useState('');
   const [evacuatedQuantity, setEvacuatedQuantity] = useState('');
-  const [drivers, setDrivers] = useState([{ name: '', address: '', licenseNumber: '' }]);
-  const [trucks, setTrucks] = useState([{ registrationNumber: '', make: '' }]);
-  const [issueDate, setIssueDate] = useState(''); // Add the issueDate state
-  const [deliveryStatus, setDeliveryStatus] = useState('');
-  const [waybillNumber, setWaybillNumber] = useState('');
-  const [totalWeight, setTotalWeight] = useState('');
+  const [evacuatedWeight, setEvacuatedWeight] = useState(''); // New state for evacuatedWeight
+  const [drivers, setDrivers] = useState([]); // Define drivers state variable
+  const [trucks, setTrucks] = useState([]); // Define trucks state variable
+  const [issueDate, setIssueDate] = useState('');
+  const [deliveryStatus, setDeliveryStatus] = useState('Shipped');
 
   useEffect(() => {
-    // Extract batchNumber, evacuatedQuantity, customerName, waybillNumber, totalWeight, and issueDate from URL parameters
+    // Extract parameters from the URL
     const params = new URLSearchParams(window.location.search);
+    const customerNameParam = params.get('customerName');
     const batchNumberParam = params.get('batchNumber');
     const evacuatedQuantityParam = params.get('evacuatedQuantity');
-    const customerNameParam = params.get('customerName');
-    const waybillNumberParam = params.get('waybillNumber');
-    const totalWeightParam = params.get('totalWeight');
+    const evacuatedWeightParam = params.get('evacuatedWeight'); // Extract evacuatedWeight from URL parameters
     const issueDateParam = params.get('issueDate');
-  
-    if (batchNumberParam && evacuatedQuantityParam && customerNameParam) {
-      setBatchNumber(batchNumberParam);
-      setEvacuatedQuantity(evacuatedQuantityParam);
-      setCustomerName(customerNameParam);
-      setWaybillNumber(waybillNumberParam);
-      setTotalWeight(totalWeightParam);
-      setIssueDate(issueDateParam);
-    }
+
+    // Set state variables with extracted parameters
+    setCustomerName(customerNameParam);
+    setBatchNumber(batchNumberParam);
+    setEvacuatedQuantity(evacuatedQuantityParam);
+    setEvacuatedWeight(evacuatedWeightParam); // Set evacuatedWeight state variable
+    setIssueDate(issueDateParam);
   }, []);
   
   const handleWaybillSubmit = (e) => {
@@ -46,6 +45,7 @@ const Waybill = () => {
       trucks,
       batchNumber,
       evacuatedQuantity,
+      evacuatedWeight, // Include evacuatedWeight in the waybill data
     };
     fetch('/api/waybill', {
       method: 'POST',
@@ -101,13 +101,14 @@ const Waybill = () => {
     doc.text('Pador Farms Waybill', 14, 20);
     const tableData = [];
     const tableHeaders = ['Field', 'Value'];
-    tableData.push(['Waybill Number', waybillData.wayBillNumber]); // Add Waybill Number
+    tableData.push(['Waybill Number', waybillData.wayBillNumber]);
     tableData.push(['Customer Name', waybillData.customerName]);
     tableData.push(['Port Agent Name', waybillData.portAgentName]);
     tableData.push(['Port Agent Address', waybillData.portAgentAddress]);
     tableData.push(['Port Agent Contact', waybillData.portAgentContact]);
     tableData.push(['Batch Number', waybillData.batchNumber]);
     tableData.push(['Evacuated Quantity', waybillData.evacuatedQuantity]);
+    tableData.push(['Evacuated Weight(Kg)', waybillData.evacuatedWeight]); // Add Evacuated Weight
     waybillData.drivers.forEach((driver) => {
       tableData.push(['Driver Name', driver.name]);
       tableData.push(['Driver Address', driver.address]);
@@ -117,9 +118,8 @@ const Waybill = () => {
       tableData.push(['Truck Registration Number', truck.registrationNumber]);
       tableData.push(['Truck Make', truck.make]);
     });
-    tableData.push(['Issue Date', waybillData.issueDate]); // Add Issue Date
-    tableData.push(['Total Weight(In Kilos)', waybillData.totalWeight ,]); // Add Total Weight
-    tableData.push(['Delivery Status', waybillData.deliveryStatus]); // Add Delivery Status
+    tableData.push(['Issue Date', waybillData.issueDate]);
+    tableData.push(['Delivery Status', waybillData.deliveryStatus]);
   
     doc.autoTable({
       head: [tableHeaders],
@@ -129,6 +129,7 @@ const Waybill = () => {
     });
     doc.save('waybill_report.pdf');
   };
+  
   
   
   return (
@@ -201,6 +202,20 @@ const Waybill = () => {
           readOnly
         />
       </div>
+      <div className="mb-4">
+        <label htmlFor="evacuatedWeight" className="block text-sm font-medium text-gray-600">
+          Evacuated Weight (kg)
+        </label>
+        <input
+          type="number"
+          id="evacuatedWeight"
+          name="evacuatedWeight"
+          value={evacuatedWeight}
+          onChange={(e) => setEvacuatedWeight(e.target.value)} // Update evacuatedWeight state variable
+          className="mt-1 p-2 border rounded-md w-full"
+          required
+        />
+      </div>
       {/* Drivers */}
 
 {drivers.map((driver, index) => (
@@ -248,25 +263,30 @@ const Waybill = () => {
         required
       />
     </div>
-    {index > 0 && (
-      <button
-        type="button"
-        onClick={() => removeDriver(index)}
-        className="text-red-500 underline hover:text-red-700"
-      >
-        Remove Driver
-      </button>
+        {index > 0 && (
+      <div className="flex items-center mb-2">
+        <button
+          type="button"
+          onClick={() => removeDriver(index)}
+          className="text-red-500 hover:text-red-700 mr-2"
+        >
+          <FontAwesomeIcon icon={faTrash} />
+        </button>
+        <hr className="flex-grow border-t-2 border-gray-300" />
+      </div>
     )}
-    <hr className="my-4" />
+
   </div>
 ))}
 <button
   type="button"
   onClick={addDriver}
-  className="mb-4 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700 transition duration-300"
+  className="mb-4 px-1 py-1 bg-green-500 text-white rounded-md hover:bg-green-700 transition duration-300"
 >
+  <FontAwesomeIcon icon={faPlus} className="mr-2" />
   Add Driver
 </button>
+
 
 
 {trucks.map((truck, index) => (
@@ -300,23 +320,27 @@ const Waybill = () => {
         required
       />
     </div>
-    {index > 0 && (
-      <button
-        type="button"
-        onClick={() => removeTruck(index)}
-        className="text-red-500 underline hover:text-red-700"
-      >
-        Remove Truck
-      </button>
+        {index > 0 && (
+      <div className="flex items-center mb-2">
+        <button
+          type="button"
+          onClick={() => removeTruck(index)}
+          className="text-red-500 hover:text-red-700 mr-2"
+        >
+          <FontAwesomeIcon icon={faTrash} />
+        </button>
+        <hr className="flex-grow border-t-2 border-gray-300" />
+      </div>
     )}
-    <hr className="my-4" />
+
   </div>
 ))}
 <button
   type="button"
   onClick={addTruck}
-  className="mb-4 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700 transition duration-300"
+  className="mb-4 px-1 py-1 bg-green-500 text-white rounded-md hover:bg-green-700 transition duration-300"
 >
+  <FontAwesomeIcon icon={faPlus} className="mr-2" />
   Add Truck
 </button>
 

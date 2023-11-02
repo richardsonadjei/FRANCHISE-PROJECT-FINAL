@@ -9,6 +9,10 @@ const evacuationSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  evacuatedWeight: {
+    type: Number,
+    required: true,
+  },
   evacuationDate: {
     type: Date,
     default: Date.now,

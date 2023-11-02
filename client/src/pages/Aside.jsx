@@ -1,15 +1,14 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Aside = () => {
   return (
-    <aside className="aside-menu bg-gradient-to-b from-blue-500 to-blue-700 text-white w-96 h-screen mb-8 pb-4 overflow-y-auto pl-4 ml-4 pt-16">
-      <h2 className="text-2xl font-bold mb-8">Cocoa Business</h2>
-      <ul className="space-y-4">
+    <aside className=" aside-menu w-96 bg-[#1c212c] min-h-full h-screen flex flex-col items-center pt-16 pb-4 overflow-y-auto pl-4 ml-4">
+      <h2 className="text-2xl font-bold mb-8 text-white">Cocoa Business</h2>
+      <ul className="space-y-4 w-full">
         {/* Dashboard Section */}
         <li>
-          <h3 className="text-lg font-semibold mb-2">Dashboard</h3>
+          <h3 className="text-lg font-semibold mb-2 text-gray-400/60">Dashboard</h3>
           <ul className="ml-4 space-y-2">
             <li>
               <Link to="/" className="text-white hover:underline">
@@ -20,7 +19,7 @@ const Aside = () => {
         </li>
         {/* Inventory Management Section */}
         <li>
-          <h3 className="text-lg font-semibold mb-1">Inventory Management</h3>
+          <h3 className="text-lg font-semibold mb-1 text-gray-400/60">Inventory Management</h3>
           <ul className="ml-4 space-y-1">
             <li>
               <Link to="/register-cocoa" className="text-white hover:underline">
@@ -32,7 +31,6 @@ const Aside = () => {
                 Modify Existing Batch
               </Link>
             </li>
-            
             <li>
               <Link to="/evacuation" className="text-white hover:underline">
                 Perform Evacuation With Invoice
@@ -41,13 +39,12 @@ const Aside = () => {
               <Link to="/take-stock" className="text-white hover:underline">
                 Take Stock
               </Link>
-             
             </li>
           </ul>
         </li>
         {/* Sales Management Section */}
         <li>
-          <h3 className="text-lg font-semibold mb-2">Sales Management</h3>
+          <h3 className="text-lg font-semibold mb-2 text-gray-400/60">Sales Management</h3>
           <ul className="ml-4 space-y-2">
             <li>
             <Link to="/create-customer" className="text-white hover:underline">
@@ -63,7 +60,7 @@ const Aside = () => {
         </li>
         {/* Financial Management Section */}
         <li>
-          <h3 className="text-lg font-semibold mb-2">Financial Management</h3>
+          <h3 className="text-lg font-semibold mb-2 text-gray-400/60">Financial Management</h3>
           <ul className="ml-4 space-y-2">
             <li>
               <Link to="/income" className="text-white hover:underline">
@@ -74,17 +71,17 @@ const Aside = () => {
               <Link to="/create-expense" className="text-white hover:underline">
                 Expenditures
               </Link>
-              <li>
-              <Link to="/profit-loss" className="text-white hover:underline">
-               Profit And Loss
-              </Link>
             </li>
+            <li>
+              <Link to="/profit-loss" className="text-white hover:underline">
+                Profit And Loss
+              </Link>
             </li>
           </ul>
         </li>
         {/* Reports & Analytics Section */}
         <li>
-          <h3 className="text-lg font-semibold mb-2">Reports & Analytics</h3>
+          <h3 className="text-lg font-semibold mb-2 text-gray-400/60">Reports & Analytics</h3>
           <ul className="ml-4 space-y-2">
             <li>
               <Link to="/partners" className="text-white hover:underline">
@@ -105,9 +102,9 @@ const Aside = () => {
         </li>
         {/* Settings Section */}
         <li>
-          <h3 className="text-lg font-semibold mb-2">Settings</h3>
+          <h3 className="text-lg font-semibold mb-2 text-gray-400/60">Settings</h3>
           <ul className="ml-4 space-y-2">
-          <li>
+            <li>
               <Link to="/update-Customer" className="text-white hover:underline">
                 Update A Customer
               </Link>
@@ -119,36 +116,37 @@ const Aside = () => {
             </li>
           </ul>
         </li>
+        {/* Suppliers And Customers Section */}
         <li>
-          <h3 className="text-lg font-semibold mb-2">Suppliers And Customers</h3>
-      <ul className="ml-4 space-y-2">
-        <li>
-          <Link to="/add-supplier" className="text-white hover:underline">
-            Register A Supplier
-          </Link>
+          <h3 className="text-lg font-semibold mb-2 text-gray-400/60">Suppliers And Customers</h3>
+          <ul className="ml-4 space-y-2">
+            <li>
+              <Link to="/add-supplier" className="text-white hover:underline">
+                Register A Supplier
+              </Link>
+            </li>
+            <li>
+              <Link to="/find-supplier" className="text-white hover:underline">
+                Search And Update Supplier
+              </Link>
+            </li>
+            <li>
+              <Link to="/view-suppliers" className="text-white hover:underline">
+                View All Suppliers 
+              </Link>
+            </li>
+            <li>
+              <Link to="/create-customer" className="text-white hover:underline">
+                Register A Customer
+              </Link>
+            </li>
+            <li>
+              <Link to="/partners" className="text-white hover:underline">
+                Create A Partner
+              </Link>
+            </li>
+          </ul>
         </li>
-        <li>
-          <Link to="/find-supplier" className="text-white hover:underline">
-            Search And Update Supplier
-          </Link>
-        </li>
-        <li>
-          <Link to="/view-suppliers" className="text-white hover:underline">
-            View All Suppliers 
-          </Link>
-        </li>
-        <li>
-          <Link to="/create-customer" className="text-white hover:underline">
-            Register A Customer
-          </Link>
-        </li>
-        <li>
-          <Link to="/partners" className="text-white hover:underline">
-            Create A Partner
-          </Link>
-        </li>
-      </ul>
-      </li>
       </ul>
     </aside>
   );

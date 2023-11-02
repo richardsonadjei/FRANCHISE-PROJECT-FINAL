@@ -37,11 +37,11 @@ const transactionSchema = new mongoose.Schema({
   },
   totalWeightBefore: {
     type: Number,
-    required: true,
+    
   },
   totalWeightAfter: {
     type: Number,
-    required: true,
+   
   },
   updatedAt: {
     type: Date,

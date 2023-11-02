@@ -56,6 +56,9 @@ const BatchProcurementReport = () => {
         procurement.paymentStatus,
         procurement.description,
       ]),
+      columnStyles: {
+        5: { columnWidth: 'auto' }, // Adjust the width of the 6th column (index 5) containing totalWeightPerBatch
+      },
     });
     doc.save('BatchProcurementReport.pdf');
   };

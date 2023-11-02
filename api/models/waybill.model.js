@@ -65,19 +65,9 @@ const waybillSchema = new mongoose.Schema({
   evacuatedQuantity: {
     type: Number,
   },
-  totalWeight: {
+  evacuatedWeight: {
     type: Number,
-    default: function () {
-     
-      if (this.evacuatedQuantity) {
-        return (64 * this.evacuatedQuantity).toFixed(2);
-      }
-      return 0;
-    },
-    get: function () {
-      // Display the total weight with unit (tonnes)
-      return this.totalWeight.toFixed(2) + ' kg';
-    },
+    required: true,
   },
   issueDate: {
     type: Date,

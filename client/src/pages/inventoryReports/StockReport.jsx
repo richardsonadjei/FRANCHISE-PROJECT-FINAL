@@ -28,7 +28,7 @@ const StockReport = () => {
   const generatePDF = () => {
     const doc = new jsPDF();
     doc.autoTable({
-      head: [['Batch Number', 'Quantity', 'Price Per Bag', 'Stock Value', 'Supplier', 'Total Weight (tonnes)']],
+      head: [['Batch Number', 'Quantity', 'Price Per Bag', 'Stock Value', 'Supplier', 'Total Weight(kg)']],
       body: cocoaBags.map((bag) => [
         bag.batchNumber,
         bag.quantity,
@@ -41,7 +41,7 @@ const StockReport = () => {
     doc.save('StockReport.pdf');
   };
 
-  const headers = ['Batch Number', 'Quantity', 'Price Per Bag', 'Stock Value', 'Supplier', 'Total Weight (tonnes)'];
+  const headers = ['Batch Number', 'Quantity', 'Price Per Bag', 'Stock Value', 'Supplier', 'Total Weight (kg)'];
 
   return (
     <div className="container mx-auto my-8">

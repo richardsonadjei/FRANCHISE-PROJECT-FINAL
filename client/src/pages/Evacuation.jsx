@@ -6,9 +6,11 @@ const Evacuation = () => {
   const [evacuationData, setEvacuationData] = useState({
     batchNumber: '',
     evacuatedQuantity: '',
+    evacuatedWeight: '', // New field for evacuated weight
     customerName: '',
     shippingLocation: '',
     shippingMethod: '',
+
   });
 
   useEffect(() => {
@@ -60,8 +62,8 @@ const Evacuation = () => {
         // Assume the evacuation is successful
         alert('Evacuation successful');
         // Redirect to the income page with batchNumber, evacuatedQuantity, and customerName in the URL
-        const { batchNumber, evacuatedQuantity, customerName } = evacuationData;
-        window.location.href = `/income?batchNumber=${batchNumber}&evacuatedQuantity=${evacuatedQuantity}&customerName=${customerName}`;
+        const { batchNumber, evacuatedQuantity, evacuatedWeight, customerName } = evacuationData;
+      window.location.href = `/income?batchNumber=${batchNumber}&evacuatedQuantity=${evacuatedQuantity}&evacuatedWeight=${evacuatedWeight}&customerName=${customerName}`;
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -104,6 +106,20 @@ const Evacuation = () => {
             id="evacuatedQuantity"
             name="evacuatedQuantity"
             value={evacuationData.evacuatedQuantity}
+            onChange={handleInputChange}
+            className="mt-1 p-2 border rounded-md w-full"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="evacuatedWeight" className="block text-sm font-medium text-gray-600">
+            Evacuated Weight (kg)
+          </label>
+          <input
+            type="number"
+            id="evacuatedWeight"
+            name="evacuatedWeight"
+            value={evacuationData.evacuatedWeight}
             onChange={handleInputChange}
             className="mt-1 p-2 border rounded-md w-full"
             required

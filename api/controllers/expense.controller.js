@@ -1,5 +1,5 @@
 import Expense from '../models/expense.model.js';
-import CocoaBag from '../models/cocoabag.model.js';
+import BatchExpense from '../models/batchExpense.model.js';
 import Procurement from '../models/procurement.model.js';
 
 
@@ -28,12 +28,19 @@ export const createExpense = async (req, res) => {
   }
 };
 
-
 const generateExpenseReport = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
 
-    // Fetch expenses from Expense model within the specified date range
+    // Fetch data from Procurement model within the specified date range
+    const procurementData = await Procurement.find({
+      date: {
+        $gte: new Date(`${startDate}T00:00:00Z`),
+        $lte: new Date(`${endDate}T23:59:59Z`),
+      },
+    });
+
+    // Fetch data from Expense model within the specified date range
     const expenseData = await Expense.find({
       date: {
         $gte: new Date(`${startDate}T00:00:00Z`),
@@ -41,52 +48,42 @@ const generateExpenseReport = async (req, res) => {
       },
     });
 
-    // Fetch expenses from CocoaBag model within the specified date range
-    const cocoaBagExpenses = await CocoaBag.find({
-      'expenses.date': {
+    // Fetch data from BatchExpense model within the specified date range
+    const batchExpenseData = await BatchExpense.find({
+      date: {
         $gte: new Date(`${startDate}T00:00:00Z`),
         $lte: new Date(`${endDate}T23:59:59Z`),
       },
     });
 
-    // Extract and format the required data from CocoaBag expenses
-    const formattedCocoaBagExpenses = cocoaBagExpenses.flatMap((cocoaBag) =>
-      cocoaBag.expenses.filter(
-        (expense) =>
-          expense.date >= new Date(`${startDate}T00:00:00Z`) &&
-          expense.date <= new Date(`${endDate}T23:59:59Z`)
-      )
-    );
+    // Calculate total amounts for each model
+    const procurementTotal = procurementData.reduce((total, item) => total + item.amount, 0);
+    const expenseTotal = expenseData.reduce((total, item) => total + item.amount, 0);
+    const batchExpenseTotal = batchExpenseData.reduce((total, item) => total + item.amount, 0);
 
-    // Combine data from both models
-    const combinedData = [
-      ...expenseData.map((expense) => ({
-        expenseId: expense._id,
-        amount: expense.amount,
-        category: expense.category,
-        description: expense.description, // Add the description field
-        date: expense.date,
-        cocoaBag: null, // Since this is from Expense model, cocoaBag will be null
-      })),
-      ...formattedCocoaBagExpenses.map((expense) => ({
-        expenseId: expense._id,
-        amount: expense.amount,
-        category: expense.category,
-        description: expense.description, // Add the description field
-        date: expense.date,
-        cocoaBag: {
-          _id: expense.cocoaBagId, // Add relevant fields from CocoaBag model if needed
-          // Add other fields from CocoaBag model as needed
-        },
-      })),
-    ];
+    // Calculate total amount across all three models
+    const totalAmount = procurementTotal + expenseTotal + batchExpenseTotal;
 
-    res.status(200).json(combinedData);
+    // Combine the fetched data into response object
+    const data = {
+      procurementData: procurementData,
+      procurementTotal: procurementTotal,
+      expenseData: expenseData,
+      expenseTotal: expenseTotal,
+      batchExpenseData: batchExpenseData,
+      batchExpenseTotal: batchExpenseTotal,
+      totalAmount: totalAmount,
+    };
+
+    res.status(200).json(data);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
-};;
+};
+
+
+
 
 
 

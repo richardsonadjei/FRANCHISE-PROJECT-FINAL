@@ -182,12 +182,14 @@ const getInventorySummary = async (req, res) => {
     const cocoaBags = await CocoaBag.find();
     const totalQuantity = cocoaBags.reduce((acc, bag) => acc + bag.quantity, 0);
     const totalValue = cocoaBags.reduce((acc, bag) => acc + bag.totalValuePerBatch, 0);
-    res.status(200).json({ totalQuantity, totalValue });
+    const totalWeight = cocoaBags.reduce((acc, bag) => acc + bag.totalWeightPerBatch, 0);
+    res.status(200).json({ totalQuantity, totalValue, totalWeight });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
 
 
 const addReceivedQuantityToCocoaBag = async (req, res) => {

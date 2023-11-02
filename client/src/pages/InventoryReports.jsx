@@ -53,6 +53,12 @@ const Report = () => {
       purpose: "This gives a report of specific batch of beans evacuated within a period",
       // ... other details for the Quality Control Report
     },
+    {
+      title: "View All Waybills",
+      path: "/waybill-report",
+      purpose: "This gives a report all waybills generated within a period",
+      // ... other details for the Quality Control Report
+    },
    
   
   

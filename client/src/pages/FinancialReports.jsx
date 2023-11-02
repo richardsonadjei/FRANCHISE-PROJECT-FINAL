@@ -24,12 +24,6 @@ const Report = () => {
         // ... other details for the Transaction History Report
       },
     {
-      title: "Customer Income Report",
-      path: "/customer-income",
-      purpose: "This provides a report of income generated from a specific supplier within a period",
-      // ... other details for the Supplier Performance Report
-    },
-    {
       title: "All Procurements Report",
       path: "/procurement-report",
       purpose: "This gives a report of cost of all batch of beans procured within a period(Treated As Expenditure)",

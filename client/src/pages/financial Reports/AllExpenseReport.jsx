@@ -1,23 +1,28 @@
 import React, { useState } from 'react';
 
+
 const AllExpenseReport = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [expenses, setExpenses] = useState([]);
+  const [reportData, setReportData] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await fetch(`/api/expenses/all-expenses?startDate=${startDate}&endDate=${endDate}`);
       const data = await response.json();
-      setExpenses(data);
+      setReportData(data);
     } catch (error) {
       console.error(error);
     }
   };
 
   const calculateTotalExpense = () => {
-    return expenses.reduce((total, expense) => total + expense.amount, 0);
+    if (reportData) {
+      const { procurementTotal, expenseTotal, batchExpenseTotal } = reportData;
+      return procurementTotal + expenseTotal + batchExpenseTotal;
+    }
+    return 0;
   };
 
   return (
@@ -56,39 +61,94 @@ const AllExpenseReport = () => {
             Generate Report
           </button>
         </form>
-        {expenses && expenses.length > 0 && (
+        {reportData && (
           <div className="mt-4">
-            <h2 className="text-lg font-bold mb-2">Expense Report:</h2>
+            {/* Procurement Expense Table */}
+            <h2 className="text-lg font-bold mb-2">Procurement Expenses:</h2>
             <table className="border-collapse border border-gray-400 w-full shadow-lg">
+              {/* Table headers */}
               <thead>
                 <tr>
                   <th className="border border-gray-400 px-4 py-2">Description</th>
                   <th className="border border-gray-400 px-4 py-2">Amount</th>
-                  <th className="border border-gray-400 px-4 py-2">Category</th>
-                  <th className="border border-gray-400 px-4 py-2">Date</th>
+                  {/* Add more headers if needed */}
                 </tr>
               </thead>
+              {/* Table data */}
               <tbody>
-                {expenses.map((expense) => (
-                  <tr key={expense.expenseId}>
-                    <td className="border border-gray-400 px-4 py-2">
-                      {expense.cocoaBag && expense.cocoaBag.expenses && expense.cocoaBag.expenses.length > 0
-                        ? expense.cocoaBag.expenses[0].description
-                        : expense.description}
-                    </td>
+                {reportData.procurementData.map((expense) => (
+                  <tr key={expense._id}>
+                    <td className="border border-gray-400 px-4 py-2">{expense.description}</td>
                     <td className="border border-gray-400 px-4 py-2">{expense.amount}</td>
-                    <td className="border border-gray-400 px-4 py-2">{expense.category}</td>
-                    <td className="border border-gray-400 px-4 py-2">
-                      {new Date(expense.date).toLocaleDateString()}
-                    </td>
+                    {/* Add more fields if needed */}
                   </tr>
                 ))}
               </tbody>
             </table>
+
+            {/* Expense Table */}
+            <h2 className="text-lg font-bold mb-2 mt-4">Other Expenses:</h2>
+            <table className="border-collapse border border-gray-400 w-full shadow-lg">
+              {/* Table headers */}
+              <thead>
+                <tr>
+                  <th className="border border-gray-400 px-4 py-2">Description</th>
+                  <th className="border border-gray-400 px-4 py-2">Amount</th>
+                  {/* Add more headers if needed */}
+                </tr>
+              </thead>
+              {/* Table data */}
+              <tbody>
+                {reportData.expenseData.map((expense) => (
+                  <tr key={expense._id}>
+                    <td className="border border-gray-400 px-4 py-2">{expense.description}</td>
+                    <td className="border border-gray-400 px-4 py-2">{expense.amount}</td>
+                    {/* Add more fields if needed */}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {/* Batch Expense Table */}
+            <h2 className="text-lg font-bold mb-2 mt-4">Batch Expenses:</h2>
+            <table className="border-collapse border border-gray-400 w-full shadow-lg">
+              {/* Table headers */}
+              <thead>
+                <tr>
+                  <th className="border border-gray-400 px-4 py-2">Description</th>
+                  <th className="border border-gray-400 px-4 py-2">Amount</th>
+                  {/* Add more headers if needed */}
+                </tr>
+              </thead>
+              {/* Table data */}
+              <tbody>
+                {reportData.batchExpenseData.map((expense) => (
+                  <tr key={expense._id}>
+                    <td className="border border-gray-400 px-4 py-2">{expense.description}</td>
+                    <td className="border border-gray-400 px-4 py-2">{expense.amount}</td>
+                    {/* Add more fields if needed */}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {/* Summary Report */}
             <div className="mt-4">
               <h2 className="text-lg font-bold mb-2">Summary Report:</h2>
               <table className="border-collapse border border-gray-400 w-full shadow-lg">
                 <tbody>
+                  <tr>
+                    <td className="border border-gray-400 px-4 py-2 font-bold">Total Procurement Expenses:</td>
+                    <td className="border border-gray-400 px-4 py-2">{reportData.procurementTotal}</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-gray-400 px-4 py-2 font-bold">Total Misc Expenses:</td>
+                    <td className="border border-gray-400 px-4 py-2">{reportData.expenseTotal}</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-gray-400 px-4 py-2 font-bold">Total Other  Expenses:</td>
+                    <td className="border border-gray-400 px-4 py-2">{reportData.batchExpenseTotal}</td>
+                  </tr>
                   <tr>
                     <td className="border border-gray-400 px-4 py-2 font-bold">Total Expenses:</td>
                     <td className="border border-gray-400 px-4 py-2">{calculateTotalExpense()}</td>

@@ -14,6 +14,10 @@ const incomeSchema = new mongoose.Schema({
     type: Number,
     
   },
+  evacuatedWeight: {
+    type: Number,
+    
+  },
   amount: {
     type: Number,
     required: true,

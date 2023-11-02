@@ -40,6 +40,8 @@ const BatchTransactionReport = () => {
           'Quantity Before',
           'Received Quantity',
           'Quantity After',
+          'Total Weight Before',
+          'Total Weight After',
           'Evacuated Quantity',
           'Modified Quantity',
           'Date',
@@ -51,17 +53,19 @@ const BatchTransactionReport = () => {
         transaction.quantityBefore,
         transaction.receivedQuantity,
         transaction.quantityAfter,
+        transaction.totalWeightBefore,
+        transaction.totalWeightAfter,
         transaction.evacuatedQuantity,
         transaction.modifiedQuantity,
         new Date(transaction.updatedAt).toLocaleString(),
       ]),
       columnStyles: {
-        5: { columnWidth: 'auto' }, // Adjust the width of the 6th column (index 5) containing evacuatedQuantity
+        5: { columnWidth: 'auto' }, // Adjust the width of the 6th column (index 5) containing totalWeightBefore
+        6: { columnWidth: 'auto' }, // Adjust the width of the 7th column (index 6) containing totalWeightAfter
       },
     });
     doc.save('transaction_report.pdf');
   };
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -136,6 +140,8 @@ const BatchTransactionReport = () => {
                 <th className="py-2 px-4">Quantity Before</th>
                 <th className="py-2 px-4">Received Quantity</th>
                 <th className="py-2 px-4">Quantity After</th>
+                <th className="py-2 px-4">Total Weight Before</th>
+                <th className="py-2 px-4">Total Weight After</th>
                 <th className="py-2 px-4">Evacuated Quantity</th>
                 <th className="py-2 px-4">Modified Quantity</th>
                 <th className="py-2 px-4">Date</th>
@@ -149,6 +155,8 @@ const BatchTransactionReport = () => {
                   <td className="py-2 px-4">{transaction.quantityBefore}</td>
                   <td className="py-2 px-4">{transaction.receivedQuantity}</td>
                   <td className="py-2 px-4">{transaction.quantityAfter}</td>
+                  <td className="py-2 px-4">{transaction.totalWeightBefore}</td>
+                  <td className="py-2 px-4">{transaction.totalWeightAfter}</td>
                   <td className="py-2 px-4">{transaction.evacuatedQuantity}</td>
                   <td className="py-2 px-4">{transaction.modifiedQuantity}</td>
                   <td className="py-2 px-4">{new Date(transaction.updatedAt).toLocaleString()}</td>

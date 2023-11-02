@@ -114,8 +114,8 @@ export const getFinancialSnapshot = async (req, res) => {
       },
     ]);
 
-    // Calculate total expenses from Procurement model (sum of all procurements for all batches)
-    const procurementExpensesData = await Procurement.aggregate([
+    // Calculate total procurement expenses from Procurement model (sum of all procurements for all batches)
+    const totalProcurementExpensesData = await Procurement.aggregate([
       {
         $group: {
           _id: null,
@@ -124,26 +124,32 @@ export const getFinancialSnapshot = async (req, res) => {
       },
     ]);
 
-    // Calculate total miscellaneous expenses from Expense model
-    const miscellaneousExpensesData = await Expense.aggregate([
-      {
-        $match: {
-          category: 'miscellaneous',
-        },
-      },
+    // Calculate total batch expenses from BatchExpense model (sum of all amounts for batch expenses)
+    const totalBatchExpensesData = await BatchExpense.aggregate([
       {
         $group: {
           _id: null,
-          totalMiscellaneousExpenses: { $sum: '$amount' },
+          totalBatchExpenses: { $sum: '$amount' },
+        },
+      },
+    ]);
+
+    // Calculate total expenses from Expense model (sum of all amounts for all categories)
+    const totalExpensesData = await Expense.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalExpenses: { $sum: '$amount' },
         },
       },
     ]);
 
     const totalIncome = incomeData.length > 0 ? incomeData[0].totalIncome : 0;
-    const totalProcurementExpenses = procurementExpensesData.length > 0 ? procurementExpensesData[0].totalProcurementExpenses : 0;
-    const totalMiscellaneousExpenses = miscellaneousExpensesData.length > 0 ? miscellaneousExpensesData[0].totalMiscellaneousExpenses : 0;
+    const totalProcurementExpenses = totalProcurementExpensesData.length > 0 ? totalProcurementExpensesData[0].totalProcurementExpenses : 0;
+    const totalBatchExpenses = totalBatchExpensesData.length > 0 ? totalBatchExpensesData[0].totalBatchExpenses : 0;
+    const totalExpenses = totalExpensesData.length > 0 ? totalExpensesData[0].totalExpenses : 0;
 
-    const totalCombinedExpenses = totalProcurementExpenses + totalMiscellaneousExpenses;
+    const totalCombinedExpenses = totalProcurementExpenses + totalBatchExpenses + totalExpenses;
     const profitLoss = totalIncome - totalCombinedExpenses;
 
     res.status(200).json({ totalIncome, totalCombinedExpenses, profitLoss });
@@ -152,6 +158,7 @@ export const getFinancialSnapshot = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
 
 
 

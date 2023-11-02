@@ -1,10 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
 
 const Income = () => {
   const [source, setSource] = useState('');
   const [batchNumber, setBatchNumber] = useState('');
   const [evacuatedQuantity, setEvacuatedQuantity] = useState('');
+  const [evacuatedWeight, setEvacuatedWeight] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
   const [bankTransactionDetails, setBankTransactionDetails] = useState({
     bankName: '',
@@ -18,15 +18,17 @@ const Income = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    // Extract batchNumber and evacuatedQuantity from URL parameters
+    // Extract batchNumber, evacuatedQuantity, and evacuatedWeight from URL parameters
     const params = new URLSearchParams(window.location.search);
     const batchNumberParam = params.get('batchNumber');
     const evacuatedQuantityParam = params.get('evacuatedQuantity');
+    const evacuatedWeightParam = params.get('evacuatedWeight');
     const customerNameParam = params.get('customerName');
 
-    if (batchNumberParam && evacuatedQuantityParam && customerNameParam) {
+    if (batchNumberParam && evacuatedQuantityParam && customerNameParam && evacuatedWeightParam) {
       setBatchNumber(batchNumberParam);
       setEvacuatedQuantity(evacuatedQuantityParam);
+      setEvacuatedWeight(evacuatedWeightParam);
       setCustomerName(customerNameParam);
     }
   }, []);
@@ -46,6 +48,9 @@ const Income = () => {
           break;
         case 'evacuatedQuantity':
           setEvacuatedQuantity(value);
+          break;
+        case 'evacuatedWeight':
+          setEvacuatedWeight(value);
           break;
         case 'paymentMethod':
           setPaymentMethod(value);
@@ -70,6 +75,7 @@ const Income = () => {
       source,
       batchNumber,
       evacuatedQuantity: parseInt(evacuatedQuantity),
+      evacuatedWeight: parseFloat(evacuatedWeight),
       paymentMethod,
       bankTransactionDetails,
       customerName,
@@ -94,6 +100,7 @@ const Income = () => {
         setSource('');
         setBatchNumber('');
         setEvacuatedQuantity('');
+        setEvacuatedWeight('');
         setPaymentMethod('');
         setBankTransactionDetails({
           bankName: '',
@@ -104,8 +111,8 @@ const Income = () => {
         setCustomerName('');
         setDescription('');
         setPaymentStatus('Pending');
-        // Redirect to waybill page with batchNumber and evacuatedQuantity as URL parameters
-        window.location.href = `/waybill?batchNumber=${batchNumber}&evacuatedQuantity=${evacuatedQuantity}&customerName=${customerName}`;
+        // Redirect to waybill page with batchNumber, evacuatedQuantity, and evacuatedWeight as URL parameters
+        window.location.href = `/waybill?batchNumber=${batchNumber}&evacuatedQuantity=${evacuatedQuantity}&evacuatedWeight=${evacuatedWeight}&customerName=${customerName}`;
       })
       .catch((error) => {
         setIsLoading(false);
@@ -157,6 +164,21 @@ const Income = () => {
             id="evacuatedQuantity"
             name="evacuatedQuantity"
             value={evacuatedQuantity}
+            onChange={handleInputChange}
+            className="mt-1 p-2 border rounded-md w-full"
+            required
+            readOnly
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="evacuatedWeight" className="block text-sm font-medium text-gray-600">
+            Evacuated Weight (kg)
+          </label>
+          <input
+            type="number"
+            id="evacuatedWeight"
+            name="evacuatedWeight"
+            value={evacuatedWeight}
             onChange={handleInputChange}
             className="mt-1 p-2 border rounded-md w-full"
             required
