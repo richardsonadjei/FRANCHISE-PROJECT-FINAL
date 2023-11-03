@@ -23,7 +23,7 @@ const cocoaBagSchema = new mongoose.Schema({
   },
   qcCertifications: {
     type: String,
-    enum: ['Certified', 'Yet To Certify', 'Not Certified'],
+    enum: ['Graded And Sealed', 'Not Graded And Sealed'],
   },
   packingDate: {
     type: Date,

@@ -21,6 +21,15 @@ const performEvacuation = async (req, res) => {
     const totalWeightBefore = cocoaBagBeforeEvacuation.totalWeightPerBatch;
     const totalWeightAfter = totalWeightBefore - evacuatedWeight;
 
+    // Update totalValuePerBatch after evacuation
+    const totalValuePerBatch = quantityAfter * 1308; // Assuming 1308 is the unit price per quantity
+
+    // Update the existing quantity, totalWeightPerBatch, and totalValuePerBatch of cocoa bags in the CocoaBag model
+    cocoaBagBeforeEvacuation.quantity = quantityAfter;
+    cocoaBagBeforeEvacuation.totalWeightPerBatch = totalWeightAfter;
+    cocoaBagBeforeEvacuation.totalValuePerBatch = totalValuePerBatch;
+    await cocoaBagBeforeEvacuation.save();
+
     // Create a new evacuation instance
     const evacuation = new Evacuation({
       batchNumber,
@@ -50,11 +59,6 @@ const performEvacuation = async (req, res) => {
 
     // Save the transaction details to the database
     await transaction.save();
-
-    // Update the existing quantity and totalWeightPerBatch of cocoa bags in the CocoaBag model
-    cocoaBagBeforeEvacuation.quantity = quantityAfter;
-    cocoaBagBeforeEvacuation.totalWeightPerBatch = totalWeightAfter;
-    await cocoaBagBeforeEvacuation.save();
 
     // Send a success response
     return res.status(201).json({ message: 'Evacuation successful', evacuation, transaction });

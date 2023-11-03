@@ -67,7 +67,7 @@ const Report = () => {
       },
       {
         title: "All Profit Partners Allocation Report",
-        path: "/all-allocation",
+        path: "/partner-income-report",
         purpose: "This gives a report of profits made and allocated to partners within a period on all prices",
         // ... other details for the Quality Control Report
       },

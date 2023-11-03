@@ -60,6 +60,8 @@ const Waybill = () => {
         alert('Waybill created successfully');
         // Generate and download PDF report
         generatePDFReport(data.waybill);
+        // Redirect to /distribute page with batchNumber as a URL parameter
+        window.location.href = `/distribute-profit?batchNumber=${waybillData.batchNumber}`;
       })
       .catch((error) => {
         console.error('Error:', error);

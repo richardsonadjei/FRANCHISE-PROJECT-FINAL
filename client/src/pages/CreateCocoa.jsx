@@ -141,9 +141,9 @@ const CreateCocoa = () => {
             required
           >
             <option value="">Select Certification</option>
-            <option value="Certified">Certified</option>
-            <option value="Yet To Certify">Yet To Certify</option>
-            <option value="Not Certified">Not Certified</option>
+            <option value="Graded And Sealed">Graded And Sealed</option>
+            <option value="Not Graded And Sealed">Not Graded And Sealed</option>
+            
           </select>
         </div>
         <div className="mb-4">
