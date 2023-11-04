@@ -73,7 +73,7 @@ const Evacuation = () => {
   };
 
   return (
-    <div className="container mx-auto mt-8 p-8 bg-white shadow-lg rounded-lg">
+    <div className="container mx-auto overflow-y-auto max-h-screen mt-28 p-8 bg-white shadow-lg rounded-lg">
       <h1 className="text-3xl font-semibold mb-6">Evacuation Form</h1>
       <form onSubmit={handleEvacuationSubmit}>
         <div className="mb-4">

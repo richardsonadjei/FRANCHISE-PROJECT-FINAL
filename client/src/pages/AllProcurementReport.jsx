@@ -40,7 +40,7 @@ const AllProcurement = () => {
   };
 
   return (
-    <div className="container mx-auto my-8">
+    <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4">
       <div className="flex flex-col items-center mb-4">
         <h1 className="text-3xl font-bold mb-6">All Procurements Report</h1>
         <label htmlFor="startDate" className="text-lg font-semibold mb-2">
@@ -88,7 +88,7 @@ const AllProcurement = () => {
             <tbody>
               {procurements.map((procurement, index) => (
                 <tr key={index}>
-                  <td className="py-2 px-4">{procurement.date}</td>
+                   <td className="py-2 px-4">{new Date(procurement.date).toLocaleDateString()}, {new Date(procurement.date).toLocaleTimeString()}</td>
                   <td className="py-2 px-4">{procurement.batchNumber}</td>
                   <td className="py-2 px-4">{procurement.amount}</td>
                   <td className="py-2 px-4">{procurement.category}</td>

@@ -72,7 +72,7 @@ const CreateBatchExpense = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto  overflow-y-auto max-h-screen mt-28 px-4">
       <form className="shadow-lg rounded-lg p-6" onSubmit={handleSubmit}>
         <h2 className="text-xl font-bold mb-4">Create Batch Expense</h2>
         {successMessage && (

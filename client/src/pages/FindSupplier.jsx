@@ -77,7 +77,7 @@ export default function FindSupplier() {
   };
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4">
       <h1 className="text-2xl font-bold mb-4">Find Supplier</h1>
       <div className="flex items-center mb-4">
         <input

@@ -34,7 +34,7 @@ const ProfitLossReport = () => {
   };
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center mx-auto overflow-y-auto max-h-screen mt-28 px-4">
       <div className="w-1/2">
         <h1 className="text-2xl font-bold mb-4 text-center">Profit Loss Report</h1>
         <form onSubmit={handleSubmit} className="border rounded p-4">
@@ -88,7 +88,9 @@ const ProfitLossReport = () => {
                   <tr key={expense._id}>
                     <td className="border border-gray-400 px-4 py-2">{expense.description}</td>
                     <td className="border border-gray-400 px-4 py-2">{expense.amount}</td>
-                    <td className="border border-gray-400 px-4 py-2">{expense.date}</td>
+                    <td className="border border-gray-400 px-4 py-2">
+  {new Date(expense.date).toLocaleDateString()}
+</td>
                   </tr>
                 ))}
               </tbody>
@@ -110,7 +112,9 @@ const ProfitLossReport = () => {
                   <tr key={expense._id}>
                     <td className="border border-gray-400 px-4 py-2">{expense.description}</td>
                     <td className="border border-gray-400 px-4 py-2">{expense.amount}</td>
-                    <td className="border border-gray-400 px-4 py-2">{expense.date}</td>
+                    <td className="border border-gray-400 px-4 py-2">
+  {new Date(expense.date).toLocaleDateString()}
+</td>
                   </tr>
                 ))}
               </tbody>
@@ -132,7 +136,9 @@ const ProfitLossReport = () => {
                   <tr key={expense._id}>
                     <td className="border border-gray-400 px-4 py-2">{expense.description}</td>
                     <td className="border border-gray-400 px-4 py-2">{expense.amount}</td>
-                    <td className="border border-gray-400 px-4 py-2">{expense.date}</td>
+                    <td className="border border-gray-400 px-4 py-2">
+  {new Date(expense.date).toLocaleDateString()}
+</td>
                   </tr>
                 ))}
               </tbody>
@@ -154,7 +160,10 @@ const ProfitLossReport = () => {
                   <tr key={income._id}>
                     <td className="border border-gray-400 px-4 py-2">{income.description}</td>
                     <td className="border border-gray-400 px-4 py-2">{income.amount}</td>
-                    <td className="border border-gray-400 px-4 py-2">{income.transactionDate}</td>
+                    <td className="border border-gray-400 px-4 py-2">
+  {new Date(income.transactionDate).toLocaleDateString()}
+</td>
+
                   </tr>
                 ))}
               </tbody>

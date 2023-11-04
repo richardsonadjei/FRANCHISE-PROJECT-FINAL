@@ -40,7 +40,7 @@ const DistributeProfit = () => {
   };
 
   return (
-    <div className="container mx-auto mt-8">
+    <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4">
       <h1 className="text-2xl font-bold mb-4">Distribute Profit for Batch</h1>
       <div className="flex items-center mb-4">
         <label className="mr-2">Batch Number:</label>

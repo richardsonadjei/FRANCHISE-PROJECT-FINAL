@@ -77,7 +77,7 @@ const BatchTransactionReport = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4">
       <h1 className="text-2xl font-bold mb-4">Batch Transaction Report</h1>
       <form onSubmit={handleSubmit} className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>

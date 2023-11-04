@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -33,7 +34,7 @@ const PendingPayment = () => {
           </tr>
         </thead>
         <tbody className="text-gray-700">
-          {pendingIncomes.map((income) => (
+          {pendingIncomes && pendingIncomes.map((income) => (
             <tr key={income._id} className="hover:bg-gray-100 transition duration-300">
               <td className="py-2 px-4">
                 <Link to={`/update-payment?batchNumber=${income.batchNumber}`} className="text-blue-500 hover:underline">
@@ -44,7 +45,9 @@ const PendingPayment = () => {
               <td className="py-2 px-4">{income.source}</td>
               <td className="py-2 px-4">{income.evacuatedQuantity}</td>
               <td className="py-2 px-4">{income.paymentMethod}</td>
-              <td className="py-2 px-4">{income.transactionDate}</td>
+              <td className="py-2 px-4">
+  {new Date(income.transactionDate).toLocaleDateString()}
+</td>
               <td className="py-2 px-4">{income.customerName}</td>
               <td className="py-2 px-4">{income.description}</td>
             </tr>

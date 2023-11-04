@@ -18,7 +18,7 @@ const WaybillReport = () => {
   };
 
   return (
-    <div className="container mx-auto my-8">
+    <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4">
       <h1 className="text-3xl font-bold mb-6">Waybill Report</h1>
       <form onSubmit={handleSearch} className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>

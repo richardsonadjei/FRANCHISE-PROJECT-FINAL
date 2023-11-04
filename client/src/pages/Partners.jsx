@@ -78,7 +78,7 @@ const Partners = () => {
   };
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4">
       <h2 className="text-2xl font-bold mb-8">Create a New Partner</h2>
       {successMessage && (
         <div className="bg-green-200 text-green-800 p-4 mb-4 rounded">

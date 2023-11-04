@@ -35,7 +35,7 @@ const ViewBatches = () => {
   };
 
   return (
-    <div className="container mx-auto p-8">
+    <div className="container mx-auto overflow-y-auto max-h-screen mt-28  p-8">
       {/* Your table rendering code */}
       <button
         onClick={generatePDF}

@@ -71,7 +71,7 @@ const ReceiveStock = () => {
   };
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4">
       <h1 className="text-2xl font-bold mb-4">Receive Stock</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">

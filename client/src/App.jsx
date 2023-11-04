@@ -48,6 +48,7 @@ import BatchProcurementReport from './pages/inventoryReports/BatchProcurementRep
 import WaybillReport from './pages/inventoryReports/WaybillReport';
 import DistributeProfit from './pages/DistributeProfit';
 import PartnerIncome from './pages/financial Reports/PartnerIncome';
+import QCCerts from './pages/QCCerts';
 
 
 
@@ -103,6 +104,7 @@ export default function App() {
           <Route path='/waybill-report' element={<WaybillReport/>} /> 
           <Route path='/distribute-profit' element={<DistributeProfit/>} /> 
           <Route path='/partner-income-report' element={<PartnerIncome/>} /> 
+          <Route path='/qccerts' element={<QCCerts/>} /> 
           
           
         </Route>

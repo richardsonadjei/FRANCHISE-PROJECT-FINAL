@@ -46,7 +46,7 @@ const ReceiveReport = () => {
   };
 
   return (
-    <div className="container mx-auto mt-8">
+    <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4">
       <h2 className="text-2xl font-bold mb-4">Receive Report</h2>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col mb-4">

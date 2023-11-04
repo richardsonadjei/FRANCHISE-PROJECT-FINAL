@@ -71,7 +71,7 @@ const CreateExpense = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 flex justify-center">
+    <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4 flex justify-center">
       <div className="w-full md:w-1/2">
         <h1 className="text-2xl font-bold mb-4">Create Expense</h1>
         {successMessage && <div className="bg-green-200 text-green-800 p-2 rounded mb-4">{successMessage}</div>}

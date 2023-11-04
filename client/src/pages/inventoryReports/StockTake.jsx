@@ -45,7 +45,7 @@ const StockTake = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 flex flex-col items-center">
+    <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4 flex flex-col items-center">
       <h1 className="text-3xl font-bold mb-6">Stock Take</h1>
       {/* Batches form in a centered and styled table */}
       <table className="w-full max-w-md bg-white shadow-lg rounded-lg overflow-hidden mb-8">

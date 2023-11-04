@@ -61,7 +61,7 @@ const UpdateCustomer = () => {
   };
 
   return (
-    <div className="container mx-auto mt-8">
+    <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4">
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-600">Customer Name:</label>
         <input

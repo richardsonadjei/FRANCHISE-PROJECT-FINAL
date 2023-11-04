@@ -36,7 +36,7 @@ const ExpenseCategory = () => {
   };
 
   return (
-    <div className="container mx-auto flex justify-center items-center h-screen">
+    <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4 flex justify-center items-center h-screen">
       <div className="w-1/2">
         <h1 className="text-2xl font-bold mb-4 text-center">Create Expense Category</h1>
         <form onSubmit={handleSubmit}>

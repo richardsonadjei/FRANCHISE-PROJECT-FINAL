@@ -18,7 +18,7 @@ const ViewSuppliers = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4 py-8">
       <h1 className="text-3xl font-bold mb-6 text-center">All Suppliers</h1>
       {suppliers.length > 0 ? (
         <table className="min-w-full bg-white border border-gray-300 shadow-lg rounded-lg overflow-hidden">

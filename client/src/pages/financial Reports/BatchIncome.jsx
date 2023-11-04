@@ -42,7 +42,7 @@ const BatchIncome = () => {
   };
 
   return (
-    <div className="container mx-auto mt-10 p-4 bg-gray-100 rounded shadow-lg">
+    <div className="container mx-auto overflow-y-auto max-h-screen mt-28 p-4 bg-gray-100 rounded shadow-lg">
       <h1 className="text-2xl font-bold mb-4">Batch Income Report</h1>
       <div className="flex space-x-4 mb-4">
         <select

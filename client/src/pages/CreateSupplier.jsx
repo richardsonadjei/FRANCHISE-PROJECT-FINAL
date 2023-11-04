@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 
 const CreateSupplier = () => {
@@ -44,7 +43,7 @@ const CreateSupplier = () => {
     };
 
   return (
-    <div className="container mx-auto mt-8 p-4 bg-gray-100 rounded shadow">
+    <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4 bg-gray-100 rounded shadow">
       <h2 className="text-2xl font-semibold mb-4">Create New Supplier</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
@@ -120,9 +119,7 @@ const CreateSupplier = () => {
           >
             Create Supplier
           </button>
-          <Link to="/main-page" className="text-blue-500 hover:underline">
-            Cancel
-          </Link>
+          
         </div>
         {responseMessage && (
           <p className={`text-sm ${responseMessage.includes('Error') ? 'text-red-500' : 'text-green-500'}`}>

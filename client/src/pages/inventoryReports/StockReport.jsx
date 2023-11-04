@@ -44,7 +44,7 @@ const StockReport = () => {
   const headers = ['Batch Number', 'Quantity', 'Price Per Bag', 'Stock Value', 'Supplier', 'Total Weight (kg)'];
 
   return (
-    <div className="container mx-auto my-8">
+    <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4">
       <div className="flex flex-col items-center mb-4">
         <h1 className="text-3xl font-bold mb-6">Stock Report</h1>
         <label htmlFor="startDate" className="text-lg font-semibold mb-2">

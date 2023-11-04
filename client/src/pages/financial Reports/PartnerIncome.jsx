@@ -41,7 +41,7 @@ const PartnerIncome = () => {
     });
 
     return (
-      <div className="mt-8">
+      <div className="mx-auto overflow-y-auto max-h-screen mt-28 px-4">
         <h2 className="text-2xl font-semibold mb-4">Summary Report</h2>
         <table className="min-w-full border-collapse border border-gray-300">
           <thead>
@@ -54,7 +54,7 @@ const PartnerIncome = () => {
             {Object.entries(partnerSummary).map(([partnerName, totalIncome]) => (
               <tr key={partnerName}>
                 <td className="border px-4 py-2">{partnerName}</td>
-                <td className="border px-4 py-2">{totalIncome}</td>
+                <td className="border px-4 py-2">{totalIncome.toFixed(2)}</td>
               </tr>
             ))}
           </tbody>
@@ -103,7 +103,7 @@ const PartnerIncome = () => {
                 <tr key={income._id}>
                   <td className="border px-4 py-2">{income.partnerName}</td>
                   <td className="border px-4 py-2">{income.batchNumber}</td>
-                  <td className="border px-4 py-2">{income.incomeAmount}</td>
+                  <td className="border px-4 py-2">{income.incomeAmount.toFixed(2)}</td>
                   <td className="border px-4 py-2">{income.purpose}</td>
                 </tr>
               ))}

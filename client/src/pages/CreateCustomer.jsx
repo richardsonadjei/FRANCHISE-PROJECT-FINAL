@@ -85,7 +85,7 @@ const CreateCustomer = () => {
   };
 
   return (
-    <div className="container mx-auto mt-8">
+    <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4">
       {message && (
         <p className={`text-${messageType} mb-4`}>{message}</p>
       )}

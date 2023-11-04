@@ -37,28 +37,40 @@ const AllIncomeReport = () => {
   const totalAmount = incomes.reduce((total, income) => total + income.amount, 0);
 
   return (
-    <div className="container mx-auto mt-10 p-4 bg-gray-100 rounded shadow-lg">
-      <h1 className="text-2xl font-bold mb-4">All Income Report</h1>
-      <div className="flex space-x-4 mb-4">
-        <input
-          type="date"
-          className="border rounded p-2 focus:outline-none focus:ring focus:border-blue-300"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-        />
-        <input
-          type="date"
-          className="border rounded p-2 focus:outline-none focus:ring focus:border-blue-300"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-        />
+    <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4 flex flex-col items-center justify-center">
+        <h1 className="text-2xl font-bold mb-4">All Income Report</h1>
+      <form onSubmit={fetchIncomesByDateRange} className="text-center">
+        <div className="mb-4 flex items-center justify-center">
+          <label htmlFor="startDate" className="block font-semibold mb-1 mr-2">
+            Start Date
+          </label>
+          <input
+            type="date"
+            id="startDate"
+            className="border p-2 rounded focus:outline-none focus:border-blue-500 transition duration-300"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+          />
+        </div>
+        <div className="mb-4 flex items-center justify-center">
+          <label htmlFor="endDate" className="block font-semibold mb-1 mr-2">
+            End Date
+          </label>
+          <input
+            type="date"
+            id="endDate"
+            className="border p-2 rounded focus:outline-none focus:border-blue-500 transition duration-300"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+          />
+        </div>
         <button
-          className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300"
-          onClick={fetchIncomesByDateRange}
+          type="submit"
+          className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300"
         >
           Generate Report
         </button>
-      </div>
+      </form>
       {error && <div className="text-red-500 mb-4">{error}</div>}
       {incomes.length > 0 && (
         <div className="mt-4">

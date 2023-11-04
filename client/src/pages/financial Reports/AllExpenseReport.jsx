@@ -26,7 +26,7 @@ const AllExpenseReport = () => {
   };
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center mx-auto overflow-y-auto max-h-screen mt-28 px-4">
       <div className="w-1/2">
         <h1 className="text-2xl font-bold mb-4 text-center">All Expense Report</h1>
         <form onSubmit={handleSubmit} className="border rounded p-4">

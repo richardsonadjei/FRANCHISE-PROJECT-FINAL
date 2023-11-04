@@ -69,7 +69,7 @@ const ModifyBatch = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 shadow-lg rounded-lg bg-white">
+    <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4 shadow-lg rounded-lg bg-white">
       <h1 className="text-2xl font-bold mb-4">Modify Cocoa</h1>
       <form onSubmit={handleModifyCocoa} className="grid grid-cols-1 gap-4">
         <div>
