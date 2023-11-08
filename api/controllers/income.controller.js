@@ -3,7 +3,8 @@ import Income from '../models/income.model.js';
 
 export const addIncome = async (req, res) => {
   try {
-    const { source, batchNumber, evacuatedQuantity, evacuatedWeight, paymentMethod, bankTransactionDetails, customerName, description } = req.body;
+   
+    const { source, batchNumber, evacuatedQuantity, evacuatedWeight, paymentMethod, bankTransactionDetails, customerName, description, amount } = req.body;
     const userId = req.user.id; // Extract username from the token
 
     const income = new Income({
@@ -11,6 +12,7 @@ export const addIncome = async (req, res) => {
       batchNumber,
       evacuatedQuantity,
       evacuatedWeight,
+      amount,
       paymentMethod,
       bankTransactionDetails,
       transactionDate: new Date(),
@@ -29,16 +31,17 @@ export const addIncome = async (req, res) => {
   }
 };
 
-  
-  export const getPendingIncomes = async (req, res) => {
-    try {
-      const pendingIncomes = await Income.find({ paymentStatus: 'Pending' });
-      return res.status(200).json({ pendingIncomes });
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ error: 'Internal Server Error' });
-    }
-  };
+export const getPendingIncomes = async (req, res) => {
+  try {
+    const pendingIncomes = await Income.find({ paymentStatus: 'Pending' });
+    return res.status(200).json({ pendingIncomes });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
 
   export const updatePaymentStatus = async (req, res) => {
     try {

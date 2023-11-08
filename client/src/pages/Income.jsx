@@ -16,6 +16,8 @@ const Income = () => {
   const [description, setDescription] = useState('');
   const [paymentStatus, setPaymentStatus] = useState('Pending');
   const [isLoading, setIsLoading] = useState(false);
+  const [amount, setAmount] = useState(0); // Initialize amount to 0
+
 
   useEffect(() => {
     // Extract batchNumber, evacuatedQuantity, and evacuatedWeight from URL parameters
@@ -61,8 +63,12 @@ const Income = () => {
         case 'description':
           setDescription(value);
           break;
+          case 'amount':
+            setAmount(parseFloat(value) || 0);
+            break;
         default:
           break;
+        
       }
     }
   };
@@ -81,6 +87,7 @@ const Income = () => {
       customerName,
       description,
       paymentStatus,
+      amount
     };
 
     // Perform income logic here using incomeData state
@@ -185,6 +192,20 @@ const Income = () => {
             readOnly
           />
         </div>
+        <div className="mb-4">
+        <label htmlFor="amount" className="block text-sm font-medium text-gray-600">
+          Amount
+        </label>
+        <input
+          type="number"
+          id="amount"
+          name="amount"
+          value={amount}
+          onChange={handleInputChange}
+          className="mt-1 p-2 border rounded-md w-full"
+          required
+        />
+      </div>
         <div className="mb-4">
           <label htmlFor="paymentMethod" className="block text-sm font-medium text-gray-600">
             Payment Method

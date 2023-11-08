@@ -8,7 +8,7 @@ const Aside = () => {
       <ul className="space-y-4 w-full">
         {/* Dashboard Section */}
         <li>
-          <h3 className="text-lg font-semibold mb-2 text-gray-400/60">Dashboard</h3>
+          <h3 className="text-lg font-semibold mb-2 text-blue-500">Dashboard</h3>
           <ul className="ml-4 space-y-2">
             <li>
               <Link to="/" className="text-white hover:underline">
@@ -19,7 +19,7 @@ const Aside = () => {
         </li>
         {/* Inventory Management Section */}
         <li>
-          <h3 className="text-lg font-semibold mb-1 text-gray-400/60">Inventory Management</h3>
+          <h3 className="text-lg font-semibold mb-1 text-blue-500">Inventory Management</h3>
           <ul className="ml-4 space-y-1">
             <li>
               <Link to="/register-cocoa" className="text-white hover:underline">
@@ -44,7 +44,7 @@ const Aside = () => {
         </li>
         {/* Sales Management Section */}
         <li>
-          <h3 className="text-lg font-semibold mb-2 text-gray-400/60">Sales Management</h3>
+          <h3 className="text-lg font-semibold mb-2  text-blue-500">Sales Management</h3>
           <ul className="ml-4 space-y-2">
             <li>
             <Link to="/create-customer" className="text-white hover:underline">
@@ -60,7 +60,7 @@ const Aside = () => {
         </li>
         {/* Financial Management Section */}
         <li>
-          <h3 className="text-lg font-semibold mb-2 text-gray-400/60">Financial Management</h3>
+          <h3 className="text-lg font-semibold mb-2  text-blue-500">Financial Management</h3>
           <ul className="ml-4 space-y-2">
             <li>
               <Link to="/income" className="text-white hover:underline">
@@ -81,7 +81,7 @@ const Aside = () => {
         </li>
         {/* Reports & Analytics Section */}
         <li>
-          <h3 className="text-lg font-semibold mb-2 text-gray-400/60">Reports & Analytics</h3>
+          <h3 className="text-lg font-semibold mb-2  text-blue-500">Reports & Analytics</h3>
           <ul className="ml-4 space-y-2">
             <li>
               <Link to="/partners" className="text-white hover:underline">
@@ -102,7 +102,7 @@ const Aside = () => {
         </li>
         {/* Settings Section */}
         <li>
-          <h3 className="text-lg font-semibold mb-2 text-gray-400/60">Settings</h3>
+          <h3 className="text-lg font-semibold mb-2  text-blue-500">Settings</h3>
           <ul className="ml-4 space-y-2">
             <li>
               <Link to="/update-Customer" className="text-white hover:underline">
@@ -118,7 +118,7 @@ const Aside = () => {
         </li>
         {/* Suppliers And Customers Section */}
         <li>
-          <h3 className="text-lg font-semibold mb-2 text-gray-400/60">Suppliers And Customers</h3>
+          <h3 className="text-lg font-semibold mb-2  text-blue-500">Suppliers And Customers</h3>
           <ul className="ml-4 space-y-2">
             <li>
               <Link to="/add-supplier" className="text-white hover:underline">

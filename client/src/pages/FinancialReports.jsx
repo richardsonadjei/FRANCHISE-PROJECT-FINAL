@@ -60,12 +60,6 @@ const Report = () => {
         // ... other details for the Quality Control Report
       },
       {
-        title: "Batch Profit Partners Allocation Report",
-        path: "/batch-allocation",
-        purpose: "This gives a report of profits made on a specific batch of beans and allocated to partners within a period",
-        // ... other details for the Quality Control Report
-      },
-      {
         title: "All Profit Partners Allocation Report",
         path: "/partner-income-report",
         purpose: "This gives a report of profits made and allocated to partners within a period on all prices",

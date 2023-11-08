@@ -70,6 +70,15 @@ const performEvacuation = async (req, res) => {
 };
 
 
+
+
+
+
+
+
+
+
+
 const getEvacuationsByPeriod = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;

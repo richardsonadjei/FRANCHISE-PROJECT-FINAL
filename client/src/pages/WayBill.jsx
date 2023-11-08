@@ -216,6 +216,7 @@ const Waybill = () => {
           onChange={(e) => setEvacuatedWeight(e.target.value)} // Update evacuatedWeight state variable
           className="mt-1 p-2 border rounded-md w-full"
           required
+          readOnly
         />
       </div>
       {/* Drivers */}
