@@ -75,6 +75,31 @@ export default function Header() {
                 text={currentUser ? <img className='rounded-full h-7 w-7 object-cover' src={currentUser.avatar} alt='profile' /> : 'Sign in'}
                 onClick={closeMenu}
               />
+                 <li style={{ margin: '8px 0' }}><hr className="dropdown-divider" /></li>
+              <MenuItem to='/' text='Overview' />
+                <li style={{ margin: '8px 0' }}><hr className="dropdown-divider" /></li>
+                <MenuItem to='/register-cocoa' text='Receive New Batch' />
+                <MenuItem to='/modify-batch' text='Modify Existing Batch' />
+                <MenuItem to='/evacuation' text='Perform Evacuation With Invoice' />
+                <MenuItem to='/take-stock' text='Take Stock' />
+                <li style={{ margin: '8px 0' }}><hr className="dropdown-divider" /></li>
+                <MenuItem to='/income' text='Income' />
+                <MenuItem to='/create-expense' text='Expenditures' />
+                <MenuItem to='/profit-loss' text='Profit And Loss' />
+                <li style={{ margin: '8px 0' }}><hr className="dropdown-divider" /></li>
+                <MenuItem to='/financial-reports' text='Financial Reports' />
+                <MenuItem to='/inventory-reports' text='Inventory Reports' />
+                <li style={{ margin: '8px 0' }}><hr className="dropdown-divider" /></li>
+                <MenuItem to='/expense-category' text='Create An Expense Category' />
+                <li style={{ margin: '8px 0' }}><hr className="dropdown-divider" /></li>
+                <MenuItem to='/create-customer' text='Register A Customer' />
+                <MenuItem to='/update-Customer' text='Update A Customer' />
+                <li style={{ margin: '8px 0' }}><hr className="dropdown-divider" /></li>
+                <MenuItem to='/add-supplier' text='Register A Supplier' />
+                <MenuItem to='/find-supplier' text='Search And Update Supplier' />
+                <MenuItem to='/view-suppliers' text='View All Suppliers' />
+                <li style={{ margin: '8px 0' }}><hr className="dropdown-divider" /></li>
+                <MenuItem to='/partners' text='Create A Partner' />
             </ul>
           )}
         </div>
