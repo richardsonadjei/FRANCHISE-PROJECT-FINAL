@@ -11,7 +11,6 @@ import CreateSupplier from './pages/createSupplier';
 import FindSupplier from './pages/FindSupplier';
 import ViewSuppliers from './pages/ViewSuppliers';
 import CreateCocoa from './pages/CreateCocoa';
-import UpdateBatch from './pages/UpdateBatch';
 import InventoryReports from './pages/InventoryReports';
 import StockReport from './pages/inventoryReports/StockReport';
 import Aside from './pages/Aside';
@@ -37,7 +36,6 @@ import CreateExpense from './pages/CreateExpense';
 import AllExpenseReport from './pages/financial Reports/AllExpenseReport';
 import AllMiscReport from './pages/financial Reports/AllMiscReport';
 import AllProcurementReport from './pages/AllProcurementReport';
-import BatchTransactionReport from './pages/BatchTransactionHistory';
 import BatchIncome from './pages/financial Reports/BatchIncome';
 import ProfitLossReport from './pages/financial Reports/ProfitLossReport';
 import Partners from './pages/Partners';
@@ -49,6 +47,9 @@ import WaybillReport from './pages/inventoryReports/WaybillReport';
 import DistributeProfit from './pages/DistributeProfit';
 import PartnerIncome from './pages/financial Reports/PartnerIncome';
 import QCCerts from './pages/QCCerts';
+import ToDoTask from './pages/ToDoTask';
+
+
 
 
 
@@ -69,7 +70,6 @@ export default function App() {
           <Route path='/find-supplier' element={<FindSupplier />} />
           <Route path='/view-suppliers' element={<ViewSuppliers />} />
           <Route path='/register-cocoa' element={<CreateCocoa />} />
-          <Route path='/update-batch' element={<UpdateBatch />} />
           <Route path='/inventory-reports' element={<InventoryReports/>} />
           <Route path='/stock-report' element={<StockReport/>} />
           <Route path='/transaction-history' element={<AllBatchTransactionReport/>} />
@@ -105,6 +105,11 @@ export default function App() {
           <Route path='/distribute-profit' element={<DistributeProfit/>} /> 
           <Route path='/partner-income-report' element={<PartnerIncome/>} /> 
           <Route path='/qccerts' element={<QCCerts/>} /> 
+          <Route path='/tasks' element={<ToDoTask/>} /> 
+       
+          
+          
+         
           
           
         </Route>

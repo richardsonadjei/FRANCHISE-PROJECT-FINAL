@@ -9,8 +9,6 @@ import customerRouter from './routes/customer.route.js';
 import evacuationRouter from './routes/evacuation.route.js';
 import expenseCategoryRouter from './routes/expenseCategory.route.js';
 import expenseRouter from './routes/expense.route.js';
-
-
 import cookieParser from 'cookie-parser';
 import incomeRouter from './routes/income.route.js';
 import waybillRouter from './routes/waybill.route.js';
@@ -20,6 +18,8 @@ import partnerIncome from './routes/partnerIncome.route.js';
 import batchExpenseRouter from './routes/batchExpense.route.js';
 import procurementRouter from './routes/procurement.route.js';
 import qcCertRouter from './routes/qcCertificateRouter.js';
+import taskRouter from './routes/task.route.js';
+import path from 'path';
 
 
 
@@ -34,6 +34,7 @@ mongoose
     console.log(err);
   });
 
+  const __dirname = path.resolve();
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
@@ -58,8 +59,13 @@ app.use('/api', partnerIncome);
 app.use('/api', batchExpenseRouter);
 app.use('/api', procurementRouter);
 app.use('/api', qcCertRouter);
+app.use('/api', taskRouter);
 
+app.use(express.static(path.join(__dirname, '/client/dist')));
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+})
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
