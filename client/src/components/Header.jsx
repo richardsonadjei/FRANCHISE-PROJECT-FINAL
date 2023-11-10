@@ -68,12 +68,13 @@ export default function Header() {
           {isMenuOpen && (
             <ul className='absolute top-full right-0 bg-white border shadow-lg w-48 p-4 rounded-md transition duration-300'>
               {/* Menu Items */}
-              <MenuItem to='/about' text='About' onClick={closeMenu} />
-              <MenuItem to='/home' text='Home' onClick={closeMenu} />
+              <MenuItem to='/about' text='About' onClick={closeMenu} style={{ margin: '8px 0' }}/>
+              <MenuItem to='/home' text='Home' onClick={closeMenu} style={{ margin: '8px 0' }} />
               <MenuItem
                 to='/profile'
                 text={currentUser ? <img className='rounded-full h-7 w-7 object-cover' src={currentUser.avatar} alt='profile' /> : 'Sign in'}
                 onClick={closeMenu}
+                style={{ margin: '8px 0' }}
               />
                  <li style={{ margin: '8px 0' }}><hr className="dropdown-divider" /></li>
               <MenuItem to='/' text='Overview' />
