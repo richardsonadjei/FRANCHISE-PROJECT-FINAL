@@ -27,7 +27,7 @@ const Home = () => {
   return (
     <div className="bg-cover bg-center h-screen bg-gradient-to-b from-indigo-900 to-indigo-600 text-white font-body mx-auto overflow-y-auto max-h-screen mt-16 px-4">
       <div className="flex flex-col items-center justify-center h-full">
-        <h1 className="text-5xl font-bold mb-6 text-center">Welcome to Pador Farms, {currentUser ? currentUser.username : 'Guest'}!</h1>
+        <h1 className="text-3xl font-bold mb-6 text-center mt-36">Welcome to Pador Farms, {currentUser ? currentUser.username : 'Guest'}!</h1>
         <p className="text-3xl mb-10 text-center">
   <span className="italic text-green-500">Your</span>{" "}
   <span className="italic text-blue-500">Source</span>{" "}
