@@ -80,9 +80,7 @@ const Home = () => {
           <Link to="/create-expense" className="quick-action-btn bg-blue-600 text-white py-4 rounded-lg hover:bg-red-600 hover:translate-y-1 hover:shadow-lg transition duration-300 text-center font-bold">
             Create Misc Expense
           </Link>
-          <Link to="/tasks" className="quick-action-btn bg-blue-600 text-white py-4 rounded-lg hover:bg-red-600 hover:translate-y-1 hover:shadow-lg transition duration-300 text-center font-bold">
-            Create A New Task
-          </Link>
+         
         </div>
       </div>
     </div>

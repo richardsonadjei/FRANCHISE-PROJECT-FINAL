@@ -66,7 +66,7 @@ export default function Header() {
             ☰
           </button>
           {isMenuOpen && (
-            <ul className='absolute top-full right-0 bg-white border shadow-lg w-48 p-4 rounded-md transition duration-300'>
+            <ul className='absolute top-full right-0 bg-white border shadow-lg w-48 p-4 rounded-md transition duration-300 max-h-72 overflow-y-auto'>
               {/* Menu Items */}
               <MenuItem to='/about' text='About' onClick={closeMenu} style={{ margin: '8px 0' }}/>
               <MenuItem to='/home' text='Home' onClick={closeMenu} style={{ margin: '8px 0' }} />
@@ -82,6 +82,7 @@ export default function Header() {
                 <MenuItem to='/register-cocoa' text='Receive New Batch' />
                 <MenuItem to='/modify-batch' text='Modify Existing Batch' />
                 <MenuItem to='/evacuation' text='Perform Evacuation With Invoice' />
+                <li style={{ margin: '8px 0' }}><hr className="dropdown-divider" /></li>
                 <MenuItem to='/take-stock' text='Take Stock' />
                 <li style={{ margin: '8px 0' }}><hr className="dropdown-divider" /></li>
                 <MenuItem to='/income' text='Income' />
