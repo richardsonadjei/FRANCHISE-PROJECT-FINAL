@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+
 const Waybill = () => {
   const [customerName, setCustomerName] = useState('');
   const [portAgentName, setPortAgentName] = useState('');
@@ -266,30 +264,27 @@ const Waybill = () => {
         required
       />
     </div>
-        {index > 0 && (
-      <div className="flex items-center mb-2">
+    {index > 0 && (
+              <div className="flex items-center mb-2">
+                <button
+                  type="button"
+                  onClick={() => removeDriver(index)}
+                  className="text-red-500 hover:text-red-700 mr-2"
+                >
+                  Remove Driver
+                </button>
+                <hr className="flex-grow border-t-2 border-gray-300" />
+              </div>
+            )}
+          </div>
+        ))}
         <button
           type="button"
-          onClick={() => removeDriver(index)}
-          className="text-red-500 hover:text-red-700 mr-2"
+          onClick={addDriver}
+          className="mb-4 px-1 py-1 bg-green-500 text-white rounded-md hover:bg-green-700 transition duration-300"
         >
-          <FontAwesomeIcon icon={faTrash} />
+          Add Driver
         </button>
-        <hr className="flex-grow border-t-2 border-gray-300" />
-      </div>
-    )}
-
-  </div>
-))}
-<button
-  type="button"
-  onClick={addDriver}
-  className="mb-4 px-1 py-1 bg-green-500 text-white rounded-md hover:bg-green-700 transition duration-300"
->
-  <FontAwesomeIcon icon={faPlus} className="mr-2" />
-  Add Driver
-</button>
-
 
 
 {trucks.map((truck, index) => (
@@ -323,30 +318,27 @@ const Waybill = () => {
         required
       />
     </div>
-        {index > 0 && (
-      <div className="flex items-center mb-2">
+    {index > 0 && (
+              <div className="flex items-center mb-2">
+                <button
+                  type="button"
+                  onClick={() => removeTruck(index)}
+                  className="text-red-500 hover:text-red-700 mr-2"
+                >
+                  Remove Truck
+                </button>
+                <hr className="flex-grow border-t-2 border-gray-300" />
+              </div>
+            )}
+          </div>
+        ))}
         <button
           type="button"
-          onClick={() => removeTruck(index)}
-          className="text-red-500 hover:text-red-700 mr-2"
+          onClick={addTruck}
+          className="mb-4 px-1 py-1 bg-green-500 text-white rounded-md hover:bg-green-700 transition duration-300"
         >
-          <FontAwesomeIcon icon={faTrash} />
+          Add Truck
         </button>
-        <hr className="flex-grow border-t-2 border-gray-300" />
-      </div>
-    )}
-
-  </div>
-))}
-<button
-  type="button"
-  onClick={addTruck}
-  className="mb-4 px-1 py-1 bg-green-500 text-white rounded-md hover:bg-green-700 transition duration-300"
->
-  <FontAwesomeIcon icon={faPlus} className="mr-2" />
-  Add Truck
-</button>
-
       {/* Other waybill fields */}
       {/* ... */}
 <div className="mb-4">
