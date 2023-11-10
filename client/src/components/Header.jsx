@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -31,11 +32,22 @@ export default function Header() {
 
   const handleSubMenuToggle = (index) => {
     setActiveSubMenu(activeSubMenu === index ? null : index);
-    closeMenu();
   };
 
   const closeMenu = () => {
     setIsMenuOpen(false);
+  };
+
+  const MenuItem = ({ to, text, onClick }) => {
+    const handleClick = (event) => {
+      event.stopPropagation(); // Stop the event from propagating
+      onClick(); // Close the menu first
+    };
+    return (
+      <Link to={to} onClick={handleClick} className='text-amber-700 hover:text-sky-500 transition duration-300'>
+        <li className='hover:underline'>{text}</li>
+      </Link>
+    );
   };
 
   return (
@@ -45,7 +57,6 @@ export default function Header() {
         <Link to='/' className='flex items-center hover:scale-110 transition duration-300'>
           <h1 className='font-bold text-2xl text-slate-700'>Pador Farms Ent</h1>
         </Link>
-
         {/* Mobile Menu */}
         <div className='sm:hidden relative'>
           <button
@@ -62,24 +73,62 @@ export default function Header() {
               <MenuItem
                 to='/profile'
                 text={currentUser ? <img className='rounded-full h-7 w-7 object-cover' src={currentUser.avatar} alt='profile' /> : 'Sign in'}
-                onClick={() => closeMenu()}
+                onClick={closeMenu}
               />
             </ul>
           )}
         </div>
-
         {/* Desktop Menu */}
         <ul className='hidden sm:flex gap-4'>
           {/* Menu Items */}
+          <div className='relative group'>
+            {/* Dropdown Icon */}
+            <button
+              onClick={() => handleSubMenuToggle('dropdown')}
+              className='text-violet-700 hover:text-cyan-400 focus:outline-none transition duration-300'
+            >
+              ▼
+            </button>
+            {/* Dropdown Menu */}
+            {activeSubMenu === 'dropdown' && (
+              <ul className='absolute top-full right-0 bg-[#1c212c] border shadow-lg w-48 p-4 rounded-md transition duration-300 transform origin-top' onClick={closeMenu}>
+                {/* Dropdown Menu Items */}
+                <MenuItem to='/' text='Overview' />
+                <li style={{ margin: '8px 0' }}><hr className="dropdown-divider" /></li>
+                <MenuItem to='/register-cocoa' text='Receive New Batch' />
+                <MenuItem to='/modify-batch' text='Modify Existing Batch' />
+                <MenuItem to='/evacuation' text='Perform Evacuation With Invoice' />
+                <MenuItem to='/take-stock' text='Take Stock' />
+                <li style={{ margin: '8px 0' }}><hr className="dropdown-divider" /></li>
+                <MenuItem to='/income' text='Income' />
+                <MenuItem to='/create-expense' text='Expenditures' />
+                <MenuItem to='/profit-loss' text='Profit And Loss' />
+                <li style={{ margin: '8px 0' }}><hr className="dropdown-divider" /></li>
+                <MenuItem to='/financial-reports' text='Financial Reports' />
+                <MenuItem to='/inventory-reports' text='Inventory Reports' />
+                <li style={{ margin: '8px 0' }}><hr className="dropdown-divider" /></li>
+                <MenuItem to='/expense-category' text='Create An Expense Category' />
+                <li style={{ margin: '8px 0' }}><hr className="dropdown-divider" /></li>
+                <MenuItem to='/create-customer' text='Register A Customer' />
+                <MenuItem to='/update-Customer' text='Update A Customer' />
+                <li style={{ margin: '8px 0' }}><hr className="dropdown-divider" /></li>
+                <MenuItem to='/add-supplier' text='Register A Supplier' />
+                <MenuItem to='/find-supplier' text='Search And Update Supplier' />
+                <MenuItem to='/view-suppliers' text='View All Suppliers' />
+                <li style={{ margin: '8px 0' }}><hr className="dropdown-divider" /></li>
+                <MenuItem to='/partners' text='Create A Partner' />
+              </ul>
+            )}
+          </div>
           <MenuItem to='/about' text='About' />
           <MenuItem to='/home' text='Home' />
           <MenuItem
             to='/profile'
             text={currentUser ? <img className='rounded-full h-7 w-7 object-cover' src={currentUser.avatar} alt='profile' /> : 'Sign in'}
+            onClick={closeMenu}
           />
         </ul>
       </div>
-
       {/* Date Display */}
       <div className='bg-slate-300 text-slate-700 p-2 text-lg text-center font-bold hover:bg-slate-400 hover:text-white transition duration-300'>
         Today: {currentDate}
@@ -87,11 +136,3 @@ export default function Header() {
     </header>
   );
 }
-
-const MenuItem = ({ to, text, onClick }) => {
-  return (
-    <Link to={to} onClick={onClick} className='text-slate-700 hover:text-slate-900 transition duration-300'>
-      <li className='hover:underline'>{text}</li>
-    </Link>
-  );
-};

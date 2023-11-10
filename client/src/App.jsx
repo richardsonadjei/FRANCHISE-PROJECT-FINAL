@@ -13,7 +13,7 @@ import ViewSuppliers from './pages/ViewSuppliers';
 import CreateCocoa from './pages/CreateCocoa';
 import InventoryReports from './pages/InventoryReports';
 import StockReport from './pages/inventoryReports/StockReport';
-import Aside from './pages/Aside';
+
 import StockTake from './pages/inventoryReports/StockTake';
 import CreateCustomer from './pages/CreateCustomer';
 import UpdateCustomer from './pages/UpdateCustomer';
@@ -57,7 +57,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Header />
-      <Aside />
+     
       <Routes>
         <Route path='/' element={<Overview/>} /> 
         <Route path='/sign-in' element={<SignIn />} />
