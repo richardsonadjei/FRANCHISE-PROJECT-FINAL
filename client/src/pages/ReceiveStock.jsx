@@ -72,6 +72,11 @@ const ReceiveStock = () => {
 
   return (
     <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4">
+      {isTransactionSuccessful && (
+        <div className={`mt-4 p-4 rounded bg-green-200 text-center`}>
+          {alertMessage} Redirecting to <Link to="/home">Homepage</Link>...
+        </div>
+      )}
       <h1 className="text-2xl font-bold mb-4">Receive Stock</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
@@ -167,11 +172,7 @@ const ReceiveStock = () => {
           Submit
         </button>
       </form>
-      {isTransactionSuccessful && (
-        <div className={`mt-4 p-4 rounded bg-green-200`}>
-          {alertMessage} Redirecting to <Link to="/home">Homepage</Link>...
-        </div>
-      )}
+      
     </div>
   );
 };

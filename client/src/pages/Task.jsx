@@ -48,6 +48,7 @@ const Task = () => {
 
   return (
     <div className="container mx-auto overflow-y-auto max-h-screen mt-28  p-8">
+      {successMessage && <p className="text-green-600">{successMessage}</p>}
       <form onSubmit={handleSubmit} className="max-w-md mx-auto">
         <div className="mb-4">
           <label htmlFor="title" className="block text-gray-700 text-sm font-bold mb-2">
@@ -105,7 +106,7 @@ const Task = () => {
             <option value="completed">Completed</option>
           </select>
         </div>
-        {successMessage && <p className="text-green-600">{successMessage}</p>}
+        
         <button
           type="submit"
           className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"

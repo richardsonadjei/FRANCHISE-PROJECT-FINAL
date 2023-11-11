@@ -95,6 +95,11 @@ const CreateCocoa = () => {
 
   return (
     <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4">
+      {responseMessage && (
+        <div className="bg-green-500 text-white px-4 py-2 rounded-md mt-4">
+          {responseMessage}
+        </div>
+      )}
         <h1 className="text-3xl font-bold mb-4">Receive New Stock</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">

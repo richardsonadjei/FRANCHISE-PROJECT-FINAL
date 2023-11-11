@@ -3,18 +3,32 @@ import { Link, useNavigate } from 'react-router-dom';
 import OAuth from '../components/OAuth';
 
 export default function SignUp() {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.id]: e.target.value,
     });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check if passwords match
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords don't match");
+      return;
+    }
+
     try {
       setLoading(true);
       const res = await fetch('/api/auth/signup', {
@@ -22,7 +36,11 @@ export default function SignUp() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+        }),
       });
       const data = await res.json();
       console.log(data);
@@ -39,8 +57,10 @@ export default function SignUp() {
       setError(error.message);
     }
   };
+
   return (
     <div className='p-3 max-w-lg mx-auto overflow-y-auto max-h-screen mt-28 px-4'>
+      {error && <p className='text-red-500 mt-5 text-center'>{error}</p>}
       <h1 className='text-3xl text-center font-semibold my-7'>Sign Up</h1>
       <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
         <input
@@ -64,6 +84,13 @@ export default function SignUp() {
           id='password'
           onChange={handleChange}
         />
+          <input
+        type='password'
+        placeholder='confirm password'
+        className='border p-3 rounded-lg'
+        id='confirmPassword'
+        onChange={handleChange}
+      />
 
         <button
           disabled={loading}
@@ -79,7 +106,7 @@ export default function SignUp() {
           <span className='text-blue-700'>Sign in</span>
         </Link>
       </div>
-      {error && <p className='text-red-500 mt-5'>{error}</p>}
+    
     </div>
   );
 }

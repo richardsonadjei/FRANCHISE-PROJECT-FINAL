@@ -42,6 +42,7 @@ const QCCerts = () => {
 
   return (
     <div className="container mx-auto overflow-y-auto max-h-screen mt-28 p-8 text-center">
+       {message && <p className="mt-4 text-green-600">{message}</p>}
       <h1 className="text-2xl font-bold mb-4">Upload QC Certificate </h1>
 
       <div className="mb-4 mx-auto max-w-xs">
@@ -66,7 +67,7 @@ const QCCerts = () => {
         Upload Certificate
       </button>
 
-      {message && <p className="mt-4 text-green-600">{message}</p>}
+     
     </div>
   );
 };
