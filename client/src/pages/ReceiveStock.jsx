@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -9,11 +8,12 @@ const ReceiveStock = () => {
   const [availableBatches, setAvailableBatches] = useState([]);
   const [selectedBatch, setSelectedBatch] = useState(null);
   const [receivedQuantity, setReceivedQuantity] = useState('');
-  const [receivedWeight, setReceivedWeight] = useState(''); // New receivedWeight state
+  const [receivedWeight, setReceivedWeight] = useState('');
   const [alertMessage, setAlertMessage] = useState('');
   const [isTransactionSuccessful, setIsTransactionSuccessful] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState('Paid');
-
+  const [suppliers, setSuppliers] = useState([]); // New state for suppliers
+  const [supplier, setSupplier] = useState(''); // Declare supplier state
 
   useEffect(() => {
     const fetchBatches = async () => {
@@ -25,7 +25,19 @@ const ReceiveStock = () => {
         console.error(error);
       }
     };
+
+    const fetchSuppliers = async () => {
+      try {
+        const response = await fetch('/api/supplier/all');
+        const data = await response.json();
+        setSuppliers(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     fetchBatches();
+    fetchSuppliers();
   }, []);
 
   const handleBatchNumberChange = (event) => {
@@ -45,16 +57,16 @@ const ReceiveStock = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ receivedQuantity, paymentStatus, receivedWeight }), // Include receivedWeight in the request body
+        body: JSON.stringify({ receivedQuantity, paymentStatus, receivedWeight, supplier, }),
       });
+
       const data = await response.json();
       if (response.ok) {
         setIsTransactionSuccessful(true);
         setAlertMessage('Transaction successful');
         setTimeout(() => {
-          // Redirect to homepage after a successful transaction
           window.location.href = '/home';
-        }, 3000); // Redirect after 3 seconds
+        }, 3000);
       } else {
         setIsTransactionSuccessful(false);
         setAlertMessage('Transaction failed');
@@ -69,6 +81,7 @@ const ReceiveStock = () => {
       setAlertMessage('Internal Server Error');
     }
   };
+
 
   return (
     <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4">
@@ -163,6 +176,26 @@ const ReceiveStock = () => {
           >
             <option value="Paid">Paid</option>
             <option value="Credit">Credit</option>
+          </select>
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="supplier" className="block font-bold mb-1">
+            Supplier
+          </label>
+          <select
+            id="supplier"
+            className="w-full border border-gray-300 rounded py-2 px-3"
+            value={supplier}
+            onChange={(event) => setSupplier(event.target.value)}
+            required
+          >
+            <option value="">Select Supplier</option>
+            {suppliers.map((supplier) => (
+              <option key={supplier._id} value={supplier.name}>
+                {supplier.name}
+              </option>
+            ))}
           </select>
         </div>
         <button

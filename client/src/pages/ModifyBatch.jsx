@@ -4,8 +4,10 @@ const ModifyBatch = () => {
   const [batches, setBatches] = useState([]);
   const [selectedBatchNumber, setSelectedBatchNumber] = useState('');
   const [quantity, setQuantity] = useState('');
+  const [totalWeightPerBatch, setTotalWeightPerBatch] = useState('');
   const [userId, setUserId] = useState('');
   const [initialQuantities, setInitialQuantities] = useState({});
+  const [initialTotalWeights, setInitialTotalWeights] = useState({});
 
   useEffect(() => {
     const fetchBatchesData = async () => {
@@ -19,8 +21,13 @@ const ModifyBatch = () => {
           acc[batch.batchNumber] = batch.quantity;
           return acc;
         }, {});
+        const initialTotalWeightsObject = data.reduce((acc, batch) => {
+          acc[batch.batchNumber] = batch.totalWeightPerBatch;
+          return acc;
+        }, {});
         setBatches(data);
         setInitialQuantities(initialQuantitiesObject);
+        setInitialTotalWeights(initialTotalWeightsObject);
       } catch (error) {
         console.error('Error fetching batches:', error);
       }
@@ -29,17 +36,13 @@ const ModifyBatch = () => {
   }, []);
 
   const existingQuantity = initialQuantities[selectedBatchNumber] || '';
+  const existingTotalWeight = initialTotalWeights[selectedBatchNumber] || '';
 
   const handleModifyCocoa = async (e) => {
     e.preventDefault();
 
-    if (quantity === null || isNaN(quantity)) {
-      alert('Invalid quantity');
-      return;
-    }
-
-    if (isNaN(quantity) || quantity === '') {
-      alert('Invalid quantity');
+    if (quantity === null || isNaN(quantity) || totalWeightPerBatch === null || isNaN(totalWeightPerBatch)) {
+      alert('Invalid quantity or total weight');
       return;
     }
 
@@ -50,7 +53,8 @@ const ModifyBatch = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          quantity: parseFloat(quantity), // Include the quantity field in the request body
+          quantity: parseFloat(quantity),
+          totalWeightPerBatch: parseFloat(totalWeightPerBatch), // Include the totalWeightPerBatch field in the request body
           userId,
         }),
       });
@@ -97,11 +101,29 @@ const ModifyBatch = () => {
           />
         </div>
         <div>
+          <label className="block text-sm font-medium text-gray-600">Existing Total Weight</label>
+          <input
+            type="text"
+            value={existingTotalWeight}
+            readOnly
+            className="mt-1 p-2 border border-gray-300 rounded w-full"
+          />
+        </div>
+        <div>
           <label className="block text-sm font-medium text-gray-600">New Quantity</label>
           <input
             type="number"
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
+            className="mt-1 p-2 border border-gray-300 rounded w-full"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-600">New Total Weight</label>
+          <input
+            type="number"
+            value={totalWeightPerBatch}
+            onChange={(e) => setTotalWeightPerBatch(e.target.value)}
             className="mt-1 p-2 border border-gray-300 rounded w-full"
           />
         </div>

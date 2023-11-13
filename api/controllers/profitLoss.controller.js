@@ -37,6 +37,7 @@ export const generateProfitLossReport = async (req, res) => {
         $gte: new Date(`${startDate}T00:00:00Z`),
         $lte: new Date(`${endDate}T23:59:59Z`),
       },
+      paymentStatus: 'Pending',
     });
 
     // Calculate total miscellaneous expenses

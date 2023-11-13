@@ -5,6 +5,7 @@ const CreateBatchExpense = () => {
   const [batchNumber, setBatchNumber] = useState('');
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
+  const [paymentStatus, setPaymentStatus] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -38,6 +39,7 @@ const CreateBatchExpense = () => {
       batchNumber,
       description,
       amount,
+      paymentStatus
     };
 
     fetch('/api/batch-expense', {
@@ -127,6 +129,21 @@ const CreateBatchExpense = () => {
             onChange={(e) => setAmount(e.target.value)}
           />
         </div>
+        <div className="mb-4">
+        <label htmlFor="paymentStatus" className="block font-medium mb-1">
+          Payment Status
+        </label>
+        <select
+          id="paymentStatus"
+          className="border border-gray-300 rounded p-2 w-full"
+          value={paymentStatus}
+          onChange={(e) => setPaymentStatus(e.target.value)}
+        >
+         <option value="Paid">Paid</option>
+          <option value="Pending">Pending</option>
+          
+        </select>
+      </div>
         <button
           type="submit"
           className="bg-blue-500 text-white rounded py-2 px-4 hover:bg-blue-600"

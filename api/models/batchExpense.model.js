@@ -17,6 +17,11 @@ const batchExpenseSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  paymentStatus: {
+    type: String,
+    enum: ['Pending', 'Paid'], // You can adjust the enum values based on your use case
+    default: 'Paid', 
+  },
 });
 
 const BatchExpense = mongoose.model('BatchExpense', batchExpenseSchema);

@@ -195,7 +195,7 @@ const getInventorySummary = async (req, res) => {
 const addReceivedQuantityToCocoaBag = async (req, res) => {
   try {
     const { batchNumber } = req.params;
-    const { receivedQuantity, paymentStatus, receivedWeight } = req.body;
+    const { receivedQuantity, paymentStatus, receivedWeight, supplier } = req.body;
 
     // Find the cocoa bag with the specified batchNumber
     const cocoaBag = await CocoaBag.findOne({ batchNumber });
@@ -208,7 +208,8 @@ const addReceivedQuantityToCocoaBag = async (req, res) => {
     const receivedQuantityParsed = parseInt(receivedQuantity, 10);
     const totalWeightBefore = cocoaBag.totalWeightPerBatch;
     const totalWeightAfter = parseInt(totalWeightBefore, 10) + parseInt(receivedWeight, 10);
-// Add receivedWeight to totalWeightBefore
+
+    // Add receivedWeight to totalWeightBefore
 
     // Perform addition operation to calculate quantityAfter
     const quantityAfter = quantityBefore + receivedQuantityParsed;
@@ -235,6 +236,7 @@ const addReceivedQuantityToCocoaBag = async (req, res) => {
       paymentStatus: paymentStatus,
       totalWeightPerBatch: receivedWeight, // Set totalWeightPerBatch to receivedWeight
       quantity: receivedQuantityParsed, // Include received quantity in the Procurement instance
+      supplier: supplier, // Include supplier information
     });
 
     // Save the new Procurement to the database
@@ -262,6 +264,7 @@ const addReceivedQuantityToCocoaBag = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
 
 
 
@@ -299,10 +302,9 @@ const receiveReport = async (req, res) => {
 
 
 // Assuming you have a Transaction model
-
 const modifyQuantity = async (req, res) => {
   const { batchNumber } = req.params;
-  const { quantity } = req.body;
+  const { quantity, totalWeightPerBatch } = req.body;
 
   try {
     // Find the CocoaBag by batchNumber
@@ -312,31 +314,37 @@ const modifyQuantity = async (req, res) => {
       return res.status(404).json({ error: 'CocoaBag not found' });
     }
 
-    // Store the existing quantity for logging purposes
+    // Store the existing quantity and totalWeightPerBatch for logging purposes
     const quantityBefore = cocoaBag.quantity;
+    const totalWeightBefore = cocoaBag.totalWeightPerBatch;
 
-    // Update the CocoaBag quantity based on user input
+    // Update the CocoaBag quantity and totalWeightPerBatch based on user input
     cocoaBag.quantity = quantity;
+    cocoaBag.totalWeightPerBatch = totalWeightPerBatch;
     await cocoaBag.save();
 
-    // Calculate modifiedQuantity based on user input and quantityBefore
+    // Calculate modifiedQuantity and modifiedTotalWeight based on user input and the values before modification
     const modifiedQuantity = quantity - quantityBefore;
+    const modifiedTotalWeight = totalWeightPerBatch - totalWeightBefore;
 
-    // Create a transaction entry with modified quantity
+    // Create a transaction entry with modified quantity and total weight
     const transaction = new Transaction({
       batchNumber,
       transactionType: 'Modify',
       userId: req.userId, // Assuming you extract user ID from the token in your middleware
       username: req.username, // Assuming you have a way to get the username
       quantityBefore,
-      quantityAfter: quantity, // Updated quantityAfter with the new quantity entered by the user
-      modifiedQuantity, // Save the modified quantity
+      quantityAfter: quantity,
+      modifiedQuantity,
+      totalWeightBefore,
+      totalWeightAfter: totalWeightPerBatch,
+      modifiedTotalWeight,
     });
     await transaction.save();
 
     // Return the modified CocoaBag
     res.status(200).json({
-      message: 'CocoaBag quantity modified successfully',
+      message: 'CocoaBag quantity and totalWeightPerBatch modified successfully',
       cocoaBag,
     });
   } catch (error) {
@@ -345,7 +353,8 @@ const modifyQuantity = async (req, res) => {
   }
 };
 
-export default modifyQuantity;
+
+
 
 
 

@@ -18,9 +18,15 @@ const Report = () => {
       // ... other details for the Transaction History Report
     },
     {
-        title: " Pending Payment Report",
+        title: " Pending Income Report",
         path: "/pending-payment",
         purpose: "This provides income(Yet To Pay) generated within a period on a all batches",
+        // ... other details for the Transaction History Report
+      },
+      {
+        title: " Pending Expenditure Report",
+        path: "/pending-expenses",
+        purpose: "This provides expenses pending payment for bags procured and other miscellenous expenses within a period on a all batches",
         // ... other details for the Transaction History Report
       },
     {

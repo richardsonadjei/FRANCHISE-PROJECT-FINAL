@@ -1,14 +1,15 @@
-import BatchExpense from '../models/batchExpense.model.js'; // Import the BatchExpense model
+import BatchExpense from '../models/batchExpense.model.js';
 
 export const createBatchExpense = async (req, res) => {
   try {
-    const { batchNumber, description, amount } = req.body;
+    const { batchNumber, description, amount, paymentStatus } = req.body;
 
     // Create a new BatchExpense instance
     const batchExpense = new BatchExpense({
       batchNumber,
       description,
       amount,
+      paymentStatus, // Include the paymentStatus field in the creation
     });
 
     // Save the batchExpense to the database
@@ -16,6 +17,7 @@ export const createBatchExpense = async (req, res) => {
 
     res.status(201).json(createdBatchExpense);
   } catch (error) {
+    console.error('Error creating batch expense:', error);
     res.status(500).json({ error: 'Failed to create batch expense' });
   }
 };

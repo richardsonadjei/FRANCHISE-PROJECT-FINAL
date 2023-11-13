@@ -5,6 +5,7 @@ const CreateExpense = () => {
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('');
+  const [paymentStatus, setPaymentStatus] = useState('');
   const [personName, setPersonName] = useState('');
   const [receiptNumber, setReceiptNumber] = useState('');
   const [showTransactionInput, setShowTransactionInput] = useState(false);
@@ -36,21 +37,30 @@ const CreateExpense = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+  
+      
+      const requestBody = {
+        description,
+        amount,
+        category,
+        paymentStatus,
+        personName,
+        receiptNumber,
+        batchNumber: showBatchNumber ? batchNumber : null,
+      };
+  
+     
+  
       const response = await fetch('/api/expenses', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          description,
-          amount,
-          category,
-          personName,
-          receiptNumber,
-          batchNumber: showBatchNumber ? batchNumber : null,
-        }),
+        body: JSON.stringify(requestBody),
       });
+  
       const data = await response.json();
+  
       if (response.ok) {
         setSuccessMessage('Expense created successfully');
         setDescription('');
@@ -69,6 +79,7 @@ const CreateExpense = () => {
       setErrorMessage('Failed to create expense');
     }
   };
+  
 
   return (
     <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4 flex justify-center">
@@ -96,7 +107,19 @@ const CreateExpense = () => {
               ))}
             </select>
           </div>
-          
+          <label htmlFor="paymentStatus" className="block font-bold mb-1">
+            Payment Status
+          </label>
+          <select
+  id="paymentStatus"
+  value={paymentStatus}
+  onChange={(e) => setPaymentStatus(e.target.value)}
+  className="border rounded px-2 py-1 w-full"
+>
+  <option value="">Select Payment Status</option>
+  <option value="Pending">Pending</option>
+  <option value="Paid">Paid</option>
+</select>
           <div className="mb-4">
             <label htmlFor="description" className="block font-bold mb-1">
               Description
@@ -149,6 +172,9 @@ const CreateExpense = () => {
                   className="border rounded px-2 py-1 w-full"
                 />
               </div>
+              <div className="mb-4">
+        
+        </div>
             </>
           )}
           {showBatchNumber && (

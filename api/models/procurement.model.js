@@ -30,8 +30,11 @@ const procurementSchema = new mongoose.Schema({
   quantity: {
     type: Number,
   },
+  supplier: {
+    type:  String,
+    required: true,
+  },
 });
-
 
 const Procurement = mongoose.model('Procurement', procurementSchema);
 
