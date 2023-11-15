@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import OAuth from '../components/OAuth';
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
@@ -8,6 +7,7 @@ export default function SignUp() {
     email: '',
     password: '',
     confirmPassword: '',
+    role: '', // Added role to the form data
   });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -40,6 +40,7 @@ export default function SignUp() {
           username: formData.username,
           email: formData.email,
           password: formData.password,
+          role: formData.role, // Include role in the request body
         }),
       });
       const data = await res.json();
@@ -84,13 +85,27 @@ export default function SignUp() {
           id='password'
           onChange={handleChange}
         />
-          <input
-        type='password'
-        placeholder='confirm password'
-        className='border p-3 rounded-lg'
-        id='confirmPassword'
-        onChange={handleChange}
-      />
+        <input
+          type='password'
+          placeholder='confirm password'
+          className='border p-3 rounded-lg'
+          id='confirmPassword'
+          onChange={handleChange}
+        />
+        <label htmlFor='role' className='mb-1'>
+          Select Role:
+        </label>
+        <select
+          id='role'
+          className='border p-3 rounded-lg'
+          onChange={handleChange}
+        >
+          <option value='' disabled selected>
+            Choose a role
+          </option>
+          <option value='admin'>Admin</option>
+          <option value='employee'>Employee</option>
+        </select>
 
         <button
           disabled={loading}
@@ -98,7 +113,6 @@ export default function SignUp() {
         >
           {loading ? 'Loading...' : 'Sign Up'}
         </button>
-        <OAuth/>
       </form>
       <div className='flex gap-2 mt-5'>
         <p>Have an account?</p>
@@ -106,7 +120,6 @@ export default function SignUp() {
           <span className='text-blue-700'>Sign in</span>
         </Link>
       </div>
-    
     </div>
   );
 }

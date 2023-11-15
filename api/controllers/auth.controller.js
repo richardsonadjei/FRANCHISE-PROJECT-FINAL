@@ -3,16 +3,21 @@ import bcryptjs from 'bcryptjs';
 import { errorHandler } from '../utils/error.js';
 import jwt from 'jsonwebtoken';
 
-export const signup = async (req, res,next) => {
-  const { username, email, password } = req.body;
+export const signup = async (req, res, next) => {
+  const { username, email, password, role } = req.body;
   const hashedPassword = bcryptjs.hashSync(password, 10);
-  const newUser = new User({ username, email, password: hashedPassword });
-  try {
-      await newUser.save();
-      res.status(201).json('User created successfully!');
 
+  try {
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword,
+      role: role || 'employee', // Default to 'employee' if role is not provided
+    });
+
+    await newUser.save();
+    res.status(201).json('User created successfully!');
   } catch (error) {
-    
     next(error);
   }
 };
@@ -29,7 +34,8 @@ export const signin = async (req, res, next) => {
 
     const tokenPayload = {
       id: validUser._id,
-      username: validUser.username, // Include the username in the token payload
+      username: validUser.username,
+      role: validUser.role, // Include the role in the token payload
     };
 
     const token = jwt.sign(tokenPayload, process.env.JWT_SECRET);
@@ -38,7 +44,7 @@ export const signin = async (req, res, next) => {
     res
       .cookie('access_token', token, { httpOnly: true })
       .status(200)
-      .json({ ...rest, username: validUser.username }); // Include username in the response
+      .json({ ...rest, username: validUser.username, role: validUser.role }); // Include username and role in the response
   } catch (error) {
     next(error);
   }

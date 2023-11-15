@@ -6,12 +6,12 @@ import {
   signInSuccess,
   signInFailure,
 } from '../redux/user/userSlice';
-import OAuth from '../components/OAuth';
+
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
  
-  const { loading, error } = useSelector((state) => state.user);
+  const { loading, error, currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleChange = (e) => {
@@ -46,9 +46,10 @@ export default function SignIn() {
       dispatch(signInFailure(error.message));
     }
   };
+
   return (
     <div className='p-3 max-w-lg mx-auto overflow-y-auto max-h-screen mt-28 '>
-            {error && <p className='text-red-500 mt-5 text-center'>{error}</p>}
+      {error && <p className='text-red-500 mt-5 text-center'>{error}</p>}
       <h1 className='text-3xl text-center font-semibold my-7'>Sign In</h1>
       <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
         <input
@@ -71,15 +72,17 @@ export default function SignIn() {
         >
           {loading ? 'Loading...' : 'Sign In'}
         </button>
-        <OAuth/>
+       
       </form>
-      <div className='flex gap-2 mt-5'>
-        <p>Dont have an account?</p>
-        <Link to={'/sign-up'}>
-          <span className='text-blue-700'>Sign up</span>
-        </Link>
-      </div>
 
+      {currentUser && currentUser.role === 'admin' && (
+  <div className='flex gap-2 mt-5'>
+    <p>Dont have an account?</p>
+    <Link to={'/sign-up'}>
+      <span className='text-blue-700'>Sign up</span>
+    </Link>
+  </div>
+)}
     </div>
   );
 }

@@ -143,7 +143,17 @@ export default function Header() {
                 <MenuItem to='/find-supplier' text='Search And Update Supplier' />
                 <MenuItem to='/view-suppliers' text='View All Suppliers' />
                 <li style={{ margin: '8px 0' }}><hr className="dropdown-divider" /></li>
-                <MenuItem to='/partners' text='Create A Partner' />
+                {currentUser && currentUser.role === 'admin' && (
+  <>
+    <MenuItem to='/partners' text='Create A Partner' />
+    <li style={{ margin: '8px 0' }}><hr className="dropdown-divider" /></li>
+    <MenuItem to='/sign-up' text='Create A New User' />
+    <li style={{ margin: '8px 0' }}><hr className="dropdown-divider" /></li>
+    <MenuItem to='/view-users' text='View All Users' />
+  </>
+)}
+ 
+ 
               </ul>
             )}
           </div>
