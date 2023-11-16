@@ -20,6 +20,7 @@ const createCocoaBag = async (req, res) => {
       paymentStatus, // Include paymentStatus in the destructured variables
     } = req.body;
 
+    
     // Check if paymentStatus is empty
     if (!paymentStatus) {
       return res.status(400).json({ error: 'Payment status is required' });
@@ -57,6 +58,7 @@ const createCocoaBag = async (req, res) => {
       paymentStatus: paymentStatus, // Use the paymentStatus from the request body
       quantity: quantity, // Use the quantity from the request body
       totalWeightPerBatch: totalWeightPerBatch,
+      supplier: supplier, 
     });
 
     // Save the new Procurement to the database

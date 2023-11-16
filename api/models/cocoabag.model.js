@@ -1,16 +1,27 @@
 import mongoose from 'mongoose';
+import AutoIncrementFactory from 'mongoose-sequence';
 
-function generateRandomBatchNumber() {
-  const randomNumber = Math.floor(100000 + Math.random() * 900000);
-  return randomNumber.toString();
-}
+const { Schema, model } = mongoose;
+
+// Counter schema to store the batch number counter
+const counterSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  value: {
+    type: Number,
+    default: 1,
+  },
+});
+
+const Counter = model('Counter', counterSchema);
+
+const autoIncrement = AutoIncrementFactory(mongoose);
 
 const cocoaBagSchema = new mongoose.Schema({
   batchNumber: {
     type: String,
-    unique: true,
-    required: true,
-    default: generateRandomBatchNumber,
   },
   quantity: {
     type: Number,
@@ -61,9 +72,34 @@ const cocoaBagSchema = new mongoose.Schema({
   },
   supplier: {
     type: String,
+    
   },
+  
+}, {
+  timestamps: true,
 });
 
+// Pre-save hook to generate the alphanumeric batchNumber
+cocoaBagSchema.pre('save', async function (next) {
+  try {
+    if (!this.batchNumber) {
+      // Find the counter for the batch
+      const counter = await Counter.findOneAndUpdate(
+        { name: 'batchNumber' },
+        { $inc: { value: 1 } },
+        { new: true, upsert: true }
+      );
+
+      // Generate the batch number with letters (A, B, C, ...)
+      const letter = String.fromCharCode(65 + Math.floor(counter.value / 100)); // ASCII code for 'A' is 65
+      const number = (counter.value % 100).toString().padStart(3, '0');
+      this.batchNumber = `${letter}${number}`;
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
 
 const CocoaBag = mongoose.model('CocoaBag', cocoaBagSchema);
 

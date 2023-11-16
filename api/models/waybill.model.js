@@ -1,45 +1,26 @@
 import mongoose from 'mongoose';
+import AutoIncrementFactory from 'mongoose-sequence';
 
-// Nested schema for driver details
-const driverSchema = new mongoose.Schema({
+const { Schema, model } = mongoose;
+
+// Counter schema to store the wayBillNumber counter
+const counterSchema = new Schema({
   name: {
     type: String,
     required: true,
   },
-  address: {
-    type: String,
-    required: true,
-  },
-  licenseNumber: {
-    type: String,
-    required: true,
+  value: {
+    type: Number,
   },
 });
 
-// Nested schema for truck details
-const truckSchema = new mongoose.Schema({
-  registrationNumber: {
-    type: String,
-    required: true,
-  },
-  make: {
-    type: String,
-    required: true,
-  },
-});
+const WaybillCounter = model('WaybillCounter', counterSchema);
+const autoIncrement = AutoIncrementFactory(mongoose);
 
-// Main waybill schema including arrays of drivers and trucks
-const waybillSchema = new mongoose.Schema({
-    wayBillNumber: {
-      type: String,
-      default: () => {
-        // Generate a unique 6-digit wayBillNumber
-        const min = 100000; // 6-digit number starts from 100000
-        const max = 999999; // 6-digit number ends at 999999
-        return String(Math.floor(Math.random() * (max - min + 1)) + min);
-      },
-      unique: true,
-    },
+const waybillSchema = new Schema({
+  wayBillNumber: {
+    type: String,
+  },
   customerName: {
     type: String,
     required: true,
@@ -56,8 +37,30 @@ const waybillSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  drivers: [driverSchema], // Array of driver objects
-  trucks: [truckSchema],   // Array of truck objects
+  drivers: [{
+    name: {
+      type: String,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true,
+    },
+    licenseNumber: {
+      type: String,
+      required: true,
+    },
+  }],
+  trucks: [{
+    registrationNumber: {
+      type: String,
+      required: true,
+    },
+    make: {
+      type: String,
+      required: true,
+    },
+  }],
   batchNumber: {
     type: String,
     required: true,
@@ -82,7 +85,29 @@ const waybillSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+}, { timestamps: true });
+
+// Pre-save hook to generate the alphanumeric wayBillNumber
+waybillSchema.pre('save', async function (next) {
+  try {
+    if (!this.wayBillNumber) {
+      // Find the counter for the wayBillNumber
+      const counter = await WaybillCounter.findOneAndUpdate(
+        { name: 'wayBillNumber' },
+        { $inc: { value: 1 } },
+        { new: true, upsert: true }
+      );
+
+      // Generate the wayBillNumber with 'WB' prefix and padded number
+      const paddedNumber = counter.value.toString().padStart(2, '0');
+      this.wayBillNumber = `WB${paddedNumber}`;
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
 
-const Waybill = mongoose.model('Waybill', waybillSchema);
+const Waybill = model('Waybill', waybillSchema);
+
 export default Waybill;
