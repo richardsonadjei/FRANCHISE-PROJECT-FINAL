@@ -41,7 +41,8 @@ const CreateBatchExpense = () => {
       amount,
       paymentStatus
     };
-
+// Log the data sent by the client
+console.log('Data sent by the client:', expenseData);
     fetch('/api/batch-expense', {
       method: 'POST',
       headers: {
@@ -133,16 +134,20 @@ const CreateBatchExpense = () => {
         <label htmlFor="paymentStatus" className="block font-medium mb-1">
           Payment Status
         </label>
-        <select
-          id="paymentStatus"
-          className="border border-gray-300 rounded p-2 w-full"
-          value={paymentStatus}
-          onChange={(e) => setPaymentStatus(e.target.value)}
-        >
-         <option value="Paid">Paid</option>
-          <option value="Pending">Pending</option>
-          
-        </select>
+        <div className="mb-4">
+  <label htmlFor="paymentStatus" className="block font-medium mb-1">
+    Payment Status
+  </label>
+  <select
+    id="paymentStatus"
+    className="border border-gray-300 rounded p-2 w-full"
+    value={paymentStatus}
+    onChange={(e) => setPaymentStatus(e.target.value)}
+  >
+    <option value="Paid">Paid</option>
+    <option value="Pending">Pending</option>
+  </select>
+</div>
       </div>
         <button
           type="submit"
