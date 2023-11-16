@@ -16,7 +16,7 @@ const Income = () => {
   const [description, setDescription] = useState('');
   const [paymentStatus, setPaymentStatus] = useState('Pending');
   const [isLoading, setIsLoading] = useState(false);
-  const [amount, setAmount] = useState(0); // Initialize amount to 0
+  const [amount, setAmount] = useState(''); // Initialize amount to 0
 
 
   useEffect(() => {

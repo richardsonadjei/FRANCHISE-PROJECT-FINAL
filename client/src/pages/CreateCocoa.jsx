@@ -226,11 +226,7 @@ const CreateCocoa = () => {
         </button>
       </div>
     </form>
-    {responseMessage && (
-      <div className="bg-green-500 text-white px-4 py-2 rounded-md mt-4">
-        {responseMessage}
-      </div>
-    )}
+  
   </div>
   );
 };

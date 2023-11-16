@@ -64,7 +64,7 @@ const ModifyBatch = () => {
       }
 
       alert('Cocoa modified successfully');
-      window.location.reload();
+      window.location.href = '/'; // Replace with your home page URL
       
     } catch (error) {
       console.error('Error modifying cocoa:', error);

@@ -60,7 +60,7 @@ const CreateBatchExpense = () => {
           // Delay redirect to homepage
           setTimeout(() => {
             window.location.href = '/home';
-          }, 2000);
+          }, 1000);
         } else {
           setErrorMessage('Failed to create batch expense.');
           setSuccessMessage('');

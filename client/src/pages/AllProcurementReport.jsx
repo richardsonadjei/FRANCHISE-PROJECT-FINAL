@@ -70,38 +70,39 @@ const AllProcurement = () => {
           Generate Report
         </button>
         {showReport && (
-        <div className="mt-8">
-          <h2 className="text-2xl font-semibold mb-4">All Procurements Report</h2>
-          <table className="min-w-full bg-white border border-gray-300">
-            <thead className="bg-gray-800 text-white">
-              <tr>
-                <th className="py-2 px-4">Date</th>
-                <th className="py-2 px-4">Batch Number</th>
-                <th className="py-2 px-4">Amount</th>
-                <th className="py-2 px-4">Category</th>
-                <th className="py-2 px-4">Quantity</th>
-                <th className="py-2 px-4">Total Weight Per Batch</th> {/* Include totalWeightPerBatch in the table header */}
-                <th className="py-2 px-4">Payment Status</th>
-                <th className="py-2 px-4">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              {procurements.map((procurement, index) => (
-                <tr key={index}>
-                   <td className="py-2 px-4">{new Date(procurement.date).toLocaleDateString()}, {new Date(procurement.date).toLocaleTimeString()}</td>
-                  <td className="py-2 px-4">{procurement.batchNumber}</td>
-                  <td className="py-2 px-4">{procurement.amount}</td>
-                  <td className="py-2 px-4">{procurement.category}</td>
-                  <td className="py-2 px-4">{procurement.quantity}</td>
-                  <td className="py-2 px-4">{procurement.totalWeightPerBatch}</td> {/* Include totalWeightPerBatch in the table body */}
-                  <td className="py-2 px-4">{procurement.paymentStatus}</td>
-                  <td className="py-2 px-4">{procurement.description}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          </div>
-        )}
+  <div className="mt-8 overflow-x-auto">
+    <h2 className="text-2xl font-semibold mb-4">All Procurements Report</h2>
+    <table className="min-w-full bg-white border border-gray-300">
+      <thead className="bg-gray-800 text-white">
+        <tr>
+          <th className="py-2 px-4">Date</th>
+          <th className="py-2 px-4">Batch Number</th>
+          <th className="py-2 px-4">Amount</th>
+          <th className="py-2 px-4">Category</th>
+          <th className="py-2 px-4">Quantity</th>
+          <th className="py-2 px-4">Total Weight Per Batch</th>
+          <th className="py-2 px-4">Payment Status</th>
+          <th className="py-2 px-4">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {procurements.map((procurement, index) => (
+          <tr key={index}>
+            <td className="py-2 px-4">{new Date(procurement.date).toLocaleDateString()}, {new Date(procurement.date).toLocaleTimeString()}</td>
+            <td className="py-2 px-4">{procurement.batchNumber}</td>
+            <td className="py-2 px-4">{procurement.amount}</td>
+            <td className="py-2 px-4">{procurement.category}</td>
+            <td className="py-2 px-4">{procurement.quantity}</td>
+            <td className="py-2 px-4">{procurement.totalWeightPerBatch}</td>
+            <td className="py-2 px-4">{procurement.paymentStatus}</td>
+            <td className="py-2 px-4">{procurement.description}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+)}
+
         {showReport && (
           <button
             className="mt-8 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-300"
