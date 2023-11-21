@@ -41,8 +41,7 @@ const CreateBatchExpense = () => {
       amount,
       paymentStatus
     };
-// Log the data sent by the client
-console.log('Data sent by the client:', expenseData);
+
     fetch('/api/batch-expense', {
       method: 'POST',
       headers: {
