@@ -47,7 +47,6 @@ import WaybillReport from './pages/inventoryReports/WaybillReport';
 import DistributeProfit from './pages/DistributeProfit';
 import PartnerIncome from './pages/financial Reports/PartnerIncome';
 import QCCerts from './pages/QCCerts';
-import ToDoTask from './pages/ToDoTask';
 import PendingExpensesReport from './pages/financial Reports/PendingExpensesReport';
 import UpdateExpenseStatus from '../UpdateExpenseStatus';
 import ViewAllUsers from './pages/ViewAllUsers';
@@ -108,7 +107,6 @@ export default function App() {
           <Route path='/distribute-profit' element={<DistributeProfit/>} /> 
           <Route path='/partner-income-report' element={<PartnerIncome/>} /> 
           <Route path='/qccerts' element={<QCCerts/>} /> 
-          <Route path='/tasks' element={<ToDoTask/>} /> 
           <Route path='/pending-expenses' element={<PendingExpensesReport/>} />     
           <Route path='/update-expenses-status' element={<UpdateExpenseStatus/>} />  
           <Route path='/view-users' element={<ViewAllUsers/>} />  
