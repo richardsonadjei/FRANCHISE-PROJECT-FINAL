@@ -18,7 +18,7 @@ import partnerIncome from './routes/partnerIncome.route.js';
 import batchExpenseRouter from './routes/batchExpense.route.js';
 import procurementRouter from './routes/procurement.route.js';
 import qcCertRouter from './routes/qcCertificateRouter.js';
-import taskRouter from './routes/task.route.js';
+
 import path from 'path';
 
 
@@ -59,7 +59,7 @@ app.use('/api', partnerIncome);
 app.use('/api', batchExpenseRouter);
 app.use('/api', procurementRouter);
 app.use('/api', qcCertRouter);
-app.use('/api', taskRouter);
+
 
 app.use(express.static(path.join(__dirname, '/client/dist')));
 

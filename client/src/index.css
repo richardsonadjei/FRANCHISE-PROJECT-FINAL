@@ -6,57 +6,20 @@ body{
     background-color: rgb(241, 245, 241);
 }
 
-/* styles.css */
+.btn {
+  display: block;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: #7B68EE;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
 
-/* Sidebar Styles */
-.aside-menu {
-    width: 0;
-    height: 100vh; /* Full height of the viewport */
-    position: fixed;
-    top: 0;
-    left: 0;
-    transition: width 0.3s ease;
-    overflow-y: auto; /* Enable vertical scrolling if content exceeds viewport height */
-    z-index: 999; /* Ensure the sidebar appears above other content */
-    margin-top: 65px; 
-  }
-  
-  /* Sidebar Content Styles */
-  .aside-menu h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    color: white;
-    padding: 1rem;
-    text-align: center;
-  }
-  
-  .aside-menu ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .aside-menu li {
-    margin-bottom: 0.5rem;
-    text-align: center;
-  }
-  
-  .aside-menu li a {
-    text-decoration: none;
-    color: white;
-    transition: color 0.3s ease;
-    display: block;
-    padding: 0.5rem;
-  }
-  
-  .aside-menu li a:hover {
-    color: #ffffffcc; /* Semi-transparent white on hover */
-  }
-  
-  /* Sidebar Animation */
-  .aside-menu:hover {
-    width: 200px; /* Width on hover */
-  }
-  
+.btn-hover {
+  background-color: #7FFFD4;
+}
 
   

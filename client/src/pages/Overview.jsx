@@ -3,48 +3,39 @@ import { Link } from 'react-router-dom';
 import backgroundImage from '../../public/00071492.jpg'; // Replace with the actual path to your image
 import { useSelector } from 'react-redux';
 
-const Home = () => {
+const Overview = () => {
   const { currentUser } = useSelector((state) => state.user);
 
   return (
-    <>
-      <div className="container-fluid p-0">
-        <div className="row">
-          <div className="col-12 p-0">
-            {/* Responsive image covering the entire page */}
-            <img
-              src={backgroundImage}
-              alt="Background"
-              className="img-fluid w-100"
-              style={{ height: '100vh', objectFit: 'cover' }}
-            />
-          </div>
-        </div>
+    <div className="relative h-screen">
+      {/* Responsive image covering the entire page */}
+      <img
+        src={backgroundImage}
+        alt="Background"
+        className="object-cover w-full h-full"
+      />
 
-        {/* Centered content */}
-        <div className="row align-items-center text-center" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-          <div className="col-12 text-white">
-            <h1 style={{ color: '#7B68EE', fontSize: '3rem' }}>
-              Welcome <span style={{ color: '#7FFFD4', fontWeight: 'bold', fontFamily: 'YourCustomFont' }}>{currentUser.userName}</span>
-            </h1>
-            <br />
-            <br />
-            {/* Use Link to navigate to /dashboard */}
-            <Link to="/dashboard">
-              <button className="btn btn-primary">Get Started</button>
-            </Link>
-          </div>
+      {/* Centered content */}
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white w-full">
+        
+        
+        <div className="mt-8">
+          {/* Use Link to navigate to /dashboard */}
+          <Link to="/home">
+            <button className="btn btn-primary mx-auto"> {/* Added mx-auto for horizontal centering */}
+              <span>Get Started</span>
+            </button>
+          </Link>
         </div>
       </div>
 
       {/* Footer */}
-      <footer className="mt-8 md:mt-20 text-white font-weight-bold text-center py-2 md:py-4" style={{ position: 'absolute', bottom: '0', width: '100vw', }}>
+      <footer className="absolute bottom-0 w-full text-center text-white font-bold py-2">
         <p>&copy; {new Date().getFullYear()} Pador Farms Warehouse. All rights reserved. </p>
         <p>Built By <span style={{ fontWeight: 'bold', fontStyle: 'italic' }}>@Richardson</span>.</p>
-
       </footer>
-    </>
+    </div>
   );
 };
 
-export default Home;
+export default Overview;
