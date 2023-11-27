@@ -68,7 +68,7 @@ const cocoaBagSchema = new mongoose.Schema({
   },
   userId: {
     type: String,
-    required: true,
+    
   },
   supplier: {
     type: String,
