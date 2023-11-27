@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const Evacuation = () => {
+  const { currentUser } = useSelector((state) => state.user);
   const [batchNumbers, setBatchNumbers] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [evacuationData, setEvacuationData] = useState({
     batchNumber: '',
     evacuatedQuantity: '',
-    evacuatedWeight: '', // New field for evacuated weight
+    evacuatedWeight: '',
     customerName: '',
     shippingLocation: '',
     shippingMethod: '',
-
+    recordedBy:currentUser ? currentUser.username : '',
   });
 
   useEffect(() => {
@@ -18,9 +20,7 @@ const Evacuation = () => {
     fetch('/api/cocoabags')
       .then((response) => response.json())
       .then((data) => {
-        // Check if data is an array and not empty
         if (Array.isArray(data) && data.length > 0) {
-          // Extract batch numbers from the batch objects and set in state
           const extractedBatchNumbers = data.map((batch) => batch.batchNumber);
           setBatchNumbers(extractedBatchNumbers);
         } else {
@@ -40,6 +40,16 @@ const Evacuation = () => {
       .catch((error) => {
         console.error('Error fetching customers:', error);
       });
+
+    // Fetch current user's username and set it to recordedBy
+    fetch('/api/currentUser')
+      .then((response) => response.json())
+      .then((data) => {
+        setEvacuationData((prevData) => ({ ...prevData, recordedBy: data.username }));
+      })
+      .catch((error) => {
+        console.error('Error fetching current user:', error);
+      });
   }, []);
 
   const handleInputChange = (e) => {
@@ -49,21 +59,24 @@ const Evacuation = () => {
 
   const handleEvacuationSubmit = (e) => {
     e.preventDefault();
-    // Perform evacuation logic here using evacuationData state
+  
+    const requestData = {
+      ...evacuationData,
+      recordedBy: currentUser ? currentUser.username : '', // Ensure that recordedBy is set
+    };
+  
     fetch('/api/evacuation', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(evacuationData),
+      body: JSON.stringify(requestData),
     })
       .then((response) => response.json())
       .then((data) => {
-        // Assume the evacuation is successful
         alert('Evacuation successful');
-        // Redirect to the income page with batchNumber, evacuatedQuantity, and customerName in the URL
-        const { batchNumber, evacuatedQuantity, evacuatedWeight, customerName } = evacuationData;
-      window.location.href = `/income?batchNumber=${batchNumber}&evacuatedQuantity=${evacuatedQuantity}&evacuatedWeight=${evacuatedWeight}&customerName=${customerName}`;
+        const { batchNumber, evacuatedQuantity, evacuatedWeight, customerName } = requestData;
+        window.location.href = `/income?batchNumber=${batchNumber}&evacuatedQuantity=${evacuatedQuantity}&evacuatedWeight=${evacuatedWeight}&customerName=${customerName}`;
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -71,6 +84,7 @@ const Evacuation = () => {
         // ...
       });
   };
+  
 
   return (
     <div className="container mx-auto overflow-y-auto max-h-screen mt-28 p-8 bg-white shadow-lg rounded-lg">
@@ -89,7 +103,6 @@ const Evacuation = () => {
             required
           >
             <option value="" disabled>Select Batch Number</option>
-            {/* Map through batchNumbers array and render options */}
             {batchNumbers.map((batchNumber) => (
               <option key={batchNumber} value={batchNumber}>
                 {batchNumber}
@@ -172,6 +185,19 @@ const Evacuation = () => {
             onChange={handleInputChange}
             className="mt-1 p-2 border rounded-md w-full"
             required
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="recordedBy" className="block text-sm font-medium text-gray-600">
+            Recorded By
+          </label>
+          <input
+            type="text"
+            id="recordedBy"
+            name="recordedBy"
+            value={evacuationData.recordedBy}
+            readOnly
+            className="mt-1 p-2 border rounded-md w-full"
           />
         </div>
         <button

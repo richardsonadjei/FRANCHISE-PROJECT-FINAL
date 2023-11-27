@@ -34,6 +34,11 @@ const procurementSchema = new mongoose.Schema({
     type:  String,
     required: true,
   },
+  procuredBy: {
+    type: String,
+    required: true,
+  },
+
 });
 
 const Procurement = mongoose.model('Procurement', procurementSchema);

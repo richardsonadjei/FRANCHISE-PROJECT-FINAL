@@ -71,6 +71,7 @@ const AllExpenseReport = () => {
                 <tr>
                   <th className="border border-gray-400 px-4 py-2">Description</th>
                   <th className="border border-gray-400 px-4 py-2">Amount</th>
+                  <th className="border border-gray-400 px-4 py-2">Procured By</th>
                   {/* Add more headers if needed */}
                 </tr>
               </thead>
@@ -80,6 +81,7 @@ const AllExpenseReport = () => {
                   <tr key={expense._id}>
                     <td className="border border-gray-400 px-4 py-2">{expense.description}</td>
                     <td className="border border-gray-400 px-4 py-2">{expense.amount}</td>
+                    <td className="border border-gray-400 px-4 py-2">{expense.procuredBy}</td>
                     {/* Add more fields if needed */}
                   </tr>
                 ))}
@@ -94,6 +96,7 @@ const AllExpenseReport = () => {
                 <tr>
                   <th className="border border-gray-400 px-4 py-2">Description</th>
                   <th className="border border-gray-400 px-4 py-2">Amount</th>
+                  <th className="border border-gray-400 px-4 py-2">Recorded By</th>
                   {/* Add more headers if needed */}
                 </tr>
               </thead>
@@ -103,6 +106,7 @@ const AllExpenseReport = () => {
                   <tr key={expense._id}>
                     <td className="border border-gray-400 px-4 py-2">{expense.description}</td>
                     <td className="border border-gray-400 px-4 py-2">{expense.amount}</td>
+                    <td className="border border-gray-400 px-4 py-2">{expense.recordedBy}</td>
                     {/* Add more fields if needed */}
                   </tr>
                 ))}
@@ -117,6 +121,7 @@ const AllExpenseReport = () => {
                 <tr>
                   <th className="border border-gray-400 px-4 py-2">Description</th>
                   <th className="border border-gray-400 px-4 py-2">Amount</th>
+                  <th className="border border-gray-400 px-4 py-2">Recorded By</th>
                   {/* Add more headers if needed */}
                 </tr>
               </thead>
@@ -126,6 +131,7 @@ const AllExpenseReport = () => {
                   <tr key={expense._id}>
                     <td className="border border-gray-400 px-4 py-2">{expense.description}</td>
                     <td className="border border-gray-400 px-4 py-2">{expense.amount}</td>
+                    <td className="border border-gray-400 px-4 py-2">{expense.recordedBy}</td>
                     {/* Add more fields if needed */}
                   </tr>
                 ))}

@@ -16,7 +16,7 @@ const createCocoaBag = async (req, res) => {
       packingDate,
       totalWeightPerBatch,
       comments,
-      userId,
+      recordedBy,
       paymentStatus, // Include paymentStatus in the destructured variables
     } = req.body;
 
@@ -35,7 +35,7 @@ const createCocoaBag = async (req, res) => {
       packingDate,
       totalWeightPerBatch,
       comments,
-      userId,
+      recordedBy,
       transactionType: 'Creation',
       expenses: [
         {
@@ -59,6 +59,8 @@ const createCocoaBag = async (req, res) => {
       quantity: quantity, // Use the quantity from the request body
       totalWeightPerBatch: totalWeightPerBatch,
       supplier: supplier, 
+      procuredBy: recordedBy, // Use the createdBy from the request body
+      
     });
 
     // Save the new Procurement to the database
@@ -306,7 +308,7 @@ const receiveReport = async (req, res) => {
 // Assuming you have a Transaction model
 const modifyQuantity = async (req, res) => {
   const { batchNumber } = req.params;
-  const { quantity, totalWeightPerBatch } = req.body;
+  const { quantity, totalWeightPerBatch,recordedBy } = req.body;
 
   try {
     // Find the CocoaBag by batchNumber
@@ -341,6 +343,7 @@ const modifyQuantity = async (req, res) => {
       totalWeightBefore,
       totalWeightAfter: totalWeightPerBatch,
       modifiedTotalWeight,
+      recordedBy
     });
     await transaction.save();
 

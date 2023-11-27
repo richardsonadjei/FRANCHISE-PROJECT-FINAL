@@ -66,8 +66,9 @@ const cocoaBagSchema = new mongoose.Schema({
     enum: ['Creation'],
     required: true,
   },
-  userId: {
+  recordedBy: {
     type: String,
+    required: true,
     
   },
   supplier: {

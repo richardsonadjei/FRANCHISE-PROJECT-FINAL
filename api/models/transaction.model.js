@@ -10,12 +10,6 @@ const transactionSchema = new mongoose.Schema({
     enum: ['Update', 'Modify', 'Evacuation'],
     required: true,
   },
-  userId: {
-    type: String,
-  },
-  username: {
-    type: String,
-  },
   receivedQuantity: {
     type: Number,
     default: 0,
@@ -51,6 +45,10 @@ const transactionSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  recordedBy: {
+    type: String,
+    required: true,
+  }
 });
 
 const Transaction = mongoose.model('Transaction', transactionSchema);

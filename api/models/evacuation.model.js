@@ -34,6 +34,12 @@ const evacuationSchema = new mongoose.Schema({
     enum: ['Pending', 'Shipped', 'Delivered'],
     default: 'Shipped',
   },
+  recordedBy: {
+    type: String,
+    required: true,
+  },
+  
+
   // Add more fields as needed for additional evacuation details
 });
 

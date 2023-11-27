@@ -14,6 +14,7 @@ export const createExpense = async (req, res) => {
       batchNumber,
       personName,
       receiptNumber,
+      recordedBy
      // Include the new field in the destructuring
     } = req.body;
     console.log('Request Body:', req.body); 
@@ -29,6 +30,7 @@ export const createExpense = async (req, res) => {
         personName,
         receiptNumber,
       },
+      recordedBy
       // Include the paymentStatus field
     });
     console.log('New Expense Object:', newExpense); 

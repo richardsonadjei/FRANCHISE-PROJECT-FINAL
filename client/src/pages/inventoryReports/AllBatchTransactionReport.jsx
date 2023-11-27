@@ -18,7 +18,9 @@ const AllBatchTransactionReport = () => {
         transaction.receivedQuantity,
         transaction.quantityAfter,
         transaction.modifiedQuantity,
+        transaction.recordedBy,
         new Date(transaction.updatedAt).toLocaleString(),
+        
       ]),
     });
     doc.save('transaction_report.pdf');
@@ -40,7 +42,7 @@ const AllBatchTransactionReport = () => {
 
   return (
     <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4">
-      <h1 className="text-2xl font-bold mb-4">Batch Transaction Report</h1>
+      <h1 className="text-2xl font-bold mb-4">All Batches Transaction Report</h1>
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-600">Start Date</label>
@@ -90,6 +92,7 @@ const AllBatchTransactionReport = () => {
                 <th className="py-2 px-4">Received Quantity</th>
                 <th className="py-2 px-4">Quantity After</th>
                 <th className="py-2 px-4">Modified Quantity</th>
+                <th className="py-2 px-4">Created By</th> 
                 <th className="py-2 px-4">Date</th>
               </tr>
             </thead>
@@ -102,6 +105,7 @@ const AllBatchTransactionReport = () => {
                   <td className="py-2 px-4">{transaction.receivedQuantity}</td>
                   <td className="py-2 px-4">{transaction.quantityAfter}</td>
                   <td className="py-2 px-4">{transaction.modifiedQuantity}</td>
+                  <td className="py-2 px-4">{transaction.recordedBy}</td>
                   <td className="py-2 px-4">{new Date(transaction.updatedAt).toLocaleString()}</td>
                 </tr>
               ))}

@@ -36,6 +36,10 @@ const expenseSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  recordedBy:{
+    type: String,
+    required: true,
+  },
  
   transaction: transactionSchema,
  

@@ -22,6 +22,12 @@ const batchExpenseSchema = new mongoose.Schema({
     enum: ['Pending', 'Paid'], // You can adjust the enum values based on your use case
     default: 'Paid', 
   },
+  recordedBy:{
+    type: String,
+    required: true,
+  },
+  
+
 });
 
 const BatchExpense = mongoose.model('BatchExpense', batchExpenseSchema);

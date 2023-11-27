@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const ModifyBatch = () => {
+  const { currentUser } = useSelector((state) => state.user);
   const [batches, setBatches] = useState([]);
   const [selectedBatchNumber, setSelectedBatchNumber] = useState('');
   const [quantity, setQuantity] = useState('');
   const [totalWeightPerBatch, setTotalWeightPerBatch] = useState('');
-  const [userId, setUserId] = useState('');
+
   const [initialQuantities, setInitialQuantities] = useState({});
   const [initialTotalWeights, setInitialTotalWeights] = useState({});
+  const [recordedBy, setRecordedBy] = useState(currentUser ? currentUser.username : '');
 
   useEffect(() => {
     const fetchBatchesData = async () => {
@@ -40,12 +43,15 @@ const ModifyBatch = () => {
 
   const handleModifyCocoa = async (e) => {
     e.preventDefault();
-
-    if (quantity === null || isNaN(quantity) || totalWeightPerBatch === null || isNaN(totalWeightPerBatch)) {
+    if (
+      quantity === null ||
+      isNaN(quantity) ||
+      totalWeightPerBatch === null ||
+      isNaN(totalWeightPerBatch)
+    ) {
       alert('Invalid quantity or total weight');
       return;
     }
-
     try {
       const response = await fetch(`/api/cocoabags/modify/${selectedBatchNumber}`, {
         method: 'PUT',
@@ -54,18 +60,16 @@ const ModifyBatch = () => {
         },
         body: JSON.stringify({
           quantity: parseFloat(quantity),
-          totalWeightPerBatch: parseFloat(totalWeightPerBatch), // Include the totalWeightPerBatch field in the request body
-          userId,
+          totalWeightPerBatch: parseFloat(totalWeightPerBatch),
+          
+          recordedBy:currentUser ? currentUser.username : '',
         }),
       });
-
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-
       alert('Cocoa modified successfully');
       window.location.href = '/'; // Replace with your home page URL
-      
     } catch (error) {
       console.error('Error modifying cocoa:', error);
       alert('An error occurred while modifying cocoa');
@@ -125,6 +129,18 @@ const ModifyBatch = () => {
             value={totalWeightPerBatch}
             onChange={(e) => setTotalWeightPerBatch(e.target.value)}
             className="mt-1 p-2 border border-gray-300 rounded w-full"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="recordedBy" className="block font-medium mb-1">
+            Recorded By
+          </label>
+          <input
+            type="text"
+            id="recordedBy"
+            className="border border-gray-300 rounded p-2 w-full"
+            value={currentUser ? currentUser.username : ''}
+            disabled // The field is disabled since it's automatically set
           />
         </div>
         <div className="mt-4">

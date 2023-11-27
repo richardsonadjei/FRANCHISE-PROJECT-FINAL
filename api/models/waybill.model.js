@@ -81,7 +81,7 @@ const waybillSchema = new Schema({
     enum: ['Shipped', 'Delivered', 'In Transit'],
     default: 'In Transit',
   },
-  userId: {
+  generatedBy: {
     type: String,
     required: true,
   },

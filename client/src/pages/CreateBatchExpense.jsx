@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const CreateBatchExpense = () => {
+  const { currentUser } = useSelector((state) => state.user);
   const [batchNumbers, setBatchNumbers] = useState([]);
   const [batchNumber, setBatchNumber] = useState('');
   const [description, setDescription] = useState('');
@@ -8,6 +10,7 @@ const CreateBatchExpense = () => {
   const [paymentStatus, setPaymentStatus] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [recordedBy, setRecordedBy] = useState(currentUser ? currentUser.username : '');
 
   useEffect(() => {
     fetch('/api/cocoabags')
@@ -35,11 +38,14 @@ const CreateBatchExpense = () => {
       return;
     }
 
+   
+
     const expenseData = {
       batchNumber,
       description,
       amount,
-      paymentStatus
+      paymentStatus,
+      recordedBy:currentUser ? currentUser.username : '',
     };
 
     fetch('/api/batch-expense', {
@@ -130,24 +136,32 @@ const CreateBatchExpense = () => {
           />
         </div>
         <div className="mb-4">
-        <label htmlFor="paymentStatus" className="block font-medium mb-1">
-          Payment Status
-        </label>
-        <div className="mb-4">
-  <label htmlFor="paymentStatus" className="block font-medium mb-1">
-    Payment Status
-  </label>
-  <select
-    id="paymentStatus"
-    className="border border-gray-300 rounded p-2 w-full"
-    value={paymentStatus}
-    onChange={(e) => setPaymentStatus(e.target.value)}
-  >
-    <option value="Paid">Paid</option>
-    <option value="Pending">Pending</option>
-  </select>
-</div>
-      </div>
+          <label htmlFor="paymentStatus" className="block font-medium mb-1">
+            Payment Status
+          </label>
+          <select
+            id="paymentStatus"
+            className="border border-gray-300 rounded p-2 w-full"
+            value={paymentStatus}
+            onChange={(e) => setPaymentStatus(e.target.value)}
+          >
+            <option value="">Select Payment Status</option>
+            <option value="Paid">Paid</option>
+            <option value="Pending">Pending</option>
+          </select>
+        </div>
+      <div className="mb-4">
+          <label htmlFor="recordedBy" className="block font-medium mb-1">
+            Recorded By
+          </label>
+          <input
+            type="text"
+            id="recordedBy"
+            className="border border-gray-300 rounded p-2 w-full"
+            value={recordedBy}
+            disabled // The field is disabled since it's automatically set
+          />
+        </div>
         <button
           type="submit"
           className="bg-blue-500 text-white rounded py-2 px-4 hover:bg-blue-600"

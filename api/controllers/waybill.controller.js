@@ -11,11 +11,9 @@ export const createWaybill = async (req, res) => {
       trucks,
       batchNumber,
       evacuatedQuantity,
-      evacuatedWeight, // Add totalWeight to the destructuring assignment
+      evacuatedWeight,
+      generatedBy
     } = req.body;
-
-    // Extract userID from the token (assuming you have a middleware for verifying the user)
-    const userId = req.user.id;
 
     const waybill = new Waybill({
       customerName,
@@ -26,8 +24,9 @@ export const createWaybill = async (req, res) => {
       trucks,
       batchNumber,
       evacuatedQuantity,
-      evacuatedWeight, // Include totalWeight in the Waybill creation
-      userId,
+      evacuatedWeight,
+      generatedBy // Include totalWeight in the Waybill creation
+      
     });
 
     await waybill.save();

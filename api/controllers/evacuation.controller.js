@@ -6,7 +6,7 @@ import CocoaBag from '../models/cocoabag.model.js'; // Import the CocoaBag model
 const performEvacuation = async (req, res) => {
   try {
     // Extract data from the request body
-    const { batchNumber, evacuatedQuantity, evacuatedWeight, customerName, shippingLocation, shippingMethod } = req.body;
+    const { batchNumber, evacuatedQuantity, evacuatedWeight, customerName, shippingLocation, shippingMethod,recordedBy } = req.body;
 
     // Find the existing quantity and totalWeightPerBatch of cocoa bags in the database before the evacuation
     const cocoaBagBeforeEvacuation = await CocoaBag.findOne({ batchNumber });
@@ -38,6 +38,7 @@ const performEvacuation = async (req, res) => {
       customerName,
       shippingLocation,
       shippingMethod,
+      recordedBy, 
     });
 
     // Save the evacuation details to the database
@@ -54,6 +55,7 @@ const performEvacuation = async (req, res) => {
       evacuatedQuantity,
       totalWeightBefore,
       totalWeightAfter,
+      recordedBy,
       evacuationDate: evacuation.evacuationDate, // Use the evacuation date from the Evacuation model
     });
 

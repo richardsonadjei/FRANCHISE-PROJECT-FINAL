@@ -1,7 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const CreateExpense = () => {
+  const { currentUser } = useSelector((state) => state.user);
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('');
@@ -14,8 +15,25 @@ const CreateExpense = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [showBatchNumber, setShowBatchNumber] = useState(false);
   const [batchNumber, setBatchNumber] = useState('');
+  const [recordedBy, setRecordedBy] = useState(currentUser ? currentUser.username : '');
 
   useEffect(() => {
+    // Assuming you have a way to fetch the current user's data
+    // Replace the following with your actual fetch logic
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch('/api/auth/profile', {
+          method: 'GET',
+          credentials: 'include',
+        });
+        const userData = await response.json();
+        setRecordedBy(userData.name); // Replace 'name' with the actual property in user data
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    // Fetch categories
     fetch('/api/all/expense-categories')
       .then((response) => response.json())
       .then((data) => {
@@ -25,6 +43,9 @@ const CreateExpense = () => {
       .catch((error) => {
         console.error(error);
       });
+
+    // Fetch current user data
+    fetchUserData();
   }, []);
 
   const handleCategoryChange = (e) => {
@@ -37,8 +58,6 @@ const CreateExpense = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-  
-      
       const requestBody = {
         description,
         amount,
@@ -47,10 +66,9 @@ const CreateExpense = () => {
         personName,
         receiptNumber,
         batchNumber: showBatchNumber ? batchNumber : null,
+        recordedBy:currentUser ? currentUser.userName : '',
       };
-  
-     
-  
+
       const response = await fetch('/api/expenses', {
         method: 'POST',
         headers: {
@@ -58,9 +76,9 @@ const CreateExpense = () => {
         },
         body: JSON.stringify(requestBody),
       });
-  
+
       const data = await response.json();
-  
+
       if (response.ok) {
         setSuccessMessage('Expense created successfully');
         setDescription('');
@@ -69,6 +87,7 @@ const CreateExpense = () => {
         setPersonName('');
         setReceiptNumber('');
         setBatchNumber('');
+        setRecordedBy('');
         setShowTransactionInput(false);
         setShowBatchNumber(false);
       } else {
@@ -79,17 +98,19 @@ const CreateExpense = () => {
       setErrorMessage('Failed to create expense');
     }
   };
-  
 
   return (
     <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4 flex justify-center">
       <div className="w-full md:w-1/2">
         <h1 className="text-2xl font-bold mb-4">Create Expense</h1>
-        {successMessage && <div className="bg-green-200 text-green-800 p-2 rounded mb-4">{successMessage}</div>}
-        {errorMessage && <div className="bg-red-200 text-red-800 p-2 rounded mb-4">{errorMessage}</div>}
+        {successMessage && (
+          <div className="bg-green-200 text-green-800 p-2 rounded mb-4">{successMessage}</div>
+        )}
+        {errorMessage && (
+          <div className="bg-red-200 text-red-800 p-2 rounded mb-4">{errorMessage}</div>
+        )}
         <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-          
-        <div className="mb-4">
+          <div className="mb-4">
             <label htmlFor="category" className="block font-bold mb-1">
               Category
             </label>
@@ -111,15 +132,15 @@ const CreateExpense = () => {
             Payment Status
           </label>
           <select
-  id="paymentStatus"
-  value={paymentStatus}
-  onChange={(e) => setPaymentStatus(e.target.value)}
-  className="border rounded px-2 py-1 w-full"
->
-  <option value="">Select Payment Status</option>
-  <option value="Pending">Pending</option>
-  <option value="Paid">Paid</option>
-</select>
+            id="paymentStatus"
+            value={paymentStatus}
+            onChange={(e) => setPaymentStatus(e.target.value)}
+            className="border rounded px-2 py-1 w-full"
+          >
+            <option value="">Select Payment Status</option>
+            <option value="Pending">Pending</option>
+            <option value="Paid">Paid</option>
+          </select>
           <div className="mb-4">
             <label htmlFor="description" className="block font-bold mb-1">
               Description
@@ -144,7 +165,6 @@ const CreateExpense = () => {
               className="border rounded px-2 py-1 w-full"
             />
           </div>
-         
           {showTransactionInput && (
             <>
               <div className="mb-4">
@@ -172,9 +192,6 @@ const CreateExpense = () => {
                   className="border rounded px-2 py-1 w-full"
                 />
               </div>
-              <div className="mb-4">
-        
-        </div>
             </>
           )}
           {showBatchNumber && (
@@ -191,6 +208,18 @@ const CreateExpense = () => {
               />
             </div>
           )}
+          <div className="mb-4">
+            <label htmlFor="recordedBy" className="block font-bold mb-1">
+              Recorded By
+            </label>
+            <input
+              type="text"
+              id="recordedBy"
+              value={recordedBy}
+              className="border rounded px-2 py-1 w-full"
+              readOnly
+            />
+          </div>
           <button
             type="submit"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
