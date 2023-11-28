@@ -40,13 +40,13 @@ const Home = () => {
 <section className="bg-gray-800 bg-opacity-50 text-white p-8 rounded-lg shadow-lg mb-4 animate__animated animate__fadeIn text-center hover:shadow-2xl transition duration-300">
   <h2 className="text-2xl font-bold mb-4 text-indigo-400">Inventory Summary</h2>
   <p className="text-lg mb-2">
-    Quantity:{" "}
+    Present Stock:{" "}
     <span className="font-bold text-green-400 hover:translate-y-1 transition duration-300">
       {inventorySummary.totalQuantity} bags
     </span>
   </p>
   <p className="text-lg">
-    Total Weight Of Bags Available:{" "}
+    Total Weight Of Bags In Stock:{" "}
     <span className="font-bold text-yellow-400 hover:translate-y-1 transition duration-300">
       {inventorySummary.totalWeight} kg
     </span>
