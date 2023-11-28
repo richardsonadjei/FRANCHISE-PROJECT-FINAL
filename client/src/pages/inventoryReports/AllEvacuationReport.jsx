@@ -65,6 +65,7 @@ const AllEvacuationReport = () => {
                 <th className="border border-gray-400 px-4 py-2">Shipping Method</th>
                 <th className="border border-gray-400 px-4 py-2">Evacuation Status</th>
                 <th className="border border-gray-400 px-4 py-2">Evacuation Date</th>
+                <th className="border border-gray-400 px-4 py-2">Evacuated By</th>
               </tr>
             </thead>
             <tbody>
@@ -77,6 +78,7 @@ const AllEvacuationReport = () => {
                   <td className="border border-gray-400 px-4 py-2">{evacuation.shippingMethod}</td>
                   <td className="border border-gray-400 px-4 py-2">{evacuation.evacuationStatus}</td>
                   <td className="border border-gray-400 px-4 py-2">{new Date(evacuation.evacuationDate).toLocaleString()}</td>
+                  <td className="border border-gray-400 px-4 py-2">{evacuation.recordedBy}</td>
                 </tr>
               ))}
             </tbody>

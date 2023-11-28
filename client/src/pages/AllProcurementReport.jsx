@@ -18,27 +18,32 @@ const AllProcurement = () => {
       console.error(error);
     }
   };
-
   const generatePDF = () => {
-    const doc = new jsPDF();
+    const doc = new jsPDF('landscape'); // Set orientation to landscape
+    const tableOptions = {
+      startY: 20, // Adjust the starting Y position based on your needs
+      margin: { horizontal: 10 }, // Add horizontal margin to make it responsive
+    };
     doc.autoTable({
       head: [
-        ['Date', 'Batch Number', 'Amount', 'Category', 'Quantity', 'Total Weight Per Batch', 'Payment Status', 'Description']
+        ['Date', 'Batch Number', 'Amount', 'Category', 'Quantity', 'Total Weight Per Batch', 'Payment Status', 'Description', 'Supplier', 'Procured By']
       ],
       body: procurements.map((procurement) => [
-        procurement.date,
+        new Date(procurement.date).toLocaleDateString() + ', ' + new Date(procurement.date).toLocaleTimeString(),
         procurement.batchNumber,
         procurement.amount,
         procurement.category,
         procurement.quantity,
-        procurement.totalWeightPerBatch, // Include totalWeightPerBatch in the body of the PDF table
+        procurement.totalWeightPerBatch,
         procurement.paymentStatus,
         procurement.description,
+        procurement.supplier,
+        procurement.procuredBy,
       ]),
+      ...tableOptions, // Spread the table options
     });
     doc.save('AllProcurementsReport.pdf');
   };
-
   return (
     <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4">
       <div className="flex flex-col items-center mb-4">
@@ -83,6 +88,8 @@ const AllProcurement = () => {
           <th className="py-2 px-4">Total Weight Per Batch</th>
           <th className="py-2 px-4">Payment Status</th>
           <th className="py-2 px-4">Description</th>
+          <th className="py-2 px-4">Supplier</th>
+          <th className="py-2 px-4">Procured By</th>
         </tr>
       </thead>
       <tbody>
@@ -96,6 +103,8 @@ const AllProcurement = () => {
             <td className="py-2 px-4">{procurement.totalWeightPerBatch}</td>
             <td className="py-2 px-4">{procurement.paymentStatus}</td>
             <td className="py-2 px-4">{procurement.description}</td>
+            <td className="py-2 px-4">{procurement.supplier}</td>
+            <td className="py-2 px-4">{procurement.procuredBy}</td>
           </tr>
         ))}
       </tbody>

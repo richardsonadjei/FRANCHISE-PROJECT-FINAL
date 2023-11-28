@@ -28,21 +28,28 @@ const StockReport = () => {
   const generatePDF = () => {
     const doc = new jsPDF();
     doc.autoTable({
-      head: [['Batch Number', 'Quantity', 'Price Per Bag', 'Stock Value', 'Supplier', 'Total Weight(kg)']],
+      head: [
+        ['Batch Number','Date Stocked', 'Quantity', 'Price Per Bag', 'Stock Value', 'Total Weight (kg)', 'QC Certification','Supplier',  'Comment', 'Recorded By']
+      ],
       body: cocoaBags.map((bag) => [
         bag.batchNumber,
+        new Date(bag.packingDate).toLocaleDateString(), // Convert packingDate to local date
         bag.quantity,
         bag.pricePerBag,
         bag.quantity * bag.pricePerBag,
+        bag.totalWeightPerBatch,
+        bag.qcCertifications,
         bag.supplier,
-        bag.totalWeightPerBatch, // Include totalWeightPerBatch here
+        bag.comments,
+        bag.recordedBy,
       ]),
     });
     doc.save('StockReport.pdf');
   };
 
-  const headers = ['Batch Number', 'Quantity', 'Price Per Bag', 'Stock Value', 'Supplier', 'Total Weight (kg)'];
-
+  const headers = [
+    'Batch Number','Date Stocked', 'Quantity', 'Price Per Bag', 'Stock Value',  'Total Weight (kg)', 'QC Certification','Supplier',,  'Comment', 'Recorded By'
+  ];
   return (
     <div className="container mx-auto overflow-y-auto max-h-screen mt-28 px-4">
       <div className="flex flex-col items-center mb-4">
@@ -88,14 +95,18 @@ const StockReport = () => {
               </thead>
               <tbody>
                 {cocoaBags.map((bag, index) => (
-                  <tr key={index}>
-                    <td className="py-2 px-4">{bag.batchNumber}</td>
-                    <td className="py-2 px-4">{bag.quantity}</td>
-                    <td className="py-2 px-4">{bag.pricePerBag}</td>
-                    <td className="py-2 px-4">{bag.quantity * bag.pricePerBag}</td>
-                    <td className="py-2 px-4">{bag.supplier}</td>
-                    <td className="py-2 px-4">{bag.totalWeightPerBatch}</td>
-                  </tr>
+                   <tr key={index}>
+                   <td className="py-2 px-4">{bag.batchNumber}</td>
+                   <td className="py-2 px-4">{new Date(bag.packingDate).toLocaleDateString()}</td>
+                   <td className="py-2 px-4">{bag.quantity}</td>
+                   <td className="py-2 px-4">{bag.pricePerBag}</td>
+                   <td className="py-2 px-4">{bag.quantity * bag.pricePerBag}</td>
+                   <td className="py-2 px-4">{bag.totalWeightPerBatch}</td>
+                   <td className="py-2 px-4">{bag.qcCertifications}</td>
+                   <td className="py-2 px-4">{bag.supplier}</td>
+                   <td className="py-2 px-4">{bag.comments}</td>
+                   <td className="py-2 px-4">{bag.recordedBy}</td>
+                 </tr>
                 ))}
               </tbody>
             </table>

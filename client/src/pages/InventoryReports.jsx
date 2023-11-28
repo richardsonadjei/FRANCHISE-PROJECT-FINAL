@@ -24,12 +24,6 @@ const Report = () => {
       // ... other details for the Supplier Performance Report
     },
     {
-      title: "Stock Received Report",
-      path: "/receive-report",
-      purpose: "This gives a report of cocoabeans received within a period from a specified supplier into a specific Batch",
-      // ... other details for the Quality Control Report
-    },
-    {
       title: "Batch Transaction History",
       path: "/batch-history",
       purpose: "This tells what has happened to a particular batch after it from creation",

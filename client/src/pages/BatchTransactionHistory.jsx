@@ -45,6 +45,7 @@ const BatchTransactionReport = () => {
           'Evacuated Quantity',
           'Modified Quantity',
           'Date',
+          'Recorded By', // Added 'Recorded By' to the head
         ],
       ],
       body: transactions.map((transaction) => [
@@ -58,6 +59,7 @@ const BatchTransactionReport = () => {
         transaction.evacuatedQuantity,
         transaction.modifiedQuantity,
         new Date(transaction.updatedAt).toLocaleString(),
+        transaction.recordedBy, // Added 'recordedBy' to the body
       ]),
       columnStyles: {
         5: { columnWidth: 'auto' }, // Adjust the width of the 6th column (index 5) containing totalWeightBefore
@@ -145,6 +147,7 @@ const BatchTransactionReport = () => {
                 <th className="py-2 px-4">Evacuated Quantity</th>
                 <th className="py-2 px-4">Modified Quantity</th>
                 <th className="py-2 px-4">Date</th>
+                <th className="py-2 px-4">Recorded By</th> {/* Added 'Recorded By' to the table */}
               </tr>
             </thead>
             <tbody>
@@ -160,6 +163,7 @@ const BatchTransactionReport = () => {
                   <td className="py-2 px-4">{transaction.evacuatedQuantity}</td>
                   <td className="py-2 px-4">{transaction.modifiedQuantity}</td>
                   <td className="py-2 px-4">{new Date(transaction.updatedAt).toLocaleString()}</td>
+                  <td className="py-2 px-4">{transaction.recordedBy}</td> {/* Added 'recordedBy' to the table */}
                 </tr>
               ))}
             </tbody>

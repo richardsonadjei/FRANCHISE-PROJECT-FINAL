@@ -102,6 +102,7 @@ const BatchEvacuationReport = () => {
                   <li>Shipping Method: {evacuation.shippingMethod}</li>
                   <li>Evacuation Status: {evacuation.evacuationStatus}</li>
                   <li>Evacuation Date: {new Date(evacuation.evacuationDate).toLocaleString()}</li>
+                  <li>Evacuated By: {evacuation.recordedBy}</li>
                 </ul>
               </li>
             ))}

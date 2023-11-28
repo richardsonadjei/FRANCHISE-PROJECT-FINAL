@@ -45,19 +45,20 @@ const BatchProcurementReport = () => {
   const generatePDF = async () => {
     const doc = new jsPDF();
     doc.autoTable({
-      head: [['Date', 'Batch Number', 'Amount', 'Category', 'Quantity', 'Total Weight (tonnes)', 'Payment Status', 'Description']],
+      head: [['Date', 'Batch Number', 'Amount', 'Quantity', 'Total Weight (tonnes)', 'Payment Status', 'Description', 'Supplier', 'Recorded By']],
       body: procurements.map((procurement) => [
         new Date(procurement.date).toLocaleDateString() + ', ' + new Date(procurement.date).toLocaleTimeString(),
         procurement.batchNumber,
         procurement.amount,
-        procurement.category,
         procurement.quantity,
-        procurement.totalWeightPerBatch, // Include totalWeightPerBatch here
+        procurement.totalWeightPerBatch,
         procurement.paymentStatus,
         procurement.description,
+        procurement.supplier,
+        procurement.recordedBy,
       ]),
       columnStyles: {
-        5: { columnWidth: 'auto' }, // Adjust the width of the 6th column (index 5) containing totalWeightPerBatch
+        4: { columnWidth: 'auto' }, // Adjust the width of the 5th column (index 4) containing totalWeightPerBatch
       },
     });
     doc.save('BatchProcurementReport.pdf');
@@ -114,30 +115,32 @@ const BatchProcurementReport = () => {
             <h2 className="text-2xl font-semibold mb-4">Batch Procurement Report</h2>
             <table className="min-w-full bg-white border border-gray-300">
               <thead className="bg-gray-800 text-white">
-                <tr>
-                  <th className="py-2 px-4">Date</th>
-                  <th className="py-2 px-4">Batch Number</th>
-                  <th className="py-2 px-4">Amount</th>
-                  <th className="py-2 px-4">Category</th>
-                  <th className="py-2 px-4">Quantity</th>
-                  <th className="py-2 px-4">Total Weight (tonnes)</th>
-                  <th className="py-2 px-4">Payment Status</th>
-                  <th className="py-2 px-4">Description</th>
-                </tr>
+              <tr>
+          <th className="py-2 px-4">Date</th>
+          <th className="py-2 px-4">Batch Number</th>
+          <th className="py-2 px-4">Amount</th>
+          <th className="py-2 px-4">Quantity</th>
+          <th className="py-2 px-4">Total Weight (tonnes)</th>
+          <th className="py-2 px-4">Payment Status</th>
+          <th className="py-2 px-4">Description</th>
+          <th className="py-2 px-4">Supplier</th>
+          <th className="py-2 px-4">Procured By</th>
+        </tr>
               </thead>
               <tbody>
                 {procurements.map((procurement, index) => (
                   <tr key={index}>
-                    <td className="py-2 px-4">
-      {new Date(procurement.date).toLocaleDateString()}, {new Date(procurement.date).toLocaleTimeString()}
-    </td>
-                    <td className="py-2 px-4">{procurement.batchNumber}</td>
-                    <td className="py-2 px-4">{procurement.amount}</td>
-                    <td className="py-2 px-4">{procurement.category}</td>
-                    <td className="py-2 px-4">{procurement.quantity}</td>
-                    <td className="py-2 px-4">{procurement.totalWeightPerBatch}</td>
-                    <td className="py-2 px-4">{procurement.paymentStatus}</td>
-                    <td className="py-2 px-4">{procurement.description}</td>
+                   <td className="py-2 px-4">
+              {new Date(procurement.date).toLocaleDateString()}, {new Date(procurement.date).toLocaleTimeString()}
+            </td>
+            <td className="py-2 px-4">{procurement.batchNumber}</td>
+            <td className="py-2 px-4">{procurement.amount}</td>
+            <td className="py-2 px-4">{procurement.quantity}</td>
+            <td className="py-2 px-4">{procurement.totalWeightPerBatch}</td>
+            <td className="py-2 px-4">{procurement.paymentStatus}</td>
+            <td className="py-2 px-4">{procurement.description}</td>
+            <td className="py-2 px-4">{procurement.supplier}</td>
+            <td className="py-2 px-4">{procurement.procuredBy}</td>
                   </tr>
                 ))}
               </tbody>
