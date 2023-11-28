@@ -18,21 +18,20 @@ const AllProcurement = () => {
       console.error(error);
     }
   };
-  const generatePDF = () => {
-    const doc = new jsPDF('landscape'); // Set orientation to landscape
+  const generatePDF = async () => {
+    const doc = new jsPDF('landscape');
     const tableOptions = {
-      startY: 20, // Adjust the starting Y position based on your needs
-      margin: { horizontal: 10 }, // Add horizontal margin to make it responsive
+      startY: 20,
+      margin: { horizontal: 10 },
     };
     doc.autoTable({
       head: [
-        ['Date', 'Batch Number', 'Amount', 'Category', 'Quantity', 'Total Weight Per Batch', 'Payment Status', 'Description', 'Supplier', 'Procured By']
+        ['Date', 'Batch Number', 'Amount', 'Quantity', 'Total Weight Per Batch', 'Payment Status', 'Description', 'Supplier', 'Procured By']
       ],
       body: procurements.map((procurement) => [
         new Date(procurement.date).toLocaleDateString() + ', ' + new Date(procurement.date).toLocaleTimeString(),
         procurement.batchNumber,
         procurement.amount,
-        procurement.category,
         procurement.quantity,
         procurement.totalWeightPerBatch,
         procurement.paymentStatus,
@@ -40,7 +39,7 @@ const AllProcurement = () => {
         procurement.supplier,
         procurement.procuredBy,
       ]),
-      ...tableOptions, // Spread the table options
+      ...tableOptions,
     });
     doc.save('AllProcurementsReport.pdf');
   };
@@ -80,10 +79,9 @@ const AllProcurement = () => {
     <table className="min-w-full bg-white border border-gray-300">
       <thead className="bg-gray-800 text-white">
         <tr>
-          <th className="py-2 px-4">Date</th>
+        <th className="py-2 px-4">Date</th>
           <th className="py-2 px-4">Batch Number</th>
           <th className="py-2 px-4">Amount</th>
-          <th className="py-2 px-4">Category</th>
           <th className="py-2 px-4">Quantity</th>
           <th className="py-2 px-4">Total Weight Per Batch</th>
           <th className="py-2 px-4">Payment Status</th>
@@ -95,10 +93,9 @@ const AllProcurement = () => {
       <tbody>
         {procurements.map((procurement, index) => (
           <tr key={index}>
-            <td className="py-2 px-4">{new Date(procurement.date).toLocaleDateString()}, {new Date(procurement.date).toLocaleTimeString()}</td>
+              <td className="py-2 px-4">{new Date(procurement.date).toLocaleDateString()}, {new Date(procurement.date).toLocaleTimeString()}</td>
             <td className="py-2 px-4">{procurement.batchNumber}</td>
             <td className="py-2 px-4">{procurement.amount}</td>
-            <td className="py-2 px-4">{procurement.category}</td>
             <td className="py-2 px-4">{procurement.quantity}</td>
             <td className="py-2 px-4">{procurement.totalWeightPerBatch}</td>
             <td className="py-2 px-4">{procurement.paymentStatus}</td>
